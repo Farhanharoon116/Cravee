@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deals — Cravee</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background":"#fcf9f8","surface":"#fcf9f8","surface-container-lowest":"#ffffff",
+            "surface-container-low":"#f6f3f2","surface-container":"#f0eded","surface-container-high":"#eae7e7",
+            "surface-container-highest":"#e5e2e1","on-surface":"#1c1b1b","on-surface-variant":"#3d494a",
+            "on-background":"#1c1b1b","primary":"#00696f","on-primary":"#ffffff","primary-container":"#3fb8c0",
+            "on-primary-container":"#004548","primary-fixed":"#83f4fc","primary-fixed-dim":"#64d7df",
+            "secondary":"#42646a","on-secondary":"#ffffff","secondary-container":"#c5e9f0","on-secondary-container":"#486a70",
+            "tertiary":"#8f4e00","on-tertiary":"#ffffff","tertiary-container":"#f19130","on-tertiary-container":"#5f3200",
+            "tertiary-fixed":"#ffdcc1","tertiary-fixed-dim":"#ffb77a","error":"#ba1a1a","on-error":"#ffffff",
+            "error-container":"#ffdad6","on-error-container":"#93000a","outline":"#6d797a","outline-variant":"#bcc9ca",
+            "surface-dim":"#dcd9d9","surface-variant":"#e5e2e1"
+          },
+          borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},
+          spacing:{"margin-mobile":"16px","gutter":"20px","lg":"40px","sm":"12px","xs":"4px","md":"24px","base":"8px","xl":"64px","margin-desktop":"80px"},
+          fontFamily:{"label-lg":["Be Vietnam Pro"],"body-md":["Be Vietnam Pro"],"label-sm":["Be Vietnam Pro"],"body-lg":["Be Vietnam Pro"],"headline-md":["Quicksand"],"headline-lg":["Quicksand"],"display-lg":["Quicksand"]},
+          fontSize:{
+            "label-lg":["14px",{"lineHeight":"20px","fontWeight":"600"}],
+            "body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],
+            "label-sm":["12px",{"lineHeight":"16px","fontWeight":"500"}],
+            "body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],
+            "headline-md":["24px",{"lineHeight":"32px","fontWeight":"700"}],
+            "headline-lg":["32px",{"lineHeight":"40px","fontWeight":"700"}],
+            "display-lg":["48px",{"lineHeight":"56px","letterSpacing":"-1px","fontWeight":"700"}]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle;}
+    .block-shadow-primary{box-shadow:4px 4px 0px 0px #00696f;}
+    .block-shadow-black{box-shadow:4px 4px 0px 0px #1c1b1b;}
+    .block-shadow-secondary{box-shadow:4px 4px 0px 0px #42646a;}
+    .block-shadow-blue{box-shadow:4px 4px 0px 0px #c5e9f0;}
+    .active-press:active{transform:translate(4px,4px);box-shadow:none!important;}
+    .rubber-hose-img{filter:drop-shadow(2px 2px 0px #000);}
+    .fade-in{opacity:0;transform:translateY(22px);transition:opacity .5s ease,transform .5s ease;}
+    .fade-in.visible{opacity:1;transform:translateY(0);}
+    .mobile-overlay{transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+    .mobile-overlay.open{transform:translateX(0);}
+    @keyframes float-y{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}.float-anim{animation:float-y 3s ease-in-out infinite;}
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+
+<!-- Mobile Overlay -->
+<div id="mobileMenu" class="mobile-overlay fixed inset-0 bg-on-background z-[200] flex flex-col items-center justify-center gap-8 md:hidden">
+  <button id="closeMenu" class="absolute top-5 right-5 text-white p-2" aria-label="Close">
+    <span class="material-symbols-outlined text-4xl">close</span>
+  </button>
+  <a href="index.html" class="font-headline-lg text-headline-lg text-white hover:text-primary transition-colors">Home</a>
+  <a href="menu.html"  class="font-headline-lg text-headline-lg text-white hover:text-primary transition-colors">Menu</a>
+  <a href="deals.html" class="font-headline-lg text-headline-lg text-primary">Deals</a>
+  <a href="location.html" class="font-headline-lg text-headline-lg text-white hover:text-primary transition-colors">Location</a>
+  <a href="checkout.html" class="mt-4 bg-primary text-white px-10 py-4 rounded-2xl border-4 border-white font-headline-md text-headline-md block-shadow-primary">Order Now</a>
+</div>
+
+<!-- Navigation -->
+<nav class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 bg-background border-b-4 border-on-background shadow-[4px_4px_0px_0px_rgba(0,105,111,1)]">
+  <a href="index.html" class="flex items-center">
+    <img src="cravee_cafe_website_design/logo2.jpg/screen.png" alt="Cravee" class="h-10 w-auto object-contain"/>
+  </a>
+  <div class="hidden md:flex gap-md items-center">
+    <a href="index.html"    class="font-label-lg text-label-lg text-on-background hover:text-primary transition-colors">Home</a>
+    <a href="menu.html"     class="font-label-lg text-label-lg text-on-background hover:text-primary transition-colors">Menu</a>
+    <a href="deals.html"    class="font-label-lg text-label-lg text-primary font-bold border-b-2 border-primary pb-0.5">Deals</a>
+    <a href="location.html" class="font-label-lg text-label-lg text-on-background hover:text-primary transition-colors">Location</a>
+  </div>
+  <div class="flex items-center gap-sm">
+    <a href="checkout.html" class="bg-primary text-on-primary px-6 py-2 rounded-lg border-2 border-on-background block-shadow-black active-press font-label-lg text-label-lg transition-all">Order Now</a>
+    <button id="hamburger" class="md:hidden p-2 border-2 border-on-background rounded-lg block-shadow-black active-press" aria-label="Open menu">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+  </div>
+</nav>
+
+<main class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+
+  <!-- Hero -->
+  <section class="mb-xl flex flex-col md:flex-row items-center justify-between gap-xl fade-in">
+    <div class="max-w-2xl">
+      <h1 class="font-display-lg text-display-lg text-primary mb-md">Crave-Worthy Deals!</h1>
+      <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">Fuel your vibe with our legendary combo deals. Big flavors, thick outlines, and even bigger savings.</p>
+    </div>
+    <div class="w-48 h-48 md:w-64 md:h-64 flex items-center justify-center float-anim">
+      <img alt="Retro Burger mascot" class="w-full h-full object-contain rubber-hose-img"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBANBYNIB_vO39CQORkZiqX1SrrEdnLIiB66-jqwZkmzF6qFUjuCFEXLFgqvcAskmyKlDE77CZ5tPo8KqJTM_eThTiaxUSqohd_CyznHh7YR8wJlY8eDwgC3DijssvAcTY8orxM5brZc52cZqt4CDj6PolTCuHCmIzPu02Wpc2NLt8xrB9U9IpzsP7YbzZUZKCtothDvy8u0b7xmV0FZEl-7oZ_JwbfJ22mF-URET2n6tZcGVQY6wd7xocFZYaTF-CLgWcsRqmu3B4"/>
+    </div>
+  </section>
+
+  <!-- Signature Deals -->
+  <h2 class="font-headline-lg text-headline-lg text-on-background mb-lg flex items-center gap-base fade-in">
+    <span class="material-symbols-outlined text-primary text-3xl">sell</span>
+    Signature Deals
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-xl">
+
+    <!-- Deal 1 -->
+    <div class="bg-surface border-2 border-on-background p-md block-shadow-blue flex flex-col justify-between hover:-translate-x-0.5 hover:-translate-y-0.5 transition-transform fade-in cursor-pointer">
+      <div>
+        <div class="flex justify-between items-start mb-base">
+          <span class="bg-primary-container text-on-primary-container font-label-sm text-label-sm px-base py-xs rounded-full border-2 border-on-background">HOT DEAL</span>
+          <span class="font-headline-md text-headline-md text-primary">Deal 1</span>
+        </div>
+        <div class="font-body-md text-body-md text-on-surface-variant mb-md space-y-xs">
+          <p class="flex items-center gap-xs"><span class="material-symbols-outlined text-sm text-primary">check_circle</span> 2 Crunch Burgers</p>
+          <p class="flex items-center gap-xs"><span class="material-symbols-outlined text-sm text-primary">check_circle</span> 2 Fries</p>
+          <p class="flex items-center gap-xs"><span class="material-symbols-outlined text-sm text-primary">check_circle</span> 2 Drinks (300ML)</p>
+        </div>
+      </div>
+      <div>
+        <p class="font-headline-lg text-headline-lg text-tertiary-container mb-md">RS 900</p>
+        <a href="checkout.html" class="block w-full bg-primary text-on-primary font-label-lg text-label-lg py-sm border-2 border-on-background block-shadow-primary active-press text-center">Add to Order</a>
+      </div>
+    </div>
+
+    <!-- Deal 2 -->
+    <div class="bg-surface border-2 border-on-background p-md block-shadow-blue flex flex-col justify-between hover:-translate-x-0.5 hover:-translate-y-0.5 transition-transform fade-in cursor-pointer" style="transition-delay:.08s">
+      <div>
+        <div class="flex justify-between items-start mb-base">
+          <span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-base py-xs rounded-full border-2 border-on-background">POPULAR</span>
+          <span class="font-headline-md text-headline-md text-primary">Deal 2</span>
+        </div>
+        <div class="font-body-md text-body-md text-on-surface-variant mb-md space-y-xs">
+          <p class="flex items-center gap-xs"><span class="material-symbols-outlined text-sm text-primary">check_circle</span> 2 Zinger Burgers</p>
+          <p class="flex items-center gap-xs"><span class="material-symbols-outlined text-sm text-primary">check_circle</span> 2 Fries</p>
+          <p class="flex items-center gap-xs"><span class="material-symbols-outlined text-sm text-primary">check_circle</span> 2 Drinks (300ML)</p>
+        </div>
+      </div>
+      <div>
+        <p class="font-headline-lg text-headline-lg text-tertiary-container mb-md">RS 1000</p>
+        <a href="checkout.html" class="block w-full bg-primary text-on-primary font-label-lg text-label-lg py-sm border-2 border-on-background block-shadow-primary active-press text-center">Add to Order</a>
+      </div>
+    </div>
+
+    <!-- Deal 3 -->
+    <div class="bg-surface border-2 border-on-background p-md block-shadow-blue flex flex-col justify-between hover:-translate-x-0.5 hover:-translate-y-0.5 transition-transform fade-in cursor-pointer" style="transition-delay:.16s">
+      <div>
+        <div class="flex justify-between items-start mb-base">
+          <span class="bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm px-base py-xs rounded-full border-2 border-on-background">FAMILY SIZE</span>
+          <span class="font-headline-md text-headline-md text-primary">Deal 3</span>
+        </div>
+        <div class="font-body-md text-body-md text-on-surface-variant mb-md space-y-xs">
+          <p class="flex items-center gap-xs"><span class="material-symbols-outlined text-sm text-primary">check_circle</span> 2 Zinger + 2 Crunch</p>
+          <p class="flex items-center gap-xs"><span class="material-symbols-outlined text-sm text-primary">check_circle</span> 4 Fries</p>
+          <p class="flex items-center gap-xs"><span class="material-symbols-outlined text-sm text-primary">check_circle</span> 1.5Ltr Drink</p>
+        </div>
+      </div>
+      <div>
+        <p class="font-headline-lg text-headline-lg text-tertiary-container mb-md">RS 1850</p>
+        <a href="checkout.html" class="block w-full bg-primary text-on-primary font-label-lg text-label-lg py-sm border-2 border-on-background block-shadow-primary active-press text-center">Add to Order</a>
+      </div>
+    </div>
+
+    <!-- Deal 4 -->
+    <div class="bg-surface border-2 border-on-background p-md block-shadow-blue flex flex-col justify-between hover:-translate-x-0.5 hover:-translate-y-0.5 transition-transform fade-in cursor-pointer" style="transition-delay:.24s">
+      <div>
+        <div class="flex justify-between items-start mb-base">
+          <span class="bg-error-container text-on-error-container font-label-sm text-label-sm px-base py-xs rounded-full border-2 border-on-background">THE BEAST</span>
+          <span class="font-headline-md text-headline-md text-primary">Deal 4</span>
+        </div>
+        <div class="font-body-md text-body-md text-on-surface-variant mb-md space-y-xs">
+          <p class="flex items-center gap-xs"><span class="material-symbols-outlined text-sm text-primary">check_circle</span> 4 Zinger Burgers</p>
+          <p class="flex items-center gap-xs"><span class="material-symbols-outlined text-sm text-primary">check_circle</span> 4 Fries</p>
+          <p class="flex items-center gap-xs"><span class="material-symbols-outlined text-sm text-primary">check_circle</span> 1.5Ltr Drink</p>
+        </div>
+      </div>
+      <div>
+        <p class="font-headline-lg text-headline-lg text-tertiary-container mb-md">RS 1990</p>
+        <a href="checkout.html" class="block w-full bg-primary text-on-primary font-label-lg text-label-lg py-sm border-2 border-on-background block-shadow-primary active-press text-center">Add to Order</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Combo Upgrades -->
+  <h2 class="font-headline-lg text-headline-lg text-on-background mb-lg flex items-center gap-base fade-in">
+    <span class="material-symbols-outlined text-primary text-3xl">add_circle</span>
+    Combo Upgrades
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter mb-xl">
+
+    <div class="flex items-center bg-surface-container-low border-2 border-on-background rounded-xl p-base block-shadow-secondary fade-in">
+      <div class="w-24 h-24 border-2 border-on-background rounded-lg mr-md overflow-hidden flex-shrink-0">
+        <img alt="Zinger Burger" class="w-full h-full object-cover"
+          src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=160&h=160&fit=crop&q=80"/>
+      </div>
+      <div class="flex-grow">
+        <h3 class="font-headline-md text-headline-md text-on-background">Zinger Combo Upgrade</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant mb-xs">Make it a meal with large fries &amp; drink</p>
+        <span class="font-label-lg text-label-lg text-primary">RS 500 Total</span>
+      </div>
+      <a href="checkout.html" class="bg-secondary text-on-secondary px-md py-base border-2 border-on-background block-shadow-secondary active-press flex-shrink-0 ml-sm font-label-lg text-label-lg">Upgrade</a>
+    </div>
+
+    <div class="flex items-center bg-surface-container-low border-2 border-on-background rounded-xl p-base block-shadow-secondary fade-in" style="transition-delay:.1s">
+      <div class="w-24 h-24 border-2 border-on-background rounded-lg mr-md overflow-hidden flex-shrink-0">
+        <img alt="Crunch Burger" class="w-full h-full object-cover"
+          src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=160&h=160&fit=crop&q=80"/>
+      </div>
+      <div class="flex-grow">
+        <h3 class="font-headline-md text-headline-md text-on-background">Crunch Combo Upgrade</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant mb-xs">Add that extra crunch &amp; fizz</p>
+        <span class="font-label-lg text-label-lg text-primary">RS 450 Total</span>
+      </div>
+      <a href="checkout.html" class="bg-secondary text-on-secondary px-md py-base border-2 border-on-background block-shadow-secondary active-press flex-shrink-0 ml-sm font-label-lg text-label-lg">Upgrade</a>
+    </div>
+
+  </div>
+
+  <!-- WhatsApp CTA Banner -->
+  <div class="bg-secondary-container rounded-2xl border-4 border-on-background block-shadow-primary p-lg flex flex-col md:flex-row items-center justify-between gap-md fade-in">
+    <div>
+      <h3 class="font-headline-lg text-headline-lg text-on-background">Ready to order?</h3>
+      <p class="font-body-md text-body-md text-on-surface-variant">Place your order directly via WhatsApp — fast, easy, delicious.</p>
+    </div>
+    <a href="https://wa.me/923103860547?text=Hi%20Cravee%2C%20I%20want%20to%20place%20an%20order!"
+      target="_blank" rel="noopener noreferrer"
+      class="bg-primary text-on-primary px-8 py-4 rounded-xl border-4 border-on-background block-shadow-black active-press font-headline-md text-headline-md transition-all inline-flex items-center gap-sm flex-shrink-0">
+      <span class="material-symbols-outlined">chat</span> Order on WhatsApp
+    </a>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="w-full py-xl px-margin-mobile md:px-margin-desktop bg-surface-container-highest border-t-4 border-on-background">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-lg">
+    <div class="col-span-2 md:col-span-1 flex flex-col gap-sm">
+      <a href="index.html" class="flex items-center mb-xs">
+        <img src="cravee_cafe_website_design/logo2.jpg/screen.png" alt="Cravee" class="h-8 w-auto object-contain"/>
+      </a>
+      <p class="font-body-md text-body-md text-on-surface-variant">Memon Goth's boldest late-night burger spot.</p>
+      <p class="font-label-sm text-label-sm text-on-surface-variant">© 2026 Cravee. All rights reserved.</p>
+    </div>
+    <div class="flex flex-col gap-xs">
+      <span class="font-label-lg text-label-lg text-primary font-bold uppercase mb-xs">Contact</span>
+      <a href="https://wa.me/923103860547" class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs">
+        <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">chat</span>&nbsp;+92 310 3860547
+      </a>
+      <a href="https://instagram.com/CRAVEE777" class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs">
+        <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">photo_camera</span>&nbsp;@CRAVEE777
+      </a>
+    </div>
+    <div class="flex flex-col gap-xs">
+      <span class="font-label-lg text-label-lg text-primary font-bold uppercase mb-xs">Find Us</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant">Memon Goth, Malir, Karachi</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant mt-xs">05:00 PM – 02:00 AM</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant">Mon – Sun</span>
+    </div>
+    <div class="flex flex-col gap-xs">
+      <span class="font-label-lg text-label-lg text-primary font-bold uppercase mb-xs">Quick Links</span>
+      <a href="index.html"    class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline">Home</a>
+      <a href="menu.html"     class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline">Menu</a>
+      <a href="deals.html"    class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline">Deals</a>
+      <a href="location.html" class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline">Location</a>
+      <a href="checkout.html" class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline">Order Now</a>
+    </div>
+  </div>
+</footer>
+
+<!-- FAB Mobile -->
+<div class="fixed bottom-4 right-4 z-40 md:hidden">
+  <a href="checkout.html" class="w-16 h-16 bg-primary text-on-primary rounded-full border-4 border-on-background flex items-center justify-center block-shadow-black active-press" aria-label="Order Now">
+    <span class="material-symbols-outlined text-3xl">shopping_cart</span>
+  </a>
+</div>
+
+<script>
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const closeMenu  = document.getElementById('closeMenu');
+  hamburger.addEventListener('click',  () => mobileMenu.classList.add('open'));
+  closeMenu.addEventListener('click',  () => mobileMenu.classList.remove('open'));
+
+  const io = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), {threshold:0.06});
+  document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
