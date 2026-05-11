@@ -9,20 +9,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy: #0A1628;
-      --navy-mid: #0D1F3C;
-      --navy-light: #112240;
-      --teal: #00B4D8;
-      --teal-bright: #48CAE4;
-      --ice: #90E0EF;
-      --sky: #CAF0F8;
+      --navy: #04173D;
+      --navy-mid: #072459;
+      --navy-light: #0D367C;
+      --teal: #2B7FFF;
+      --teal-bright: #62A8FF;
+      --ice: #CBE2FF;
+      --sky: #EAF3FF;
       --ink: #050A12;
-      --amber: #F4A22A;
-      --amber-dark: #C47F1A;
-      --white: #F0F8FF;
-      --grey: #8899AA;
-      --glow: 0 0 20px rgba(0, 180, 216, 0.4);
-      --glow-strong: 0 0 40px rgba(0, 180, 216, 0.7);
+      --amber: #F7FBFF;
+      --amber-dark: #D8E8FF;
+      --white: #F9FCFF;
+      --grey: #AFC1DE;
+      --glow: 0 0 20px rgba(43, 127, 255, 0.45);
+      --glow-strong: 0 0 40px rgba(98, 168, 255, 0.75);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -34,6 +34,11 @@
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
     .section { position: relative; padding: 4.5rem 1rem; background: var(--navy); overflow: hidden; }
+    .section::before {
+      content: ''; position: absolute; width: 220px; height: 220px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.1), rgba(255,255,255,0) 70%);
+      top: -70px; right: -90px; pointer-events: none;
+    }
     .section.alt { background: var(--navy-mid); }
     .container { width: min(1100px, 100%); margin: 0 auto; }
     .section-title {
@@ -141,6 +146,7 @@
     .menu-card {
       background: var(--navy-mid); border-left: 3px solid var(--amber); border-radius: 12px; padding: 1rem; position: relative; transition: .2s ease;
     }
+    .menu-card, .summary, .order-form, .t-card, .faq-item, .fact-card, .story-visual, .teaser { box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
     .menu-card:hover { transform: translateY(-4px); box-shadow: var(--glow); }
     .menu-card::after { content: ''; position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--amber); right: .8rem; top: .8rem; }
     .menu-head { display: flex; justify-content: space-between; gap: .7rem; }
@@ -199,6 +205,13 @@
     }
     .t-card { scroll-snap-align: start; background: var(--navy-mid); border-left: 3px solid var(--amber); border-radius: 12px; padding: 1rem; }
     .t-stars { color: var(--amber); } .t-name { color: var(--grey); font-weight: 700; }
+    .review-gallery { display: grid; gap: .9rem; grid-template-columns: 1fr; }
+    .review-shot {
+      min-height: 220px; border-radius: 14px; border: 1px dashed rgba(255,255,255,.45);
+      background: linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.02));
+      display: grid; place-items: center; color: var(--grey); font-weight: 800;
+      text-transform: uppercase; letter-spacing: .1em; text-align: center; padding: 1rem;
+    }
     #night .timer { font-family: 'Boogaloo', cursive; text-align: center; font-size: clamp(3rem, 13vw, 8rem); color: var(--teal); letter-spacing: .05em; margin: .5rem 0; }
     .timer-labels {
       display: flex; justify-content: center; gap: 1.2rem; color: var(--grey); text-transform: uppercase;
@@ -254,7 +267,19 @@
       .menu-grid { grid-template-columns: repeat(2, 1fr); }
       #order .order-grid, .story-grid, .location-grid { grid-template-columns: 1fr 1fr; }
       .fact-grid { grid-template-columns: repeat(3, 1fr); }
+      .review-gallery { grid-template-columns: repeat(3, 1fr); }
       .sticky-mobile-order { display: none; }
+    }
+    @media (max-width: 767px) {
+      .section { padding: 3rem .9rem; }
+      .section-subtitle { margin-bottom: 1.2rem; }
+      .ink-divider { height: 42px; }
+      #hero { min-height: 90dvh; }
+      #hero-tagline { margin-bottom: .9rem; }
+      .scroll-indicator { margin-top: .8rem; }
+      .tabs { margin-bottom: .9rem; }
+      .footer-grid { padding-top: 1.4rem; }
+      .review-shot { min-height: 170px; font-size: .82rem; letter-spacing: .08em; }
     }
     @media (min-width: 992px) {
       .menu-grid { grid-template-columns: repeat(3, 1fr); }
@@ -279,13 +304,14 @@
       <a href="#hero" class="nav-link">Home</a>
       <a href="#menu" class="nav-link">Menu</a>
       <a href="#story" class="nav-link">Our Story</a>
+      <a href="#reviews" class="nav-link">Reviews</a>
       <a href="#order" class="nav-link">Order</a>
     </nav>
     <a href="#order" class="btn btn-primary order-now-btn glow">Order Now 🛵</a>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </header>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#hero">Home</a><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#order">Order</a>
+    <a href="#hero">Home</a><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#reviews">Reviews</a><a href="#order">Order</a>
   </div>
   <section id="hero" class="section">
     <canvas id="hero-canvas"></canvas>
@@ -380,6 +406,18 @@
     </div>
   </section>
   <div class="ink-divider"></div>
+  <section id="reviews" class="section alt">
+    <div class="container">
+      <h2 class="section-title">REVIEWS</h2>
+      <p class="section-subtitle">Screenshot placeholders ready — replace with your own customer review images.</p>
+      <div class="review-gallery">
+        <div class="review-shot glow">Screenshot Placeholder 01</div>
+        <div class="review-shot glow">Screenshot Placeholder 02</div>
+        <div class="review-shot glow">Screenshot Placeholder 03</div>
+      </div>
+    </div>
+  </section>
+  <div class="ink-divider"></div>
   <section id="night" class="section alt fluid-top fluid-bottom">
     <div class="container" style="text-align:center;">
       <div style="color:var(--grey);font-weight:700;letter-spacing:.16em;text-transform:uppercase;">WE OPEN IN</div>
@@ -431,7 +469,7 @@
         <p class="footer-brand-title">CRAVEE</p><p class="footer-brand-sub">A Craving Like No Other</p>
         <img src="logo.png" alt="CRAVEE logo" class="footer-logo">
       </div>
-      <div class="footer-links"><a href="#hero">HOME</a><a href="#menu">MENU</a><a href="#order">ORDER</a><a href="#story">OUR STORY</a><a href="#faq">FAQs</a></div>
+      <div class="footer-links"><a href="#hero">HOME</a><a href="#menu">MENU</a><a href="#order">ORDER</a><a href="#story">OUR STORY</a><a href="#reviews">REVIEWS</a><a href="#faq">FAQs</a></div>
       <div class="footer-contact"><a href="https://wa.me/923103860547" target="_blank" rel="noopener">📱 +92 310 3860547</a><a href="https://instagram.com/CRAVEE777" target="_blank" rel="noopener">📸 @CRAVEE777</a></div>
     </div>
     <div class="footer-bottom">© 2025 CRAVEE — Malir, Karachi. A Craving Like No Other.</div>
