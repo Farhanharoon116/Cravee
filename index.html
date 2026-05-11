@@ -593,7 +593,7 @@
     document.getElementById('crewBtn').addEventListener('click', () => {
       const crewInput = document.getElementById('crewNumber');
       const crewError = document.getElementById('crewError');
-      const number = (crewInput.value || '').trim();
+      const number = crewInput.value.trim();
       if (!number) {
         crewError.textContent = 'WhatsApp number is required.';
         crewInput.classList.add('shake');
