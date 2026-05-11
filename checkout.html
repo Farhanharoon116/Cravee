@@ -89,7 +89,7 @@
   </div>
 </nav>
 
-<main class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+<main class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-xl">
 
   <!-- Hero -->
   <div class="flex flex-col items-center text-center mb-xl fade-in">
@@ -97,27 +97,27 @@
       <img alt="Cravee Burger Mascot" class="w-full h-full object-cover"
         src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhWmYLfQ8apAVEQwqbhWDYB7EW1Fe20BUCxYLvrZcpttUCizPoD0_ByXdZU_IQKJJqM1ZM80BO1_InM2XY9-Rg5vrQ93pOOVG8QZ-7ldZZovuclaPDUbWz1WzonWqFSA1zcvu6Kz51SRw9jAZ2Wkw5_pLu5n-_6JOxaG9vLGtTIAQF4wiEh44CxSKBu1XfJaPg3xObVMNXLz-Y5GKu1njtuYS8Gi-V_Gc-Lqd-J6zCJQ8Pj0ddT_7YzSn-kjPBmcnnrHq3lHzLMQc"/>
     </div>
-    <h1 class="font-display-lg text-display-lg text-primary leading-tight mb-base">Almost There!</h1>
-    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">Your cravings are just one click away. Fill in your details and we'll get cooking!</p>
+    <h1 class="font-headline-lg text-headline-lg md:font-display-lg md:text-display-lg text-primary leading-tight mb-base">Almost There!</h1>
+    <p class="font-body-md text-body-md md:font-body-lg md:text-body-lg text-on-surface-variant max-w-lg">Your cravings are just one click away. Fill in your details and we'll get cooking!</p>
   </div>
 
   <!-- Main Grid -->
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-lg">
 
     <!-- Left: Delivery Details Form -->
     <div class="lg:col-span-7 fade-in">
-      <div class="bg-surface-container-low border-4 border-on-background rounded-2xl block-shadow-black p-lg">
-        <h2 class="font-headline-lg text-headline-lg text-primary mb-lg">Delivery Details</h2>
+      <div class="bg-surface-container-low border-4 border-on-background rounded-2xl block-shadow-black p-4 md:p-lg">
+        <h2 class="font-headline-lg text-headline-lg text-primary mb-4 md:mb-lg">Delivery Details</h2>
 
-        <form id="checkoutForm" class="flex flex-col gap-md" onsubmit="handleOrder(event)">
+        <form id="checkoutForm" class="flex flex-col gap-3 md:gap-md" onsubmit="handleOrder(event)">
 
           <!-- Name -->
           <div class="flex flex-col gap-xs">
             <label class="font-label-lg text-label-lg ml-sm">Your Name</label>
-            <div class="flex items-center gap-sm bg-surface-container-lowest border-2 border-on-background rounded-lg px-md py-sm">
-              <span class="material-symbols-outlined text-primary text-xl">person</span>
+            <div class="flex items-center gap-2 md:gap-sm bg-surface-container-lowest border-2 border-on-background rounded-lg px-3 py-2 md:px-md md:py-sm">
+              <span class="material-symbols-outlined text-primary text-xl flex-shrink-0">person</span>
               <input id="custName" name="name" type="text" required
-                class="flex-1 bg-transparent font-body-md text-body-md focus:outline-none"
+                class="flex-1 min-w-0 bg-transparent font-body-md text-body-md focus:outline-none"
                 placeholder="Your name"/>
             </div>
           </div>
@@ -125,10 +125,10 @@
           <!-- Address -->
           <div class="flex flex-col gap-xs">
             <label class="font-label-lg text-label-lg ml-sm">Delivery Address</label>
-            <div class="flex items-start gap-sm bg-surface-container-lowest border-2 border-on-background rounded-lg px-md py-sm">
-              <span class="material-symbols-outlined text-primary text-xl mt-1">location_on</span>
+            <div class="flex items-start gap-2 md:gap-sm bg-surface-container-lowest border-2 border-on-background rounded-lg px-3 py-2 md:px-md md:py-sm">
+              <span class="material-symbols-outlined text-primary text-xl mt-1 flex-shrink-0">location_on</span>
               <textarea id="custAddress" name="address" required rows="3"
-                class="flex-1 bg-transparent font-body-md text-body-md focus:outline-none resize-none"
+                class="flex-1 min-w-0 bg-transparent font-body-md text-body-md focus:outline-none resize-none"
                 placeholder="House/Apartment number, street, area..."></textarea>
             </div>
           </div>
@@ -136,16 +136,16 @@
           <!-- Special Instructions -->
           <div class="flex flex-col gap-xs">
             <label class="font-label-lg text-label-lg ml-sm">Special Instructions <span class="text-on-surface-variant font-normal">(optional)</span></label>
-            <div class="flex items-start gap-sm bg-surface-container-lowest border-2 border-on-background rounded-lg px-md py-sm">
-              <span class="material-symbols-outlined text-primary text-xl mt-1">sticky_note_2</span>
+            <div class="flex items-start gap-2 md:gap-sm bg-surface-container-lowest border-2 border-on-background rounded-lg px-3 py-2 md:px-md md:py-sm">
+              <span class="material-symbols-outlined text-primary text-xl mt-1 flex-shrink-0">sticky_note_2</span>
               <textarea id="custNote" name="note" rows="3"
-                class="flex-1 bg-transparent font-body-md text-body-md focus:outline-none resize-none"
+                class="flex-1 min-w-0 bg-transparent font-body-md text-body-md focus:outline-none resize-none"
                 placeholder="Extra sauce? No pickles? Tell us!"></textarea>
             </div>
           </div>
 
           <!-- Buttons -->
-          <div class="flex flex-col sm:flex-row gap-md pt-md">
+          <div class="flex flex-col sm:flex-row gap-3 md:gap-md pt-3 md:pt-md">
             <button type="submit" id="whatsappBtn"
               class="flex-1 bg-primary text-on-primary py-md border-4 border-on-background rounded-xl block-shadow-primary active-press font-headline-md text-headline-md flex items-center justify-center gap-sm">
               <span class="material-symbols-outlined text-2xl">chat</span>
