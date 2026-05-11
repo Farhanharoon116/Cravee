@@ -330,6 +330,7 @@
         <aside class="summary">
           <h3>Order Summary</h3>
           <div id="order-items"></div>
+          <div class="error" id="orderError"></div>
           <div class="order-total" id="order-total">Total: Rs. 0</div>
           <button class="clear-order" id="clearOrder">CLEAR ORDER</button>
         </aside>
@@ -398,6 +399,7 @@
       <h2 class="section-title">CRAVEE CREW — COMING SOON</h2>
       <p style="max-width:700px;margin:0 auto 1rem;color:var(--ice);">We're building something for our regulars. Exclusive deals. Early access to new items. Rewards for spreading the craving. Drop your number. Be first in line.</p>
       <input id="crewNumber" class="crew-input" type="tel" placeholder="Your WhatsApp number">
+      <div class="error" id="crewError"></div>
       <button id="crewBtn" class="btn btn-primary glow" style="width:100%;">NOTIFY ME 🔔</button>
       <div class="crew-note">No spam. Just cravings.</div>
     </div>
@@ -541,6 +543,7 @@
     }
     renderMenu();
     const orderItems = document.getElementById('order-items');
+    const orderError = document.getElementById('orderError');
     const orderTotal = document.getElementById('order-total');
     function renderOrder() {
       orderItems.innerHTML = '';
@@ -568,20 +571,36 @@
         if (!el.value.trim()) { ok = false; err.textContent = msg; el.classList.add('shake'); setTimeout(() => el.classList.remove('shake'), 900); } else err.textContent = '';
       });
       if (!ok) return;
+      if (!order.items.length) {
+        orderError.textContent = 'Please add at least one item to your order.';
+        orderItems.classList.add('shake');
+        setTimeout(() => orderItems.classList.remove('shake'), 900);
+        return;
+      }
+      orderError.textContent = '';
       const name = document.getElementById('name').value.trim();
       const phone = document.getElementById('phone').value.trim();
       const address = document.getElementById('address').value.trim();
       const landmark = document.getElementById('landmark').value.trim() || 'Not specified';
       const instructions = document.getElementById('instructions').value.trim() || 'None';
       const payment = document.querySelector('input[name="payment"]:checked').value;
-      const itemsText = order.items.length ? order.items.map(i => `- ${i.name} — Rs. ${i.price}`).join('\n') : '- No items selected';
+      const itemsText = order.items.map(i => `- ${i.name} — Rs. ${i.price}`).join('\n');
       const total = order.items.reduce((s, i) => s + i.price, 0);
       const message = `🍔 *CRAVEE ORDER* 🍔\n━━━━━━━━━━━━━━━━━━━━\n👤 Name: ${name}\n📞 Phone: ${phone}\n📍 Address: ${address}\n🗺️ Landmark: ${landmark}\n━━━━━━━━━━━━━━━━━━━━\n📋 *Order Items:*\n${itemsText}\n━━━━━━━━━━━━━━━━━━━━\n💰 *Total: Rs. ${total}*\n💳 Payment: ${payment}\n💬 Instructions: ${instructions}\n━━━━━━━━━━━━━━━━━━━━\n_Ordered via cravee777.com_\n_Please confirm availability before preparing_ 🙏`;
       playSizzle();
       window.open(`https://wa.me/923103860547?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
     });
     document.getElementById('crewBtn').addEventListener('click', () => {
-      const number = (document.getElementById('crewNumber').value || '').trim() || '[number]';
+      const crewInput = document.getElementById('crewNumber');
+      const crewError = document.getElementById('crewError');
+      const number = (crewInput.value || '').trim();
+      if (!number) {
+        crewError.textContent = 'WhatsApp number is required.';
+        crewInput.classList.add('shake');
+        setTimeout(() => crewInput.classList.remove('shake'), 900);
+        return;
+      }
+      crewError.textContent = '';
       const txt = `Hey CRAVEE! I want to join the CRAVEE CREW loyalty program. My number is ${number}`;
       window.open(`https://wa.me/923103860547?text=${encodeURIComponent(txt)}`, '_blank', 'noopener');
     });
@@ -604,9 +623,8 @@
       faqList.appendChild(item);
     });
     function getKarachiNow() {
-      const now = new Date();
-      const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Karachi', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now).reduce((o, p) => (o[p.type] = p.value, o), {});
-      return new Date(`${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}`);
+      // Convert current time to Asia/Karachi local clock for open/close logic.
+      return new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Karachi' }));
     }
     function setStatusAndCountdown() {
       const now = getKarachiNow();
@@ -654,7 +672,8 @@
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
       const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      const isMobileView = window.matchMedia('(max-width: 767px)').matches;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobileView ? 1.5 : 2));
       renderer.setSize(window.innerWidth, window.innerHeight);
       camera.position.z = 5;
       scene.add(new THREE.AmbientLight(0xffffff, 0.4));
