@@ -1,0 +1,657 @@
+You are building the official website for CRAVEE, a fast food brand from Murad Memon Goth, 
+Malir, Karachi. This is a SINGLE index.html file but it must be engineered like a proper 
+multi-section production website — not a template, not generic, not boring. 
+
+I am providing 3 reference images:
+  - Image 1: The CRAVEE circular logo badge
+  - Image 2: The full price menu
+  - Image 3: A brand poster with food illustrations and brand character
+
+Study every pixel of these images before writing anything. The website must feel like 
+a natural digital extension of these visuals — same energy, same color world, same soul.
+
+══════════════════════════════════════════════
+BRAND IDENTITY
+══════════════════════════════════════════════
+
+Name: CRAVEE
+Tagline: "A CRAVING LIKE NO OTHER"
+Location: Murad Memon Goth, Malir, Karachi
+Hours: Monday – Sunday, 5:00 PM – 2:00 AM
+Instagram: @CRAVEE777
+WhatsApp: +92 310 3860547
+
+══════════════════════════════════════════════
+COLOR SYSTEM — EXTRACTED FROM BRAND IMAGES
+══════════════════════════════════════════════
+
+Define these as CSS custom properties on :root. Use NOTHING outside this palette.
+
+  --navy:        #0A1628   /* deep background, the void */
+  --navy-mid:    #0D1F3C   /* card backgrounds, elevated surfaces */
+  --navy-light:  #112240   /* hover states, subtle dividers */
+  --teal:        #00B4D8   /* primary brand color, all CTAs */
+  --teal-bright: #48CAE4   /* highlights, glows, active states */
+  --ice:         #90E0EF   /* light accents, secondary text */
+  --sky:         #CAF0F8   /* subtle fills, backgrounds */
+  --ink:         #050A12   /* pure black for drip elements */
+  --amber:       #F4A22A   /* food accent — burger, fries, cheese */
+  --amber-dark:  #C47F1A   /* amber shadows */
+  --white:       #F0F8FF   /* text, bubbles */
+  --grey:        #8899AA   /* muted text, placeholders */
+
+FORBIDDEN: No purple. No green. No red. No white backgrounds. No gradients 
+outside of teal-to-navy combinations.
+
+══════════════════════════════════════════════
+TYPOGRAPHY
+══════════════════════════════════════════════
+
+Import from Google Fonts:
+  - "Boogaloo" — hero titles, brand name, section headings (the chunky cartoon feel)
+  - "Nunito" weights 400, 600, 800 — body text, menu items, descriptions
+
+Usage rules:
+  - Brand name / Hero: Boogaloo, 5–8rem, letter-spacing: 0.02em
+  - Section titles: Boogaloo, 2.5–3.5rem, var(--teal)
+  - Menu item names: Nunito 800, uppercase
+  - Prices: Nunito 700, var(--amber)
+  - Body copy: Nunito 400, var(--white) or var(--ice)
+  - All caps for: labels, tags, nav items, button text
+
+══════════════════════════════════════════════
+VISUAL DNA — NON-NEGOTIABLE
+══════════════════════════════════════════════
+
+These elements must appear throughout the site. They define CRAVEE's look:
+
+1. INK DRIP DIVIDERS
+   Between every major section, use an SVG ink drip shape as a divider. 
+   It should look like thick ink or melted dark liquid dripping downward from 
+   the section above. Color: var(--ink) or var(--navy). Never use a straight 
+   horizontal line as a section break.
+
+2. FLOATING BUBBLE PARTICLES
+   Scattered across the hero and vibe sections — small translucent circles 
+   in var(--teal) and var(--ice), animated with CSS keyframes to drift upward 
+   slowly at different speeds and sizes (range: 4px to 18px diameter).
+   Use at least 20 bubble elements, positioned with absolute/fixed placement.
+
+3. WAVY FLUID BACKGROUNDS
+   Section backgrounds should not be flat. Use SVG wave shapes or CSS 
+   clip-path: polygon() to create fluid, organic top/bottom edges on sections. 
+   Alternate between var(--navy) and var(--navy-mid) across sections.
+
+4. TEAL GLOW EFFECT
+   All interactive elements (buttons, cards on hover, active nav items) must 
+   have: box-shadow: 0 0 20px rgba(0, 180, 216, 0.4). On hover, intensify to 
+   box-shadow: 0 0 40px rgba(0, 180, 216, 0.7).
+
+5. CHARACTER SILHOUETTE
+   The cap-wearing character from the logo (the kid eating food, with ink drip 
+   body) must appear as a decorative element in at least 2 sections. Recreate 
+   it as a CSS-masked div or inline SVG filled with var(--teal) or var(--ink).
+   It should feel like a brand mascot haunting the page.
+
+6. AMBER FOOD ACCENTS
+   Any food-related element (menu cards, deal cards, food illustrations) must 
+   use var(--amber) as an accent — borders, price tags, highlights, icons.
+   This creates visual contrast against the blue-dominant palette.
+
+══════════════════════════════════════════════
+LIBRARIES (via CDN — no npm, no build tools)
+══════════════════════════════════════════════
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
+
+Use GSAP for: all scroll-triggered reveals, staggered entrances, hero animation sequence.
+Use Three.js for: hero background 3D scene only.
+Everything else: pure CSS animations and vanilla JS.
+
+══════════════════════════════════════════════
+MOBILE-FIRST — THIS IS CRITICAL
+══════════════════════════════════════════════
+
+The primary user is on a phone in Karachi at midnight. Design mobile-first.
+
+Rules:
+  - Base styles are for 375px viewport. Scale UP for desktop.
+  - Touch targets minimum 48px height on all buttons and nav items.
+  - Menu tabs must be horizontally scrollable on mobile (overflow-x: auto, 
+    no scrollbar visible: scrollbar-width: none).
+  - Hero font scales with clamp(): 
+    font-size: clamp(3rem, 12vw, 7rem) for brand name.
+  - All cards: full width on mobile, grid on tablet+.
+  - Sticky bottom bar on mobile: "📱 ORDER NOW" button always visible, 
+    fixed at bottom of screen, full width, teal background, 
+    disappears on desktop.
+  - Form inputs: font-size minimum 16px to prevent iOS zoom on focus.
+  - Three.js hero canvas: disable particle count on mobile (max 30 particles 
+    vs 80 on desktop) for performance.
+  - Prefers-reduced-motion: wrap all GSAP animations in a check and skip 
+    them if the user has reduced motion enabled.
+
+══════════════════════════════════════════════
+SECTIONS — BUILD ALL OF THESE IN ORDER
+══════════════════════════════════════════════
+
+────────────────────────────────────────
+SECTION 0: PRELOADER
+────────────────────────────────────────
+Full screen, var(--navy) background.
+Center: The CRAVEE wordmark in Boogaloo, var(--teal), starting at scale(0.5) opacity 0.
+It pulses in with a heartbeat-like animation (scale 0.5→1.1→1.0).
+Below it: A loading bar that fills left to right in teal over 1.8 seconds.
+Below bar: "loading your craving..." in Nunito italic, var(--grey).
+On complete: The entire preloader does a vertical split — left half slides left, 
+right half slides right, revealing the site underneath (CSS clip-path or transform).
+Do NOT use a simple fade — the split reveal must feel cinematic.
+
+────────────────────────────────────────
+SECTION 1: NAVBAR
+────────────────────────────────────────
+Fixed top. Height: 64px desktop, 56px mobile.
+Initially: fully transparent.
+On scroll past 80px: background becomes rgba(10, 22, 40, 0.92) with 
+backdrop-filter: blur(12px) and a 1px bottom border in rgba(0,180,216,0.2).
+
+Left: The CRAVEE logo image (Image 1). Height: 44px. Clicking scrolls to top.
+Center (desktop only): Nav links — HOME · MENU · OUR STORY · ORDER
+  Each link: Nunito 700, uppercase, var(--ice), letter-spacing: 0.1em
+  On hover: color shifts to var(--teal) with a teal underline that slides in from left.
+  Active section: underline stays visible.
+Right: "ORDER NOW 🛵" button — teal background, dark text, border-radius: 999px, 
+  Nunito 800, with a subtle pulse animation (scale 1→1.03→1 every 2s).
+
+Mobile: Hamburger icon (3 lines → X transition with CSS). 
+Full screen overlay menu slides in from right. Links are large (2rem), 
+centered, staggered in with GSAP. Overlay background: var(--navy) 95% opacity.
+
+────────────────────────────────────────
+SECTION 2: HERO
+────────────────────────────────────────
+Full viewport height (100dvh — use dvh for mobile browser bar awareness).
+Background: var(--navy), with a Three.js canvas as absolute full-cover layer behind content.
+
+THREE.JS SCENE:
+  Create a scene with PerspectiveCamera(75, aspect, 0.1, 1000).
+  Add ambient light (white, 0.4 intensity) + directional light (teal #00B4D8, 0.8).
+  
+  Floating objects (create 6 total):
+    - 2x BoxGeometry(0.8, 0.8, 0.8) — represent burger boxes — color: var(--amber)
+    - 2x CylinderGeometry(0.2, 0.3, 1.2) — represent drink cups — color: var(--teal)
+    - 2x TorusGeometry(0.5, 0.15, 8, 16) — represent onion rings — color: var(--amber-dark)
+  Each object: MeshPhongMaterial with shininess: 80.
+  Each object positioned randomly in z: -3 to -8, x: -4 to 4, y: -2 to 2.
+  Animation loop: each object rotates on X and Y axes at different speeds, 
+  and bobs on Y with Math.sin(time + offset) * 0.3.
+  
+  Bubble particles: 60 spheres (SphereGeometry(0.04)), teal material, 
+  scattered across the scene, drifting upward, resetting to bottom when they exit top.
+  On mobile: reduce to 25 particles.
+
+HERO CONTENT (above canvas, centered, z-index: 10):
+  Line 1: "EST. KARACHI 2024" — Nunito 700, var(--grey), letter-spacing: 0.3em, 
+           font-size: 0.8rem — slide in from left on load.
+  Line 2: "CRAVEE" — Boogaloo, clamp(3.5rem, 12vw, 8rem), gradient text 
+           (linear-gradient from var(--teal) to var(--ice)), text-shadow glow.
+           Drops from above with bounce easing.
+  Line 3: "A CRAVING LIKE NO OTHER" — Nunito 800, var(--white), 
+           letter-spacing: 0.35em, font-size: clamp(0.7rem, 2.5vw, 1rem).
+           Fades in 0.6s after line 2.
+  Line 4: Two buttons — appear 1s after tagline:
+    [EXPLORE THE MENU ↓]  — outlined, teal border and text, hover: fill teal
+    [ORDER ON WHATSAPP]   — solid teal, dark text, WhatsApp SVG icon inline
+  
+  Bottom of hero: Scroll indicator — a small animated chevron bouncing downward, 
+  var(--teal), with "scroll" text in Nunito 400 var(--grey).
+
+INK DRIP DIVIDER: SVG ink drip shape at bottom of hero section, 
+var(--ink) colored, bleeding into next section.
+20 floating bubble divs scattered across hero with CSS animation.
+
+────────────────────────────────────────
+SECTION 3: LIVE STATUS BAR
+────────────────────────────────────────
+A full-width slim bar (60px height), var(--navy-mid) background, teal left border (4px).
+This bar is DYNAMIC — it uses JavaScript to check the current time:
+
+  If current time is between 17:00 and 02:00 (next day):
+    Show: 🟢 "WE'RE OPEN — ORDER NOW" + pulsing green dot + current time
+    Background tint: slight green glow (rgba(0,255,100,0.05))
+  
+  Else:
+    Show: 🔴 "CURRENTLY CLOSED — Opens today at 5:00 PM" + countdown timer
+    Countdown ticks in real time (HH:MM:SS) until 17:00.
+    Background tint: slight red glow (rgba(255,50,50,0.05))
+
+Right side of bar: "MON–SUN · 5 PM – 2 AM · MALIR, KARACHI"
+This section requires NO scroll animation — it's always immediately visible.
+
+────────────────────────────────────────
+SECTION 4: MARQUEE STRIP
+────────────────────────────────────────
+A horizontally scrolling ticker strip between hero and menu.
+Background: var(--teal). Text: var(--navy), Nunito 800, uppercase.
+
+Content repeats infinitely (CSS animation: marquee linear infinite):
+"🍔 ZINGER · 🍟 LOADED FRIES · 🥩 CLASSIC BEEF · 🧀 BEEF & CHEESE · 
+ 🔥 DEAL OF THE NIGHT · 🛵 FREE DELIVERY AREA · ⭐ FRESH EVERY NIGHT · 
+ 🍔 CRUNCH BURGER ·"
+
+Two rows moving in opposite directions for depth. 
+Height: 40px per row. No user interaction needed.
+
+────────────────────────────────────────
+SECTION 5: MENU
+────────────────────────────────────────
+Section title: "THE MENU" — Boogaloo, var(--teal), centered.
+Subtitle: "Everything made fresh. Every night. No compromises." — Nunito 400, var(--grey).
+
+TAB NAVIGATION:
+Horizontally scrollable pill tabs on mobile. On desktop, centered row.
+Tabs: [🍔 BURGERS] [🍟 FRIES] [💥 DEALS] [🧂 EXTRAS] [🥤 DRINKS]
+
+Active tab: var(--teal) background, var(--navy) text, teal glow shadow.
+Inactive tab: var(--navy-mid) background, var(--grey) text, teal border.
+Tab switch: cards fade out, new cards fade in (GSAP).
+
+MENU ITEM CARDS:
+Each card:
+  - Background: var(--navy-mid)
+  - Top-left: Item name, Nunito 800, uppercase, var(--white)
+  - Top-right: Price in Nunito 700, var(--amber), e.g. "Rs. 450"
+  - Below name: A short invented flavor description (1 line) — 
+    e.g. Zinger: "Crispy, spiced, golden. The one that started it all."
+  - Bottom: [+ ADD TO ORDER] button — teal outlined, full width of card, 
+    on click: button text changes to "✓ ADDED" + teal fill for 1.5s, 
+    then reverts. Item added to a JS order object.
+  - Left border: 3px solid var(--amber)
+  - Hover: translateY(-4px) + teal glow shadow
+  - Card corner: a small amber dot in top-right corner (brand flair)
+
+Cards layout: 1 column mobile, 2 columns tablet, 3 columns desktop.
+GSAP stagger reveal on scroll (each card slides up 30px, opacity 0→1, 0.08s stagger).
+
+BURGERS:
+  Zinger — Rs. 450 | "Crispy, spiced, golden. The one that started it all."
+  Crunch — Rs. 380 | "Double the crunch. Zero regrets."
+  Chicken — Rs. 380 | "Classic done right. Every single time."
+  M416 — Rs. 500 | "Loaded. Dangerous. Absolutely worth it."
+  Classic Beef — Rs. 550 | "Real beef. Real flavor. No shortcuts."
+  Mustard Beef — Rs. 550 | "A sharp kick that keeps you coming back."
+  Thousand Beef — Rs. 550 | "A thousand reasons. One burger."
+  Beef & Cheese — Rs. 600 | "The melt. The bite. The obsession."
+  
+  Note: All burgers available as combos for +Rs. 50 (add fries + 300ml drink)
+
+FRIES:
+  Loaded Fries — Rs. 450 | "Buried under sauce, cheese, and good decisions."
+  Saucy Fries — Rs. 350 | "Crispy outside. Saucy soul inside."
+  Plain Fries — Rs. 200 | "Simple. Honest. Addictive."
+
+DEALS:
+  Deal 1 — Rs. 900 | "2 Crunch + 2 Fries + 2 Drinks (300ml). Feed the squad."
+  Deal 2 — Rs. 1000 | "2 Chicken + 2 Fries + 2 Drinks (300ml). The everyday move."
+  Deal 3 — Rs. 1850 | "2 Zinger + 2 Crunch + 4 Fries + 1.5L Drink. Legendary."
+  Deal 4 — Rs. 1990 | "4 Zinger + 4 Fries + 1.5L Drink. The whole crew, handled."
+  
+  Deal cards should look different from regular menu cards — 
+  use a teal gradient left border (4px), amber "DEAL" badge in top-right corner, 
+  and slightly larger card with the full deal contents listed as bullet points.
+
+EXTRAS:
+  Extra Sauce — Rs. 100
+  Extra Patty — Rs. 250
+  Extra Cheese — Rs. 60
+
+DRINKS:
+  300ml — Rs. 90
+  1.5 Litre — Rs. 250
+
+────────────────────────────────────────
+SECTION 6: ORDER BUILDER
+────────────────────────────────────────
+Section title: "BUILD YOUR ORDER 🛵"
+Subtitle: "Fill in your details. We'll handle the rest."
+
+Background: var(--navy), with scattered CSS bubble particles.
+
+LEFT COLUMN (desktop) / TOP (mobile): ORDER SUMMARY
+A live order summary panel that updates as user adds items from the menu.
+Shows: each added item + price, running total in var(--amber).
+If empty: shows "Your order is empty. Go pick something 👆" in var(--grey) italic.
+A "CLEAR ORDER" text button in var(--grey) that resets the order.
+
+RIGHT COLUMN (desktop) / BOTTOM (mobile): DELIVERY DETAILS FORM
+All inputs: 
+  - Background: transparent
+  - Border: none except bottom — 1px solid var(--navy-light)
+  - On focus: bottom border becomes 2px var(--teal) + subtle teal glow
+  - Label: floats above on focus or when filled (CSS transform transition)
+  - font-size: 16px minimum (prevent iOS zoom)
+  - Color: var(--white)
+  - Placeholder: var(--grey)
+
+Fields:
+  Full Name *
+  Phone Number * (tel input, placeholder: 03XX XXXXXXX)
+  Delivery Address * (textarea, 3 rows)
+  Nearest Landmark (text, placeholder: e.g. near Total petrol pump)
+  Special Instructions (textarea, 2 rows, optional)
+  Payment Method (styled radio buttons — NOT default browser radios):
+    ○ Cash on Delivery  ○ Easypaisa  ○ JazzCash
+    Radio buttons styled as pill toggles in teal.
+
+WHATSAPP BUTTON:
+Full width, var(--teal) background, var(--navy) text, Nunito 800, 1.1rem.
+Icon: WhatsApp SVG inline on left.
+Text: "SEND ORDER ON WHATSAPP 🚀"
+On click:
+  1. Validate all required fields. If missing, shake the empty fields 
+     (CSS keyframe: translateX -5px, +5px, 3 times) and show inline 
+     error text in var(--amber) below each field.
+  2. If valid, play a short sizzle/crunch sound using Web Audio API 
+     (generated procedurally — no external audio file):
+       const ctx = new AudioContext();
+       Use a short burst of white noise filtered through a bandpass filter 
+       to simulate a sizzle, duration ~0.4 seconds.
+  3. Construct and open WhatsApp URL:
+
+  Template (URL-encode with encodeURIComponent before appending to wa.me):
+
+  🍔 *CRAVEE ORDER* 🍔
+  ━━━━━━━━━━━━━━━━━━━━
+  👤 Name: [name]
+  📞 Phone: [phone]
+  📍 Address: [address]
+  🗺️ Landmark: [landmark or "Not specified"]
+  ━━━━━━━━━━━━━━━━━━━━
+  📋 *Order Items:*
+  [each item on its own line with price]
+  ━━━━━━━━━━━━━━━━━━━━
+  💰 *Total: Rs. [total]*
+  💳 Payment: [payment method]
+  💬 Instructions: [instructions or "None"]
+  ━━━━━━━━━━━━━━━━━━━━
+  _Ordered via cravee777.com_
+  _Please confirm availability before preparing_ 🙏
+
+  URL: https://wa.me/923103860547?text=ENCODED_MESSAGE
+
+────────────────────────────────────────
+SECTION 7: OUR STORY
+────────────────────────────────────────
+Two column layout. Left: text. Right: decorative visual.
+On mobile: stacked, text first.
+
+HEADING: "BORN FROM A CRAVING" in Boogaloo, var(--teal)
+
+COPY (write this in the brand voice — street, honest, Karachi):
+  "CRAVEE didn't start in a boardroom. It started with a craving — the kind 
+  that hits at midnight when everything's closed and your stomach has opinions.
+
+  We're from Malir. We know what it means to want something real — real flavor, 
+  real portions, real value. So we built it ourselves.
+
+  No shortcuts. No frozen patties. No compromises. Just food that hits different 
+  every single time — because we're out here cooking until 2 AM so you don't 
+  have to settle.
+
+  This is CRAVEE. A craving like no other."
+
+Right side visual: 
+  A large decorative element — the CRAVEE logo image (Image 1) displayed at 
+  280px width, with a teal glow box-shadow around it, slightly rotated (-3deg), 
+  and a subtle floating animation (translateY -8px → 0 → -8px, 3s ease infinite).
+
+GSAP: Text lines reveal on scroll, each paragraph slides in from left with stagger.
+
+────────────────────────────────────────
+SECTION 8: "THE HEAT CHECK" — SOCIAL PROOF
+────────────────────────────────────────
+This replaces a generic testimonials section with something more Karachi-native.
+
+Section title: "WHAT THE STREETS ARE SAYING 🔥"
+Subtitle: "Real orders. Real people. Real cravings satisfied."
+
+3 testimonial cards in a horizontal scroll (mobile) or 3-column grid (desktop):
+
+Card 1:
+  ⭐⭐⭐⭐⭐
+  "Yaar M416 wala burger absolutely insane tha. 1 AM pe order kiya, 20 min mein 
+  aa gaya. CRAVEE ne zindagi badal di literally."
+  — Ahmed R., Malir
+
+Card 2:
+  ⭐⭐⭐⭐⭐
+  "Deal 3 for Rs. 1850 with the squad — 4 of us and everyone was quiet for 
+  10 minutes. That's the review."
+  — Sara K., Gulshan
+
+Card 3:
+  ⭐⭐⭐⭐⭐
+  "Loaded fries ka sauce bhai... I've been dreaming about it. Open until 2 AM 
+  is the best decision any restaurant in Karachi has ever made."
+  — Bilal M., Korangi
+
+Each card:
+  Background: var(--navy-mid), left border: 3px var(--amber)
+  Stars in var(--amber), name in var(--grey), review text in var(--white)
+  On mobile: cards in a horizontal snap scroll container (scroll-snap-type: x mandatory)
+
+Below cards: A subtle note — "📸 Tag us @CRAVEE777 for a chance to be featured"
+This text is a teal link to instagram.
+
+────────────────────────────────────────
+SECTION 9: THE NIGHT MENU COUNTDOWN
+────────────────────────────────────────
+Full-width section. Background: var(--navy-mid) with wavy top/bottom SVG edges.
+
+This section is about the midnight-food-stall identity of CRAVEE.
+
+Large centered display:
+  "WE OPEN IN" — Nunito 700 var(--grey), small
+  Below: A real-time countdown timer in Boogaloo, massive (clamp 3rem to 8rem):
+  [HH] : [MM] : [SS]
+  Each unit has a label below: HOURS · MINUTES · SECONDS
+  Countdown targets 17:00 PKT today (or tomorrow if already past 17:00).
+  
+  If currently open (17:00 – 02:00):
+    Replace countdown with: "🟢 WE'RE OPEN RIGHT NOW" in glowing teal text,
+    pulsing gently. Below: "ORDER BEFORE 2 AM 🛵"
+
+Below timer: A row of 3 ambient fact cards:
+  🍳 "Fresh prep starts at 4 PM every day"
+  🌙 "We stay open until 2 AM — no exceptions"  
+  📍 "Malir's best kept secret (not for long)"
+
+────────────────────────────────────────
+SECTION 10: LOYALTY / REFERRAL TEASER
+────────────────────────────────────────
+Background: Deep navy with a teal gradient left-edge glow.
+
+Section title: "CRAVEE CREW — COMING SOON" in Boogaloo, teal.
+
+Copy:
+  "We're building something for our regulars. Exclusive deals. 
+  Early access to new items. Rewards for spreading the craving.
+  
+  Drop your number. Be first in line."
+
+A single input + button:
+  Input: WhatsApp number (tel, placeholder: "Your WhatsApp number")
+  Button: "NOTIFY ME 🔔" — teal, full width on mobile.
+  
+  On submit: Input value is NOT sent anywhere (no backend). 
+  Instead, clicking constructs a WhatsApp message:
+  https://wa.me/923103860547?text=Hey%20CRAVEE!%20I%20want%20to%20join%20the%20CRAVEE%20CREW%20loyalty%20program.%20My%20number%20is%20[number]
+  
+  Below button: "No spam. Just cravings." — Nunito 400 italic, var(--grey).
+
+This section should feel premium — like something exclusive is coming.
+GSAP: Section scales in from 0.95 opacity 0 on scroll enter.
+
+────────────────────────────────────────
+SECTION 11: FAQs
+────────────────────────────────────────
+Section title: "GOT QUESTIONS?" — Boogaloo, var(--teal)
+
+Accordion-style. Each FAQ item:
+  - Question row: var(--navy-mid) background, Nunito 700 var(--white), 
+    teal "+" icon on right that rotates to "×" when open.
+  - Answer panel: slides open with CSS max-height transition. 
+    Nunito 400, var(--ice). Slightly indented.
+  - Open item: left border becomes 3px var(--teal).
+
+FAQ Content:
+  Q: Where exactly are you located?
+  A: We're in Murad Memon Goth, Malir, Karachi. Drop us a WhatsApp and 
+     we'll send you our exact pin — or just follow @CRAVEE777 on Instagram.
+
+  Q: Do you deliver?
+  A: Yes! We deliver to nearby areas. WhatsApp us your address and we'll 
+     confirm if you're in our delivery zone. Order button is right on this page.
+
+  Q: What are your opening hours?
+  A: Monday to Sunday, 5:00 PM to 2:00 AM. Every day, no exceptions.
+
+  Q: Can I customize my order?
+  A: Absolutely. Add extra patty, extra cheese, extra sauce — it's all on 
+     the menu. Tell us what you want in the special instructions when you order.
+
+  Q: Is the food halal?
+  A: 100% halal. Always.
+
+  Q: What payment methods do you accept?
+  A: Cash on delivery, Easypaisa, and JazzCash.
+
+  Q: How long does delivery take?
+  A: Typically 20–35 minutes depending on your distance and how busy we are. 
+     We'll keep you updated on WhatsApp.
+
+  Q: Do you cater for events or large orders?
+  A: Yes! WhatsApp us in advance for bulk orders and we'll sort you out.
+
+────────────────────────────────────────
+SECTION 12: LOCATION
+────────────────────────────────────────
+Two column, desktop. Stacked mobile.
+
+Left:
+  Heading: "FIND US" in Boogaloo, teal.
+  Google Maps iframe embed:
+  <iframe src="https://maps.google.com/maps?q=Murad+Memon+Goth+Malir+Karachi&output=embed">
+  Rounded corners (12px), teal border glow.
+
+Right:
+  📍 Murad Memon Goth, Malir, Karachi
+  🕔 Mon–Sun: 5:00 PM – 2:00 AM
+  📱 WhatsApp: +92 310 3860547
+  📸 Instagram: @CRAVEE777
+  
+  A "GET DIRECTIONS" button that opens:
+  https://maps.google.com/maps?q=Murad+Memon+Goth+Malir+Karachi
+
+────────────────────────────────────────
+SECTION 13: FOOTER
+────────────────────────────────────────
+Background: var(--ink) — the darkest possible.
+Top: Full-width ink drip SVG in var(--navy), dripping DOWN from above into the footer.
+
+Layout (3 columns desktop, stacked mobile):
+  Col 1: CRAVEE wordmark in Boogaloo 2rem teal. 
+         Tagline below: "A Craving Like No Other" — Nunito 400 italic var(--grey).
+         Logo image (Image 1) at 60px width, circular, with teal glow.
+  
+  Col 2: Quick links — HOME · MENU · ORDER · OUR STORY · FAQs
+         Each link: Nunito 600, var(--grey), hover var(--teal), transition 0.2s.
+  
+  Col 3: 
+    WhatsApp icon + "+92 310 3860547" 
+    Instagram icon + "@CRAVEE777"
+    Both as clickable links. Icons inline SVG, teal colored.
+
+Bottom bar: 1px top border var(--navy-light). Centered:
+  "© 2025 CRAVEE — Malir, Karachi. A Craving Like No Other."
+  Nunito 400, var(--grey), font-size: 0.8rem.
+
+══════════════════════════════════════════════
+GLOBAL ANIMATION RULES
+══════════════════════════════════════════════
+
+Register GSAP ScrollTrigger at top of JS:
+  gsap.registerPlugin(ScrollTrigger);
+
+Default reveal animation (apply to all sections):
+  gsap.from(el, { opacity: 0, y: 40, duration: 0.7, ease: "power2.out",
+  scrollTrigger: { trigger: el, start: "top 85%" } })
+
+Stagger for lists/cards:
+  gsap.from(cards, { opacity: 0, y: 30, stagger: 0.08, duration: 0.6,
+  ease: "power2.out", scrollTrigger: { trigger: container, start: "top 80%" } })
+
+Hero sequence (timeline, fires on load after preloader exits):
+  tl.from("#hero-badge", { opacity:0, y:-20, duration:0.5 })
+    .from("#hero-title", { opacity:0, y:-50, duration:0.7, ease:"back.out(1.5)" })
+    .from("#hero-tagline", { opacity:0, duration:0.5 }, "-=0.2")
+    .from("#hero-buttons", { opacity:0, y:20, duration:0.5 }, "-=0.1")
+
+Respect reduced motion:
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReducedMotion) { /* all GSAP animations */ }
+
+══════════════════════════════════════════════
+CUSTOM CURSOR (desktop only)
+══════════════════════════════════════════════
+
+A small teal circle (12px, border-radius 50%, background var(--teal), opacity 0.8)
+follows the mouse with a slight lag (lerp to mouse position at 0.15 speed per frame).
+On hover over buttons or links: cursor scales to 24px and becomes a ring 
+(background transparent, border 2px solid var(--teal)).
+Hide on mobile/touch devices (check: window.matchMedia('(pointer: coarse)')).
+
+══════════════════════════════════════════════
+STICKY MOBILE ORDER BAR
+══════════════════════════════════════════════
+
+Only visible on screens < 768px.
+Fixed bottom: 0, width: 100%, z-index: 999.
+Height: 56px. Background: var(--teal). 
+Text: "🛵 ORDER NOW — WHATSAPP" — Nunito 800, var(--navy), centered.
+On click: scrolls to the Order Builder section (smooth scroll to #order).
+Above it: a 1px shadow upward (box-shadow: 0 -4px 12px rgba(0,180,216,0.3)).
+Add padding-bottom: 56px to body on mobile so content isn't hidden behind it.
+
+══════════════════════════════════════════════
+WHAT TO ABSOLUTELY NEVER DO
+══════════════════════════════════════════════
+
+- No white or light background on any section.
+- No purple, green, or red in the palette — it breaks the brand.
+- No straight horizontal line section dividers — always ink drip SVGs or waves.
+- No Inter, Roboto, Arial, or system fonts anywhere.
+- No lorem ipsum anywhere — every word of copy must match the brand voice above.
+- No generic card designs — every interactive element must have teal glow on hover.
+- No external image dependencies except the 3 brand images I provide 
+  (logo, menu, poster). Do not reference stock photos or placeholder URLs.
+- No Bootstrap or any CSS framework — pure custom CSS only.
+- Do not use alert() or confirm() dialogs for anything.
+- Do not write the Three.js scene as an afterthought — it is the visual anchor 
+  of the entire site.
+
+══════════════════════════════════════════════
+FINAL INSTRUCTION
+══════════════════════════════════════════════
+
+Write the complete, uninterrupted index.html file.
+Start with <!DOCTYPE html> and end with </html>.
+Do not stop in the middle. Do not summarize sections. Write every line of every section.
+The CSS goes inside one <style> tag in <head>.
+The JS goes inside one <script> tag before </body>.
+
+This website should make someone in Karachi at 12:30 AM, half asleep, 
+open it on their phone and immediately want to order. 
+That is the only benchmark that matters.
