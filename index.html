@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRAVEE — A Craving Like No Other</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0A1628;
+      --navy-mid: #0D1F3C;
+      --navy-light: #112240;
+      --teal: #00B4D8;
+      --teal-bright: #48CAE4;
+      --ice: #90E0EF;
+      --sky: #CAF0F8;
+      --ink: #050A12;
+      --amber: #F4A22A;
+      --amber-dark: #C47F1A;
+      --white: #F0F8FF;
+      --grey: #8899AA;
+      --glow: 0 0 20px rgba(0, 180, 216, 0.4);
+      --glow-strong: 0 0 40px rgba(0, 180, 216, 0.7);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: 'Nunito', sans-serif; background: var(--navy); color: var(--white);
+      overflow-x: hidden; line-height: 1.5;
+    }
+    @media (max-width: 767px) { body { padding-bottom: 56px; } }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .section { position: relative; padding: 4.5rem 1rem; background: var(--navy); overflow: hidden; }
+    .section.alt { background: var(--navy-mid); }
+    .container { width: min(1100px, 100%); margin: 0 auto; }
+    .section-title {
+      font-family: 'Boogaloo', cursive; color: var(--teal); text-align: center;
+      font-size: clamp(2.5rem, 8vw, 3.5rem); margin: 0 0 .5rem; letter-spacing: .02em;
+    }
+    .section-subtitle { text-align: center; color: var(--grey); margin: 0 0 2rem; }
+    .ink-divider {
+      display: block; width: 100%; height: 70px; margin-top: -1px; background: var(--ink);
+      clip-path: polygon(0 0, 8% 14%, 14% 0, 20% 20%, 28% 0, 36% 26%, 44% 0, 50% 18%, 58% 0, 64% 24%, 72% 0, 78% 19%, 86% 0, 92% 15%, 100% 0, 100% 100%, 0 100%);
+    }
+    .fluid-top { clip-path: polygon(0 5%, 10% 0, 24% 6%, 35% 2%, 50% 8%, 64% 2%, 78% 6%, 90% 0, 100% 5%, 100% 100%, 0 100%); }
+    .fluid-bottom { clip-path: polygon(0 0, 100% 0, 100% 95%, 90% 100%, 78% 94%, 64% 98%, 50% 92%, 34% 98%, 22% 94%, 10% 100%, 0 95%); }
+    .bubble-layer { pointer-events: none; position: absolute; inset: 0; overflow: hidden; }
+    .bubble { position: absolute; border-radius: 50%; background: rgba(72, 202, 228, .35); animation: rise linear infinite; }
+    .bubble.ice { background: rgba(144, 224, 239, .28); }
+    @keyframes rise { from { transform: translateY(0); opacity: .15; } to { transform: translateY(-120vh); opacity: .8; } }
+    .glow { box-shadow: var(--glow); transition: .25s ease; }
+    .glow:hover, .glow:focus-visible { box-shadow: var(--glow-strong); }
+    .btn {
+      min-height: 48px; border: 1px solid var(--teal); border-radius: 999px; padding: .75rem 1.1rem;
+      font-family: 'Nunito', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+      cursor: pointer; background: transparent; color: var(--teal); display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+    }
+    .btn-primary { background: var(--teal); color: var(--navy); border-color: var(--teal); }
+    #preloader {
+      position: fixed; inset: 0; background: var(--navy); z-index: 9999; display: grid; place-items: center; text-align: center; overflow: hidden;
+    }
+    .pre-inner { position: relative; z-index: 2; }
+    .pre-title {
+      font-family: 'Boogaloo', cursive; font-size: clamp(3rem, 14vw, 6rem); color: var(--teal); opacity: 0;
+      transform: scale(.5); animation: heartbeat 1.2s ease forwards; letter-spacing: .02em;
+    }
+    @keyframes heartbeat { 0% { opacity: 0; transform: scale(.5); } 45% { opacity: 1; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
+    .loading-bar-wrap { width: min(280px, 80vw); height: 8px; border: 1px solid var(--teal); border-radius: 999px; margin: 1rem auto .5rem; overflow: hidden; }
+    .loading-bar { height: 100%; background: var(--teal); width: 0; animation: load 1.8s linear forwards; }
+    @keyframes load { to { width: 100%; } }
+    .loading-text { color: var(--grey); font-style: italic; }
+    .pre-split { position: absolute; top: 0; width: 50%; height: 100%; background: var(--navy); transition: transform .9s cubic-bezier(.22,.61,.36,1); }
+    .pre-left { left: 0; } .pre-right { right: 0; }
+    #preloader.done .pre-left { transform: translateX(-100%); }
+    #preloader.done .pre-right { transform: translateX(100%); }
+    #preloader.done .pre-inner { opacity: 0; transition: opacity .35s ease; }
+    #preloader.hidden { display: none; }
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 56px; display: flex; align-items: center; justify-content: space-between;
+      padding: .35rem .75rem; transition: .25s ease; text-transform: uppercase;
+    }
+    #navbar.scrolled { background: rgba(10, 22, 40, .92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,180,216,.2); }
+    .nav-logo img { height: 44px; width: 44px; border-radius: 50%; }
+    .nav-links { display: none; gap: 1rem; }
+    .nav-link { color: var(--ice); font-weight: 700; letter-spacing: .1em; font-size: .8rem; position: relative; }
+    .nav-link::after { content: ''; position: absolute; left: 0; right: 100%; bottom: -4px; height: 2px; background: var(--teal); transition: right .2s ease; }
+    .nav-link:hover::after, .nav-link.active::after { right: 0; }
+    .nav-link:hover, .nav-link.active { color: var(--teal); }
+    .order-now-btn { display: none; animation: pulseBtn 2s ease infinite; }
+    @keyframes pulseBtn { 0%,100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+    .hamburger { border: 0; background: transparent; width: 48px; height: 48px; display: grid; place-content: center; gap: 5px; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: var(--teal); transition: .25s ease; }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      position: fixed; inset: 0; background: rgba(10,22,40,.95); transform: translateX(100%); transition: transform .35s ease;
+      display: grid; place-content: center; gap: 1.1rem; z-index: 999;
+    }
+    .mobile-menu.open { transform: translateX(0); }
+    .mobile-menu a { font-family: 'Boogaloo', cursive; font-size: 2rem; color: var(--white); text-align: center; }
+    #hero { min-height: 100dvh; padding-top: 70px; display: grid; place-items: center; text-align: center; position: relative; background: var(--navy); }
+    #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+    .hero-content { position: relative; z-index: 10; }
+    #hero-badge { color: var(--grey); letter-spacing: .3em; font-weight: 700; font-size: .8rem; text-transform: uppercase; margin-bottom: .6rem; }
+    #hero-title {
+      margin: 0; font-family: 'Boogaloo', cursive; font-size: clamp(3rem, 12vw, 8rem); letter-spacing: .02em; text-transform: uppercase;
+      background: linear-gradient(135deg, var(--teal), var(--ice)); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 18px rgba(72,202,228,.45);
+    }
+    #hero-tagline { font-weight: 800; letter-spacing: .35em; text-transform: uppercase; font-size: clamp(.7rem, 2.5vw, 1rem); color: var(--white); margin: .4rem 0 1.2rem; }
+    .hero-buttons { display: grid; gap: .7rem; justify-items: center; }
+    .scroll-indicator { margin-top: 1.2rem; color: var(--grey); font-size: .8rem; text-transform: uppercase; letter-spacing: .1em; }
+    .scroll-indicator .chev { width: 10px; height: 10px; border-right: 2px solid var(--teal); border-bottom: 2px solid var(--teal); transform: rotate(45deg); margin: .3rem auto; animation: bounce 1s infinite; }
+    @keyframes bounce { 0%,100% { transform: rotate(45deg) translateY(0); } 50% { transform: rotate(45deg) translateY(4px); } }
+    #live-status {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem; min-height: 60px;
+      background: var(--navy-mid); border-left: 4px solid var(--teal); padding: .75rem 1rem;
+    }
+    #status-main { font-weight: 800; }
+    #status-meta { color: var(--grey); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); display: inline-block; margin: 0 .45rem; animation: pulseDot 1.2s infinite; }
+    @keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(0,180,216,.5); } 100% { box-shadow: 0 0 0 10px rgba(0,180,216,0); } }
+    .marquee-wrap { background: var(--teal); color: var(--navy); overflow: hidden; }
+    .marquee-row {
+      display: flex; gap: 2rem; min-width: max-content; padding: .5rem 0; font-weight: 800; text-transform: uppercase;
+      white-space: nowrap; animation: marquee 20s linear infinite;
+    }
+    .marquee-row.reverse { animation-direction: reverse; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .tabs { display: flex; gap: .6rem; overflow-x: auto; scrollbar-width: none; padding-bottom: .4rem; margin-bottom: 1.2rem; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex: 0 0 auto; min-height: 48px; border-radius: 999px; border: 1px solid var(--teal); background: var(--navy-mid); color: var(--grey);
+      padding: .65rem .9rem; font-weight: 800; text-transform: uppercase; cursor: pointer;
+    }
+    .tab-btn.active { background: var(--teal); color: var(--navy); box-shadow: var(--glow); }
+    .menu-grid { display: grid; gap: .8rem; grid-template-columns: 1fr; }
+    .menu-card {
+      background: var(--navy-mid); border-left: 3px solid var(--amber); border-radius: 12px; padding: 1rem; position: relative; transition: .2s ease;
+    }
+    .menu-card:hover { transform: translateY(-4px); box-shadow: var(--glow); }
+    .menu-card::after { content: ''; position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--amber); right: .8rem; top: .8rem; }
+    .menu-head { display: flex; justify-content: space-between; gap: .7rem; }
+    .menu-name { font-weight: 800; text-transform: uppercase; margin: 0; }
+    .menu-price { color: var(--amber); font-weight: 700; white-space: nowrap; }
+    .menu-desc { color: var(--ice); margin: .4rem 0 .8rem; font-size: .95rem; }
+    .menu-add { width: 100%; }
+    .deal-card { border-left: 4px solid transparent; border-image: linear-gradient(180deg, var(--teal), var(--amber)) 1; padding: 1.1rem; }
+    .deal-badge {
+      position: absolute; right: .8rem; top: .6rem; background: var(--amber); color: var(--navy); padding: .2rem .5rem; border-radius: 999px;
+      font-size: .72rem; font-weight: 800;
+    }
+    .deal-list { margin: .4rem 0 .8rem 1rem; color: var(--ice); }
+    #order .order-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+    .summary, .order-form { background: var(--navy-mid); border: 1px solid var(--navy-light); border-radius: 12px; padding: 1rem; }
+    .summary h3, .order-form h3 { margin: 0 0 .8rem; font-family: 'Boogaloo', cursive; font-size: 2rem; color: var(--teal); }
+    #order-items { display: grid; gap: .5rem; }
+    .order-row { display: flex; justify-content: space-between; color: var(--white); }
+    .order-empty { color: var(--grey); font-style: italic; }
+    .order-total { margin-top: .8rem; color: var(--amber); font-weight: 800; }
+    .clear-order { margin-top: .5rem; background: none; border: 0; color: var(--grey); text-decoration: underline; cursor: pointer; }
+    .field { position: relative; margin-bottom: 1rem; }
+    .field input, .field textarea {
+      width: 100%; border: 0; border-bottom: 1px solid var(--navy-light); background: transparent; color: var(--white); padding: .8rem .1rem .4rem;
+      font-size: 16px; font-family: 'Nunito', sans-serif; outline: none;
+    }
+    .field textarea { resize: vertical; }
+    .field label { position: absolute; top: .85rem; left: .1rem; color: var(--grey); pointer-events: none; transition: .2s ease; font-size: .95rem; }
+    .field input:focus, .field textarea:focus { border-bottom: 2px solid var(--teal); box-shadow: var(--glow); }
+    .field input:focus + label, .field input:not(:placeholder-shown) + label, .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label {
+      transform: translateY(-18px) scale(.85); color: var(--teal); transform-origin: left;
+    }
+    .error { color: var(--amber); font-size: .82rem; min-height: 1rem; }
+    .shake { animation: shake .28s linear 3; }
+    @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } 100% { transform: translateX(0); } }
+    .payment-group { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .7rem; }
+    .pay-pill input { display: none; }
+    .pay-pill span {
+      border: 1px solid var(--teal); color: var(--ice); border-radius: 999px; padding: .5rem .8rem; display: inline-flex; min-height: 48px;
+      align-items: center; font-weight: 700; text-transform: uppercase; cursor: pointer;
+    }
+    .pay-pill input:checked + span { background: var(--teal); color: var(--navy); box-shadow: var(--glow); }
+    .story-grid, .location-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+    .story-copy p { color: var(--ice); margin: 0 0 .9rem; }
+    .story-visual { background: var(--navy-mid); border: 1px solid var(--navy-light); border-radius: 14px; padding: 1rem; display: grid; place-items: center; }
+    .story-visual img { width: min(280px, 80%); border-radius: 50%; box-shadow: var(--glow); transform: rotate(-3deg); animation: floaty 3s ease-in-out infinite; }
+    @keyframes floaty { 0%,100% { transform: rotate(-3deg) translateY(-8px); } 50% { transform: rotate(-3deg) translateY(0); } }
+    .mascot {
+      width: 120px; height: 140px; opacity: .22; background: var(--teal);
+      mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120"><circle cx="50" cy="24" r="16"/><rect x="30" y="40" width="40" height="36" rx="10"/><path d="M20 84 Q50 106 80 84 L80 120 L20 120Z"/><rect x="28" y="10" width="44" height="8" rx="4"/></svg>') center / contain no-repeat;
+      -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120"><circle cx="50" cy="24" r="16"/><rect x="30" y="40" width="40" height="36" rx="10"/><path d="M20 84 Q50 106 80 84 L80 120 L20 120Z"/><rect x="28" y="10" width="44" height="8" rx="4"/></svg>') center / contain no-repeat;
+    }
+    .testimonials {
+      display: grid; gap: .9rem; grid-auto-flow: column; grid-auto-columns: 85%; overflow-x: auto;
+      scroll-snap-type: x mandatory; padding-bottom: .4rem;
+    }
+    .t-card { scroll-snap-align: start; background: var(--navy-mid); border-left: 3px solid var(--amber); border-radius: 12px; padding: 1rem; }
+    .t-stars { color: var(--amber); } .t-name { color: var(--grey); font-weight: 700; }
+    #night .timer { font-family: 'Boogaloo', cursive; text-align: center; font-size: clamp(3rem, 13vw, 8rem); color: var(--teal); letter-spacing: .05em; margin: .5rem 0; }
+    .timer-labels {
+      display: flex; justify-content: center; gap: 1.2rem; color: var(--grey); text-transform: uppercase;
+      font-weight: 700; letter-spacing: .12em; font-size: .75rem;
+    }
+    .fact-grid { display: grid; gap: .8rem; grid-template-columns: 1fr; margin-top: 1.2rem; }
+    .fact-card { background: var(--navy); border: 1px solid var(--navy-light); border-left: 3px solid var(--teal); border-radius: 12px; padding: .9rem; color: var(--ice); }
+    #crew .teaser {
+      background: linear-gradient(90deg, rgba(0,180,216,.22), transparent 35%), var(--navy);
+      border: 1px solid var(--navy-light); border-radius: 14px; padding: 1rem; text-align: center;
+    }
+    .crew-input {
+      width: 100%; min-height: 48px; border-radius: 999px; border: 1px solid var(--teal); padding: .65rem .85rem;
+      font-size: 16px; background: var(--navy-mid); color: var(--white); margin-bottom: .7rem;
+    }
+    .crew-note { color: var(--grey); font-style: italic; margin-top: .5rem; }
+    .faq-item { background: var(--navy-mid); border-radius: 10px; margin-bottom: .6rem; border-left: 3px solid transparent; overflow: hidden; }
+    .faq-q {
+      width: 100%; min-height: 48px; border: 0; background: transparent; color: var(--white); font-weight: 700; font-size: 1rem;
+      display: flex; align-items: center; justify-content: space-between; gap: .7rem; padding: .9rem; cursor: pointer; text-align: left;
+    }
+    .faq-icon { color: var(--teal); font-size: 1.3rem; transition: transform .2s; }
+    .faq-a { max-height: 0; overflow: hidden; color: var(--ice); padding: 0 .9rem; transition: max-height .3s ease, padding .3s ease; }
+    .faq-item.open { border-left-color: var(--teal); }
+    .faq-item.open .faq-a { max-height: 180px; padding: 0 .9rem .9rem; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .map-wrap iframe { width: 100%; min-height: 260px; border: 0; border-radius: 12px; box-shadow: var(--glow); }
+    .loc-info p { margin: .5rem 0; color: var(--ice); }
+    footer { background: var(--ink); padding: 0 1rem 1rem; }
+    .footer-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; padding: 2rem 0 1rem; }
+    .footer-brand-title { font-family: 'Boogaloo', cursive; font-size: 2rem; color: var(--teal); margin: 0; }
+    .footer-brand-sub { color: var(--grey); font-style: italic; }
+    .footer-logo { width: 60px; border-radius: 50%; box-shadow: var(--glow); }
+    .footer-links a, .footer-contact a { display: block; color: var(--grey); margin-bottom: .4rem; font-weight: 600; }
+    .footer-links a:hover, .footer-contact a:hover { color: var(--teal); }
+    .footer-bottom { border-top: 1px solid var(--navy-light); text-align: center; padding-top: .8rem; color: var(--grey); font-size: .8rem; }
+    .sticky-mobile-order {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 999; height: 56px; display: flex; align-items: center; justify-content: center;
+      background: var(--teal); color: var(--navy); font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
+      box-shadow: 0 -4px 12px rgba(0,180,216,.3); border: 0;
+    }
+    .custom-cursor {
+      width: 12px; height: 12px; border-radius: 50%; background: var(--teal); opacity: .8;
+      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1200; transform: translate(-50%, -50%);
+    }
+    .custom-cursor.active { width: 24px; height: 24px; border: 2px solid var(--teal); background: transparent; opacity: 1; }
+    @media (min-width: 768px) {
+      #navbar { height: 64px; padding: .35rem 1.2rem; }
+      .nav-links { display: flex; }
+      .order-now-btn { display: inline-flex; }
+      .hamburger { display: none; }
+      .hero-buttons { display: flex; }
+      .menu-grid { grid-template-columns: repeat(2, 1fr); }
+      #order .order-grid, .story-grid, .location-grid { grid-template-columns: 1fr 1fr; }
+      .fact-grid { grid-template-columns: repeat(3, 1fr); }
+      .sticky-mobile-order { display: none; }
+    }
+    @media (min-width: 992px) {
+      .menu-grid { grid-template-columns: repeat(3, 1fr); }
+      .testimonials { grid-auto-flow: unset; grid-auto-columns: unset; grid-template-columns: repeat(3, 1fr); overflow: visible; }
+      .footer-grid { grid-template-columns: 1.2fr 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="preloader" aria-hidden="true">
+    <div class="pre-split pre-left"></div>
+    <div class="pre-split pre-right"></div>
+    <div class="pre-inner">
+      <div class="pre-title">CRAVEE</div>
+      <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+      <div class="loading-text">loading your craving...</div>
+    </div>
+  </div>
+  <header id="navbar">
+    <a href="#hero" class="nav-logo" aria-label="CRAVEE Home"><img src="logo.png" alt="CRAVEE Logo"></a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#hero" class="nav-link">Home</a>
+      <a href="#menu" class="nav-link">Menu</a>
+      <a href="#story" class="nav-link">Our Story</a>
+      <a href="#order" class="nav-link">Order</a>
+    </nav>
+    <a href="#order" class="btn btn-primary order-now-btn glow">Order Now 🛵</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </header>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#hero">Home</a><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#order">Order</a>
+  </div>
+  <section id="hero" class="section">
+    <canvas id="hero-canvas"></canvas>
+    <div class="bubble-layer" id="heroBubbles"></div>
+    <div class="hero-content container">
+      <div id="hero-badge">EST. KARACHI 2024</div>
+      <h1 id="hero-title">CRAVEE</h1>
+      <p id="hero-tagline">A CRAVING LIKE NO OTHER</p>
+      <div id="hero-buttons" class="hero-buttons">
+        <a href="#menu" class="btn glow">Explore The Menu ↓</a>
+        <a href="#order" class="btn btn-primary glow"><span aria-hidden="true">🟢</span>Order on WhatsApp</a>
+      </div>
+      <div class="scroll-indicator"><div class="chev"></div>scroll</div>
+    </div>
+    <div class="mascot" style="position:absolute; right:6%; bottom:14%;"></div>
+  </section>
+  <div class="ink-divider"></div>
+  <section id="live-status" aria-live="polite">
+    <div id="status-main">Checking kitchen status...</div>
+    <div id="status-meta">MON–SUN · 5 PM – 2 AM · MALIR, KARACHI</div>
+  </section>
+  <section class="marquee-wrap" aria-hidden="true">
+    <div class="marquee-row"><span>🍔 ZINGER · 🍟 LOADED FRIES · 🥩 CLASSIC BEEF · 🧀 BEEF & CHEESE · 🔥 DEAL OF THE NIGHT · 🛵 FREE DELIVERY AREA · ⭐ FRESH EVERY NIGHT · 🍔 CRUNCH BURGER · 🍔 ZINGER · 🍟 LOADED FRIES · 🥩 CLASSIC BEEF · 🧀 BEEF & CHEESE · 🔥 DEAL OF THE NIGHT · 🛵 FREE DELIVERY AREA · ⭐ FRESH EVERY NIGHT · 🍔 CRUNCH BURGER ·</span></div>
+    <div class="marquee-row reverse"><span>🍔 ZINGER · 🍟 LOADED FRIES · 🥩 CLASSIC BEEF · 🧀 BEEF & CHEESE · 🔥 DEAL OF THE NIGHT · 🛵 FREE DELIVERY AREA · ⭐ FRESH EVERY NIGHT · 🍔 CRUNCH BURGER · 🍔 ZINGER · 🍟 LOADED FRIES · 🥩 CLASSIC BEEF · 🧀 BEEF & CHEESE · 🔥 DEAL OF THE NIGHT · 🛵 FREE DELIVERY AREA · ⭐ FRESH EVERY NIGHT · 🍔 CRUNCH BURGER ·</span></div>
+  </section>
+  <section id="menu" class="section alt fluid-top fluid-bottom">
+    <div class="container">
+      <h2 class="section-title">THE MENU</h2>
+      <p class="section-subtitle">Everything made fresh. Every night. No compromises.</p>
+      <div class="tabs" id="menuTabs"></div>
+      <div class="menu-grid" id="menuGrid"></div>
+      <p style="color:var(--grey); margin-top:1rem;">All burgers available as combos for +Rs. 50 (add fries + 300ml drink)</p>
+    </div>
+    <div class="bubble-layer" id="menuBubbles"></div>
+  </section>
+  <div class="ink-divider"></div>
+  <section id="order" class="section">
+    <div class="container">
+      <h2 class="section-title">BUILD YOUR ORDER 🛵</h2>
+      <p class="section-subtitle">Fill in your details. We'll handle the rest.</p>
+      <div class="order-grid">
+        <aside class="summary">
+          <h3>Order Summary</h3>
+          <div id="order-items"></div>
+          <div class="error" id="orderError"></div>
+          <div class="order-total" id="order-total">Total: Rs. 0</div>
+          <button class="clear-order" id="clearOrder">CLEAR ORDER</button>
+        </aside>
+        <form class="order-form" id="orderForm" novalidate>
+          <h3>Delivery Details</h3>
+          <div class="field"><input id="name" placeholder=" " required><label for="name">Full Name *</label><div class="error" id="err-name"></div></div>
+          <div class="field"><input id="phone" type="tel" placeholder=" " required><label for="phone">Phone Number * (03XX XXXXXXX)</label><div class="error" id="err-phone"></div></div>
+          <div class="field"><textarea id="address" rows="3" placeholder=" " required></textarea><label for="address">Delivery Address *</label><div class="error" id="err-address"></div></div>
+          <div class="field"><input id="landmark" placeholder=" "><label for="landmark">Nearest Landmark</label><div class="error"></div></div>
+          <div class="field"><textarea id="instructions" rows="2" placeholder=" "></textarea><label for="instructions">Special Instructions</label><div class="error"></div></div>
+          <div class="payment-group">
+            <label class="pay-pill"><input type="radio" name="payment" value="Cash on Delivery" checked><span>Cash on Delivery</span></label>
+            <label class="pay-pill"><input type="radio" name="payment" value="Easypaisa"><span>Easypaisa</span></label>
+            <label class="pay-pill"><input type="radio" name="payment" value="JazzCash"><span>JazzCash</span></label>
+          </div>
+          <button type="submit" class="btn btn-primary glow" style="width:100%;">🟢 Send Order on WhatsApp 🚀</button>
+        </form>
+      </div>
+    </div>
+    <div class="bubble-layer" id="orderBubbles"></div>
+  </section>
+  <div class="ink-divider"></div>
+  <section id="story" class="section alt">
+    <div class="container story-grid">
+      <div class="story-copy">
+        <h2 class="section-title" style="text-align:left;">BORN FROM A CRAVING</h2>
+        <p>CRAVEE didn't start in a boardroom. It started with a craving — the kind that hits at midnight when everything's closed and your stomach has opinions.</p>
+        <p>We're from Malir. We know what it means to want something real — real flavor, real portions, real value. So we built it ourselves.</p>
+        <p>No shortcuts. No frozen patties. No compromises. Just food that hits different every single time — because we're out here cooking until 2 AM so you don't have to settle.</p>
+        <p>This is CRAVEE. A craving like no other.</p>
+      </div>
+      <div class="story-visual"><img src="logo.png" alt="CRAVEE Logo Badge"></div>
+    </div>
+    <div class="mascot" style="position:absolute; left:4%; top:14%; background:var(--ink);"></div>
+  </section>
+  <div class="ink-divider"></div>
+  <section id="heat" class="section">
+    <div class="container">
+      <h2 class="section-title">WHAT THE STREETS ARE SAYING 🔥</h2>
+      <p class="section-subtitle">Real orders. Real people. Real cravings satisfied.</p>
+      <div class="testimonials">
+        <article class="t-card glow"><div class="t-stars">⭐⭐⭐⭐⭐</div><p>"Yaar M416 wala burger absolutely insane tha. 1 AM pe order kiya, 20 min mein aa gaya. CRAVEE ne zindagi badal di literally."</p><div class="t-name">— Ahmed R., Malir</div></article>
+        <article class="t-card glow"><div class="t-stars">⭐⭐⭐⭐⭐</div><p>"Deal 3 for Rs. 1850 with the squad — 4 of us and everyone was quiet for 10 minutes. That's the review."</p><div class="t-name">— Sara K., Gulshan</div></article>
+        <article class="t-card glow"><div class="t-stars">⭐⭐⭐⭐⭐</div><p>"Loaded fries ka sauce bhai... I've been dreaming about it. Open until 2 AM is the best decision any restaurant in Karachi has ever made."</p><div class="t-name">— Bilal M., Korangi</div></article>
+      </div>
+      <p style="text-align:center; margin-top:1rem;"><a href="https://instagram.com/CRAVEE777" target="_blank" rel="noopener" style="color:var(--teal);">📸 Tag us @CRAVEE777 for a chance to be featured</a></p>
+    </div>
+  </section>
+  <div class="ink-divider"></div>
+  <section id="night" class="section alt fluid-top fluid-bottom">
+    <div class="container" style="text-align:center;">
+      <div style="color:var(--grey);font-weight:700;letter-spacing:.16em;text-transform:uppercase;">WE OPEN IN</div>
+      <div class="timer" id="nightTimer">00 : 00 : 00</div>
+      <div class="timer-labels"><span>Hours</span><span>Minutes</span><span>Seconds</span></div>
+      <div id="nightOpenText" style="display:none; color:var(--teal); font-weight:800; text-transform:uppercase; letter-spacing:.12em; margin-top:.7rem;">🟢 WE'RE OPEN RIGHT NOW · ORDER BEFORE 2 AM 🛵</div>
+      <div class="fact-grid">
+        <div class="fact-card">🍳 Fresh prep starts at 4 PM every day</div>
+        <div class="fact-card">🌙 We stay open until 2 AM — no exceptions</div>
+        <div class="fact-card">📍 Malir's best kept secret (not for long)</div>
+      </div>
+    </div>
+  </section>
+  <div class="ink-divider"></div>
+  <section id="crew" class="section">
+    <div class="container teaser">
+      <h2 class="section-title">CRAVEE CREW — COMING SOON</h2>
+      <p style="max-width:700px;margin:0 auto 1rem;color:var(--ice);">We're building something for our regulars. Exclusive deals. Early access to new items. Rewards for spreading the craving. Drop your number. Be first in line.</p>
+      <input id="crewNumber" class="crew-input" type="tel" placeholder="Your WhatsApp number">
+      <div class="error" id="crewError"></div>
+      <button id="crewBtn" class="btn btn-primary glow" style="width:100%;">NOTIFY ME 🔔</button>
+      <div class="crew-note">No spam. Just cravings.</div>
+    </div>
+  </section>
+  <div class="ink-divider"></div>
+  <section id="faq" class="section alt">
+    <div class="container"><h2 class="section-title">GOT QUESTIONS?</h2><div id="faqList"></div></div>
+  </section>
+  <div class="ink-divider"></div>
+  <section id="location" class="section">
+    <div class="container location-grid">
+      <div class="map-wrap">
+        <h2 class="section-title" style="text-align:left;">FIND US</h2>
+        <iframe title="CRAVEE location map" src="https://maps.google.com/maps?q=Murad+Memon+Goth+Malir+Karachi&output=embed" loading="lazy"></iframe>
+      </div>
+      <div class="loc-info" style="align-self:center;">
+        <p>📍 Murad Memon Goth, Malir, Karachi</p>
+        <p>🕔 Mon–Sun: 5:00 PM – 2:00 AM</p>
+        <p>📱 WhatsApp: <a href="https://wa.me/923103860547" target="_blank" rel="noopener" style="color:var(--teal);">+92 310 3860547</a></p>
+        <p>📸 Instagram: <a href="https://instagram.com/CRAVEE777" target="_blank" rel="noopener" style="color:var(--teal);">@CRAVEE777</a></p>
+        <a class="btn btn-primary glow" href="https://maps.google.com/maps?q=Murad+Memon+Goth+Malir+Karachi" target="_blank" rel="noopener">Get Directions</a>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="ink-divider" style="background:var(--navy);"></div>
+    <div class="container footer-grid">
+      <div>
+        <p class="footer-brand-title">CRAVEE</p><p class="footer-brand-sub">A Craving Like No Other</p>
+        <img src="logo.png" alt="CRAVEE logo" class="footer-logo">
+      </div>
+      <div class="footer-links"><a href="#hero">HOME</a><a href="#menu">MENU</a><a href="#order">ORDER</a><a href="#story">OUR STORY</a><a href="#faq">FAQs</a></div>
+      <div class="footer-contact"><a href="https://wa.me/923103860547" target="_blank" rel="noopener">📱 +92 310 3860547</a><a href="https://instagram.com/CRAVEE777" target="_blank" rel="noopener">📸 @CRAVEE777</a></div>
+    </div>
+    <div class="footer-bottom">© 2025 CRAVEE — Malir, Karachi. A Craving Like No Other.</div>
+  </footer>
+  <button class="sticky-mobile-order" id="stickyOrder">🛵 ORDER NOW — WHATSAPP</button>
+  <div class="custom-cursor" id="customCursor" hidden></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const sections = [...document.querySelectorAll('.section')];
+    const nav = document.getElementById('navbar');
+    const navLinks = [...document.querySelectorAll('.nav-link')];
+    const mobileMenu = document.getElementById('mobileMenu');
+    const hamburger = document.getElementById('hamburger');
+    const stickyOrder = document.getElementById('stickyOrder');
+    setTimeout(() => {
+      const pre = document.getElementById('preloader');
+      pre.classList.add('done');
+      setTimeout(() => pre.classList.add('hidden'), 950);
+      if (!prefersReducedMotion) runHeroTimeline();
+    }, 1900);
+    function runHeroTimeline() {
+      if (!window.gsap) return;
+      gsap.timeline().from('#hero-badge', { opacity: 0, x: -20, duration: .5 }).from('#hero-title', { opacity: 0, y: -50, duration: .7, ease: 'back.out(1.5)' }).from('#hero-tagline', { opacity: 0, duration: .5 }, '-=.2').from('#hero-buttons', { opacity: 0, y: 20, duration: .5 }, '-=.1');
+    }
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 80);
+      const y = window.scrollY + 120;
+      for (const sec of sections) {
+        const top = sec.offsetTop, bottom = top + sec.offsetHeight;
+        if (y >= top && y < bottom) navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + sec.id));
+      }
+    });
+    hamburger.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('active', open);
+      hamburger.setAttribute('aria-expanded', String(open));
+      if (open && window.gsap && !prefersReducedMotion) gsap.from('.mobile-menu a', { opacity: 0, x: 22, stagger: .08, duration: .35 });
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }));
+    stickyOrder.addEventListener('click', () => document.getElementById('order').scrollIntoView({ behavior: 'smooth' }));
+    function makeBubbles(targetId, count) {
+      const root = document.getElementById(targetId);
+      for (let i = 0; i < count; i++) {
+        const b = document.createElement('span');
+        b.className = 'bubble' + (i % 2 ? ' ice' : '');
+        const size = Math.floor(Math.random() * 15) + 4;
+        b.style.width = b.style.height = size + 'px';
+        b.style.left = Math.random() * 100 + '%';
+        b.style.bottom = -(Math.random() * 30) + 'px';
+        b.style.animationDuration = (7 + Math.random() * 8) + 's';
+        b.style.animationDelay = (Math.random() * 4) + 's';
+        root.appendChild(b);
+      }
+    }
+    makeBubbles('heroBubbles', 20); makeBubbles('menuBubbles', 12); makeBubbles('orderBubbles', 14);
+    const menuData = {
+      burgers: [['Zinger', 450, 'Crispy, spiced, golden. The one that started it all.'], ['Crunch', 380, 'Double the crunch. Zero regrets.'], ['Chicken', 380, 'Classic done right. Every single time.'], ['M416', 500, 'Loaded. Dangerous. Absolutely worth it.'], ['Classic Beef', 550, 'Real beef. Real flavor. No shortcuts.'], ['Mustard Beef', 550, 'A sharp kick that keeps you coming back.'], ['Thousand Beef', 550, 'A thousand reasons. One burger.'], ['Beef & Cheese', 600, 'The melt. The bite. The obsession.']],
+      fries: [['Loaded Fries', 450, 'Buried under sauce, cheese, and good decisions.'], ['Saucy Fries', 350, 'Crispy outside. Saucy soul inside.'], ['Plain Fries', 200, 'Simple. Honest. Addictive.']],
+      deals: [['Deal 1', 900, ['2 Crunch', '2 Fries', '2 Drinks (300ml)'], 'Feed the squad.'], ['Deal 2', 1000, ['2 Chicken', '2 Fries', '2 Drinks (300ml)'], 'The everyday move.'], ['Deal 3', 1850, ['2 Zinger', '2 Crunch', '4 Fries', '1.5L Drink'], 'Legendary.'], ['Deal 4', 1990, ['4 Zinger', '4 Fries', '1.5L Drink'], 'The whole crew, handled.']],
+      extras: [['Extra Sauce', 100, 'Add that extra punch.'], ['Extra Patty', 250, 'Because one is never enough.'], ['Extra Cheese', 60, 'Cheese pull energy.']],
+      drinks: [['300ml', 90, 'Cold and crisp.'], ['1.5 Litre', 250, 'For the full table.']]
+    };
+    const tabs = [['burgers', '🍔 Burgers'], ['fries', '🍟 Fries'], ['deals', '💥 Deals'], ['extras', '🧂 Extras'], ['drinks', '🥤 Drinks']];
+    let currentTab = 'burgers';
+    const menuTabs = document.getElementById('menuTabs');
+    const menuGrid = document.getElementById('menuGrid');
+    tabs.forEach(([key, label]) => {
+      const btn = document.createElement('button');
+      btn.className = 'tab-btn' + (key === currentTab ? ' active' : '');
+      btn.textContent = label;
+      btn.addEventListener('click', () => {
+        currentTab = key;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+        renderMenu();
+      });
+      menuTabs.appendChild(btn);
+    });
+    const order = { items: [] };
+    function addItem(name, price) { order.items.push({ name, price }); renderOrder(); }
+    function renderMenu() {
+      const list = menuData[currentTab];
+      if (window.gsap && !prefersReducedMotion) gsap.to(menuGrid, { opacity: 0, y: 10, duration: .2, onComplete: paint }); else paint();
+      function paint() {
+        menuGrid.innerHTML = '';
+        list.forEach(item => {
+          const card = document.createElement('article');
+          const isDeal = currentTab === 'deals';
+          card.className = 'menu-card glow' + (isDeal ? ' deal-card' : '');
+          const name = item[0], price = item[1], desc = item[2], detail = item[3];
+          card.innerHTML = `${isDeal ? '<span class="deal-badge">DEAL</span>' : ''}<div class="menu-head"><h3 class="menu-name">${name}</h3><div class="menu-price">Rs. ${price}</div></div>${isDeal ? `<ul class="deal-list">${desc.map(d => `<li>${d}</li>`).join('')}</ul><p class="menu-desc">${detail}</p>` : `<p class="menu-desc">${desc}</p>`}<button class="btn menu-add glow">+ Add To Order</button>`;
+          const addBtn = card.querySelector('.menu-add');
+          addBtn.addEventListener('click', () => {
+            addItem(name, price);
+            addBtn.textContent = '✓ Added';
+            addBtn.classList.add('btn-primary');
+            setTimeout(() => { addBtn.textContent = '+ Add To Order'; addBtn.classList.remove('btn-primary'); }, 1500);
+          });
+          menuGrid.appendChild(card);
+        });
+        if (window.gsap && !prefersReducedMotion) gsap.fromTo('.menu-card', { opacity: 0, y: 30 }, { opacity: 1, y: 0, stagger: .08, duration: .6 });
+      }
+    }
+    renderMenu();
+    const orderItems = document.getElementById('order-items');
+    const orderError = document.getElementById('orderError');
+    const orderTotal = document.getElementById('order-total');
+    function renderOrder() {
+      orderItems.innerHTML = '';
+      if (!order.items.length) { orderItems.innerHTML = '<p class="order-empty">Your order is empty. Go pick something 👆</p>'; orderTotal.textContent = 'Total: Rs. 0'; return; }
+      let total = 0;
+      order.items.forEach(item => { total += item.price; const row = document.createElement('div'); row.className = 'order-row'; row.innerHTML = `<span>${item.name}</span><strong>Rs. ${item.price}</strong>`; orderItems.appendChild(row); });
+      orderTotal.textContent = `Total: Rs. ${total}`;
+    }
+    renderOrder();
+    document.getElementById('clearOrder').addEventListener('click', () => { order.items = []; renderOrder(); });
+    function playSizzle() {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx(); const bufferSize = ctx.sampleRate * 0.4; const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate); const output = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) output[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 1.6);
+      const src = ctx.createBufferSource(); src.buffer = buffer; const filter = ctx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 1400; filter.Q.value = 0.7;
+      src.connect(filter); filter.connect(ctx.destination); src.start();
+    }
+    document.getElementById('orderForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fields = [['name', 'Name is required'], ['phone', 'Phone is required'], ['address', 'Address is required']];
+      let ok = true;
+      fields.forEach(([id, msg]) => {
+        const el = document.getElementById(id), err = document.getElementById('err-' + id);
+        if (!el.value.trim()) { ok = false; err.textContent = msg; el.classList.add('shake'); setTimeout(() => el.classList.remove('shake'), 900); } else err.textContent = '';
+      });
+      if (!ok) return;
+      if (!order.items.length) {
+        orderError.textContent = 'Please add at least one item to your order.';
+        orderItems.classList.add('shake');
+        setTimeout(() => orderItems.classList.remove('shake'), 900);
+        return;
+      }
+      orderError.textContent = '';
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const landmark = document.getElementById('landmark').value.trim() || 'Not specified';
+      const instructions = document.getElementById('instructions').value.trim() || 'None';
+      const payment = document.querySelector('input[name="payment"]:checked').value;
+      const itemsText = order.items.map(i => `- ${i.name} — Rs. ${i.price}`).join('\n');
+      const total = order.items.reduce((s, i) => s + i.price, 0);
+      const message = `🍔 *CRAVEE ORDER* 🍔\n━━━━━━━━━━━━━━━━━━━━\n👤 Name: ${name}\n📞 Phone: ${phone}\n📍 Address: ${address}\n🗺️ Landmark: ${landmark}\n━━━━━━━━━━━━━━━━━━━━\n📋 *Order Items:*\n${itemsText}\n━━━━━━━━━━━━━━━━━━━━\n💰 *Total: Rs. ${total}*\n💳 Payment: ${payment}\n💬 Instructions: ${instructions}\n━━━━━━━━━━━━━━━━━━━━\n_Ordered via cravee777.com_\n_Please confirm availability before preparing_ 🙏`;
+      playSizzle();
+      window.open(`https://wa.me/923103860547?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+    });
+    document.getElementById('crewBtn').addEventListener('click', () => {
+      const crewInput = document.getElementById('crewNumber');
+      const crewError = document.getElementById('crewError');
+      const number = crewInput.value.trim();
+      if (!number) {
+        crewError.textContent = 'WhatsApp number is required.';
+        crewInput.classList.add('shake');
+        setTimeout(() => crewInput.classList.remove('shake'), 900);
+        return;
+      }
+      crewError.textContent = '';
+      const txt = `Hey CRAVEE! I want to join the CRAVEE CREW loyalty program. My number is ${number}`;
+      window.open(`https://wa.me/923103860547?text=${encodeURIComponent(txt)}`, '_blank', 'noopener');
+    });
+    const faqData = [
+      ['Where exactly are you located?', "We're in Murad Memon Goth, Malir, Karachi. Drop us a WhatsApp and we'll send you our exact pin — or just follow @CRAVEE777 on Instagram."],
+      ['Do you deliver?', "Yes! We deliver to nearby areas. WhatsApp us your address and we'll confirm if you're in our delivery zone. Order button is right on this page."],
+      ['What are your opening hours?', 'Monday to Sunday, 5:00 PM to 2:00 AM. Every day, no exceptions.'],
+      ['Can I customize my order?', "Absolutely. Add extra patty, extra cheese, extra sauce — it's all on the menu. Tell us what you want in the special instructions when you order."],
+      ['Is the food halal?', '100% halal. Always.'],
+      ['What payment methods do you accept?', 'Cash on delivery, Easypaisa, and JazzCash.'],
+      ['How long does delivery take?', "Typically 20–35 minutes depending on your distance and how busy we are. We'll keep you updated on WhatsApp."],
+      ['Do you cater for events or large orders?', "Yes! WhatsApp us in advance for bulk orders and we'll sort you out."]
+    ];
+    const faqList = document.getElementById('faqList');
+    faqData.forEach(([q, a]) => {
+      const item = document.createElement('article');
+      item.className = 'faq-item';
+      item.innerHTML = `<button class="faq-q"><span>${q}</span><span class="faq-icon">+</span></button><div class="faq-a">${a}</div>`;
+      item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
+      faqList.appendChild(item);
+    });
+    function getKarachiNow() {
+      // Use formatToParts to avoid locale-dependent parsing issues from toLocaleString().
+      const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Karachi',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }).formatToParts(new Date()).reduce((acc, part) => {
+        if (part.type !== 'literal') acc[part.type] = part.value;
+        return acc;
+      }, {});
+      return new Date(`${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}`);
+    }
+    function setStatusAndCountdown() {
+      const now = getKarachiNow();
+      const hr = now.getHours();
+      const open = hr >= 17 || hr < 2;
+      const main = document.getElementById('status-main');
+      const nightTimer = document.getElementById('nightTimer');
+      const nightOpenText = document.getElementById('nightOpenText');
+      const statusTime = now.toLocaleTimeString('en-GB', { hour12: false });
+      if (open) {
+        main.innerHTML = `🟢 WE'RE OPEN — ORDER NOW <span class="dot"></span> ${statusTime}`;
+        document.getElementById('live-status').style.boxShadow = 'inset 0 0 40px rgba(0,180,216,.08)';
+        nightTimer.style.display = 'none';
+        document.querySelector('#night .timer-labels').style.display = 'none';
+        nightOpenText.style.display = 'block';
+      } else {
+        const target = new Date(now); target.setHours(17, 0, 0, 0); if (now >= target) target.setDate(target.getDate() + 1);
+        const diff = Math.max(0, Math.floor((target - now) / 1000));
+        const h = String(Math.floor(diff / 3600)).padStart(2, '0');
+        const m = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
+        const s = String(diff % 60).padStart(2, '0');
+        main.innerHTML = `🔴 CURRENTLY CLOSED — Opens today at 5:00 PM <span class="dot"></span> ${h}:${m}:${s}`;
+        document.getElementById('live-status').style.boxShadow = 'inset 0 0 40px rgba(244,162,42,.08)';
+        nightTimer.style.display = 'block';
+        nightTimer.textContent = `${h} : ${m} : ${s}`;
+        document.querySelector('#night .timer-labels').style.display = 'flex';
+        nightOpenText.style.display = 'none';
+      }
+    }
+    setStatusAndCountdown();
+    setInterval(setStatusAndCountdown, 1000);
+    if (!prefersReducedMotion && window.gsap && window.ScrollTrigger) {
+      gsap.registerPlugin(ScrollTrigger);
+      document.querySelectorAll('.section').forEach(el => {
+        if (el.id === 'live-status') return;
+        gsap.from(el.querySelectorAll('.section-title, .section-subtitle, .menu-card, .t-card, .fact-card, .faq-item, .story-copy p'), {
+          opacity: 0, y: 40, duration: .7, ease: 'power2.out', stagger: .08, scrollTrigger: { trigger: el, start: 'top 85%' }
+        });
+      });
+      gsap.from('#crew .teaser', { opacity: 0, scale: .95, duration: .6, ease: 'power2.out', scrollTrigger: { trigger: '#crew', start: 'top 80%' } });
+    }
+    (function initThree() {
+      const canvas = document.getElementById('hero-canvas');
+      if (!window.THREE || !canvas) return;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      const isMobileView = window.matchMedia('(max-width: 767px)').matches;
+      const dpr = window.devicePixelRatio || 1;
+      renderer.setPixelRatio(Math.min(dpr, isMobileView ? 1.5 : 2));
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.position.z = 5;
+      scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+      const light = new THREE.DirectionalLight(0x00B4D8, 0.8); light.position.set(2, 4, 5); scene.add(light);
+      const materials = {
+        amber: new THREE.MeshPhongMaterial({ color: 0xF4A22A, shininess: 80 }),
+        teal: new THREE.MeshPhongMaterial({ color: 0x00B4D8, shininess: 80 }),
+        amberDark: new THREE.MeshPhongMaterial({ color: 0xC47F1A, shininess: 80 }),
+      };
+      const objects = [
+        new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), materials.amber),
+        new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), materials.amber),
+        new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 1.2, 24), materials.teal),
+        new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 1.2, 24), materials.teal),
+        new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.15, 8, 16), materials.amberDark),
+        new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.15, 8, 16), materials.amberDark)
+      ];
+      objects.forEach((m, i) => { m.position.set((Math.random() * 8) - 4, (Math.random() * 4) - 2, -3 - Math.random() * 5); m.userData.offset = i * 0.6; scene.add(m); });
+      // Particle budget is intentionally chosen once on initial load for stable runtime performance.
+      const particleCount = window.matchMedia('(max-width: 767px)').matches ? 25 : 60;
+      const bubbleGeo = new THREE.SphereGeometry(0.04, 8, 8);
+      const bubbleMat = new THREE.MeshPhongMaterial({ color: 0x00B4D8, transparent: true, opacity: .8 });
+      const bubbles = [];
+      for (let i = 0; i < particleCount; i++) { const b = new THREE.Mesh(bubbleGeo, bubbleMat); b.position.set((Math.random() * 10) - 5, (Math.random() * 6) - 3, -2 - Math.random() * 6); bubbles.push(b); scene.add(b); }
+      const clock = new THREE.Clock();
+      function tick() {
+        const t = clock.getElapsedTime();
+        objects.forEach((obj, i) => { obj.rotation.x += 0.004 + i * 0.0009; obj.rotation.y += 0.005 + i * 0.001; obj.position.y += Math.sin(t + obj.userData.offset) * 0.0018; });
+        bubbles.forEach((b, i) => { b.position.y += 0.01 + (i % 5) * 0.001; if (b.position.y > 3.4) b.position.y = -3.2; });
+        renderer.render(scene, camera);
+        requestAnimationFrame(tick);
+      }
+      tick();
+      window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
+    })();
+    (function initCursor() {
+      const coarse = window.matchMedia('(pointer: coarse)').matches;
+      if (coarse) return;
+      const cursor = document.getElementById('customCursor');
+      cursor.hidden = false;
+      let cx = innerWidth / 2, cy = innerHeight / 2;
+      let tx = cx, ty = cy;
+      window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
+      const hoverables = document.querySelectorAll('button, a, .tab-btn');
+      hoverables.forEach(el => { el.addEventListener('mouseenter', () => cursor.classList.add('active')); el.addEventListener('mouseleave', () => cursor.classList.remove('active')); });
+      (function animate() { cx += (tx - cx) * 0.15; cy += (ty - cy) * 0.15; cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`; requestAnimationFrame(animate); })();
+    })();
+  </script>
+</body>
+</html>
