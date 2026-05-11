@@ -9,20 +9,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy: #0A1628;
-      --navy-mid: #0D1F3C;
-      --navy-light: #112240;
-      --teal: #00B4D8;
-      --teal-bright: #48CAE4;
-      --ice: #90E0EF;
-      --sky: #CAF0F8;
+      --navy: #04173D;
+      --navy-mid: #072459;
+      --navy-light: #0D367C;
+      --teal: #2B7FFF;
+      --teal-bright: #62A8FF;
+      --ice: #CBE2FF;
+      --sky: #EAF3FF;
       --ink: #050A12;
-      --amber: #F4A22A;
-      --amber-dark: #C47F1A;
-      --white: #F0F8FF;
-      --grey: #8899AA;
-      --glow: 0 0 20px rgba(0, 180, 216, 0.4);
-      --glow-strong: 0 0 40px rgba(0, 180, 216, 0.7);
+      --white-accent: #F7FBFF;
+      --white-soft: #D8E8FF;
+      --white: #F9FCFF;
+      --grey: #AFC1DE;
+      --glow: 0 0 20px rgba(43, 127, 255, 0.45);
+      --glow-strong: 0 0 40px rgba(98, 168, 255, 0.75);
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -34,6 +34,11 @@
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
     .section { position: relative; padding: 4.5rem 1rem; background: var(--navy); overflow: hidden; }
+    .section.glow-accent::before {
+      content: ''; position: absolute; width: 220px; height: 220px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.1), rgba(255,255,255,0) 70%);
+      top: -70px; right: -90px; pointer-events: none;
+    }
     .section.alt { background: var(--navy-mid); }
     .container { width: min(1100px, 100%); margin: 0 auto; }
     .section-title {
@@ -102,7 +107,7 @@
     }
     .mobile-menu.open { transform: translateX(0); }
     .mobile-menu a { font-family: 'Boogaloo', cursive; font-size: 2rem; color: var(--white); text-align: center; }
-    #hero { min-height: 100dvh; padding-top: 70px; display: grid; place-items: center; text-align: center; position: relative; background: var(--navy); }
+    #hero { min-height: 100vh; min-height: 100dvh; padding-top: 70px; display: grid; place-items: center; text-align: center; position: relative; background: var(--navy); }
     #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
     .hero-content { position: relative; z-index: 10; }
     #hero-badge { color: var(--grey); letter-spacing: .3em; font-weight: 700; font-size: .8rem; text-transform: uppercase; margin-bottom: .6rem; }
@@ -139,28 +144,29 @@
     .tab-btn.active { background: var(--teal); color: var(--navy); box-shadow: var(--glow); }
     .menu-grid { display: grid; gap: .8rem; grid-template-columns: 1fr; }
     .menu-card {
-      background: var(--navy-mid); border-left: 3px solid var(--amber); border-radius: 12px; padding: 1rem; position: relative; transition: .2s ease;
+      background: var(--navy-mid); border-left: 3px solid var(--white-accent); border-radius: 12px; padding: 1rem; position: relative; transition: .2s ease;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
     }
     .menu-card:hover { transform: translateY(-4px); box-shadow: var(--glow); }
-    .menu-card::after { content: ''; position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--amber); right: .8rem; top: .8rem; }
+    .menu-card::after { content: ''; position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--white-accent); right: .8rem; top: .8rem; }
     .menu-head { display: flex; justify-content: space-between; gap: .7rem; }
     .menu-name { font-weight: 800; text-transform: uppercase; margin: 0; }
-    .menu-price { color: var(--amber); font-weight: 700; white-space: nowrap; }
+    .menu-price { color: var(--white-accent); font-weight: 700; white-space: nowrap; }
     .menu-desc { color: var(--ice); margin: .4rem 0 .8rem; font-size: .95rem; }
     .menu-add { width: 100%; }
-    .deal-card { border-left: 4px solid transparent; border-image: linear-gradient(180deg, var(--teal), var(--amber)) 1; padding: 1.1rem; }
+    .deal-card { border-left: 4px solid transparent; border-image: linear-gradient(180deg, var(--teal), var(--white-accent)) 1; padding: 1.1rem; }
     .deal-badge {
-      position: absolute; right: .8rem; top: .6rem; background: var(--amber); color: var(--navy); padding: .2rem .5rem; border-radius: 999px;
+      position: absolute; right: .8rem; top: .6rem; background: var(--white-accent); color: var(--navy); padding: .2rem .5rem; border-radius: 999px;
       font-size: .72rem; font-weight: 800;
     }
     .deal-list { margin: .4rem 0 .8rem 1rem; color: var(--ice); }
     #order .order-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
-    .summary, .order-form { background: var(--navy-mid); border: 1px solid var(--navy-light); border-radius: 12px; padding: 1rem; }
+    .summary, .order-form { background: var(--navy-mid); border: 1px solid var(--navy-light); border-radius: 12px; padding: 1rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
     .summary h3, .order-form h3 { margin: 0 0 .8rem; font-family: 'Boogaloo', cursive; font-size: 2rem; color: var(--teal); }
     #order-items { display: grid; gap: .5rem; }
     .order-row { display: flex; justify-content: space-between; color: var(--white); }
     .order-empty { color: var(--grey); font-style: italic; }
-    .order-total { margin-top: .8rem; color: var(--amber); font-weight: 800; }
+    .order-total { margin-top: .8rem; color: var(--white-accent); font-weight: 800; }
     .clear-order { margin-top: .5rem; background: none; border: 0; color: var(--grey); text-decoration: underline; cursor: pointer; }
     .field { position: relative; margin-bottom: 1rem; }
     .field input, .field textarea {
@@ -173,7 +179,7 @@
     .field input:focus + label, .field input:not(:placeholder-shown) + label, .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label {
       transform: translateY(-18px) scale(.85); color: var(--teal); transform-origin: left;
     }
-    .error { color: var(--amber); font-size: .82rem; min-height: 1rem; }
+    .error { color: var(--white-accent); font-size: .82rem; min-height: 1rem; }
     .shake { animation: shake .28s linear 3; }
     @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } 100% { transform: translateX(0); } }
     .payment-group { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .7rem; }
@@ -185,7 +191,7 @@
     .pay-pill input:checked + span { background: var(--teal); color: var(--navy); box-shadow: var(--glow); }
     .story-grid, .location-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
     .story-copy p { color: var(--ice); margin: 0 0 .9rem; }
-    .story-visual { background: var(--navy-mid); border: 1px solid var(--navy-light); border-radius: 14px; padding: 1rem; display: grid; place-items: center; }
+    .story-visual { background: var(--navy-mid); border: 1px solid var(--navy-light); border-radius: 14px; padding: 1rem; display: grid; place-items: center; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
     .story-visual img { width: min(280px, 80%); border-radius: 50%; box-shadow: var(--glow); transform: rotate(-3deg); animation: floaty 3s ease-in-out infinite; }
     @keyframes floaty { 0%,100% { transform: rotate(-3deg) translateY(-8px); } 50% { transform: rotate(-3deg) translateY(0); } }
     .mascot {
@@ -197,25 +203,32 @@
       display: grid; gap: .9rem; grid-auto-flow: column; grid-auto-columns: 85%; overflow-x: auto;
       scroll-snap-type: x mandatory; padding-bottom: .4rem;
     }
-    .t-card { scroll-snap-align: start; background: var(--navy-mid); border-left: 3px solid var(--amber); border-radius: 12px; padding: 1rem; }
-    .t-stars { color: var(--amber); } .t-name { color: var(--grey); font-weight: 700; }
+    .t-card { scroll-snap-align: start; background: var(--navy-mid); border-left: 3px solid var(--white-accent); border-radius: 12px; padding: 1rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
+    .t-stars { color: var(--white-accent); } .t-name { color: var(--grey); font-weight: 700; }
+    .review-gallery { display: grid; gap: .9rem; grid-template-columns: 1fr; }
+    .review-shot {
+      min-height: 220px; border-radius: 14px; border: 1px dashed var(--white-soft);
+      background: linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.02));
+      display: grid; place-items: center; color: var(--grey); font-weight: 800;
+      text-transform: uppercase; letter-spacing: .1em; text-align: center; padding: 1rem;
+    }
     #night .timer { font-family: 'Boogaloo', cursive; text-align: center; font-size: clamp(3rem, 13vw, 8rem); color: var(--teal); letter-spacing: .05em; margin: .5rem 0; }
     .timer-labels {
       display: flex; justify-content: center; gap: 1.2rem; color: var(--grey); text-transform: uppercase;
       font-weight: 700; letter-spacing: .12em; font-size: .75rem;
     }
     .fact-grid { display: grid; gap: .8rem; grid-template-columns: 1fr; margin-top: 1.2rem; }
-    .fact-card { background: var(--navy); border: 1px solid var(--navy-light); border-left: 3px solid var(--teal); border-radius: 12px; padding: .9rem; color: var(--ice); }
+    .fact-card { background: var(--navy); border: 1px solid var(--navy-light); border-left: 3px solid var(--teal); border-radius: 12px; padding: .9rem; color: var(--ice); box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
     #crew .teaser {
-      background: linear-gradient(90deg, rgba(0,180,216,.22), transparent 35%), var(--navy);
-      border: 1px solid var(--navy-light); border-radius: 14px; padding: 1rem; text-align: center;
+      background: linear-gradient(90deg, rgba(43,127,255,.22), transparent 35%), var(--navy);
+      border: 1px solid var(--navy-light); border-radius: 14px; padding: 1rem; text-align: center; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
     }
     .crew-input {
       width: 100%; min-height: 48px; border-radius: 999px; border: 1px solid var(--teal); padding: .65rem .85rem;
       font-size: 16px; background: var(--navy-mid); color: var(--white); margin-bottom: .7rem;
     }
     .crew-note { color: var(--grey); font-style: italic; margin-top: .5rem; }
-    .faq-item { background: var(--navy-mid); border-radius: 10px; margin-bottom: .6rem; border-left: 3px solid transparent; overflow: hidden; }
+    .faq-item { background: var(--navy-mid); border-radius: 10px; margin-bottom: .6rem; border-left: 3px solid transparent; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
     .faq-q {
       width: 100%; min-height: 48px; border: 0; background: transparent; color: var(--white); font-weight: 700; font-size: 1rem;
       display: flex; align-items: center; justify-content: space-between; gap: .7rem; padding: .9rem; cursor: pointer; text-align: left;
@@ -254,7 +267,19 @@
       .menu-grid { grid-template-columns: repeat(2, 1fr); }
       #order .order-grid, .story-grid, .location-grid { grid-template-columns: 1fr 1fr; }
       .fact-grid { grid-template-columns: repeat(3, 1fr); }
+      .review-gallery { grid-template-columns: repeat(3, 1fr); }
       .sticky-mobile-order { display: none; }
+    }
+    @media (max-width: 767px) {
+      .section { padding: 3rem .9rem; }
+      .section-subtitle { margin-bottom: 1.2rem; }
+      .ink-divider { height: 42px; }
+      #hero { min-height: 90vh; min-height: 90dvh; }
+      #hero-tagline { margin-bottom: .9rem; }
+      .scroll-indicator { margin-top: .8rem; }
+      .tabs { margin-bottom: .9rem; }
+      .footer-grid { padding-top: 1.4rem; }
+      .review-shot { min-height: 170px; font-size: .82rem; letter-spacing: .08em; }
     }
     @media (min-width: 992px) {
       .menu-grid { grid-template-columns: repeat(3, 1fr); }
@@ -279,15 +304,16 @@
       <a href="#hero" class="nav-link">Home</a>
       <a href="#menu" class="nav-link">Menu</a>
       <a href="#story" class="nav-link">Our Story</a>
+      <a href="#reviews" class="nav-link">Reviews</a>
       <a href="#order" class="nav-link">Order</a>
     </nav>
     <a href="#order" class="btn btn-primary order-now-btn glow">Order Now 🛵</a>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </header>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#hero">Home</a><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#order">Order</a>
+    <a href="#hero">Home</a><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#reviews">Reviews</a><a href="#order">Order</a>
   </div>
-  <section id="hero" class="section">
+  <section id="hero" class="section glow-accent">
     <canvas id="hero-canvas"></canvas>
     <div class="bubble-layer" id="heroBubbles"></div>
     <div class="hero-content container">
@@ -380,6 +406,18 @@
     </div>
   </section>
   <div class="ink-divider"></div>
+  <section id="reviews" class="section alt glow-accent">
+    <div class="container">
+      <h2 class="section-title">REVIEWS</h2>
+      <p class="section-subtitle">Screenshot placeholders ready - replace with your own customer review images.</p>
+      <div class="review-gallery">
+        <div class="review-shot glow">Screenshot Placeholder 01</div>
+        <div class="review-shot glow">Screenshot Placeholder 02</div>
+        <div class="review-shot glow">Screenshot Placeholder 03</div>
+      </div>
+    </div>
+  </section>
+  <div class="ink-divider"></div>
   <section id="night" class="section alt fluid-top fluid-bottom">
     <div class="container" style="text-align:center;">
       <div style="color:var(--grey);font-weight:700;letter-spacing:.16em;text-transform:uppercase;">WE OPEN IN</div>
@@ -431,7 +469,7 @@
         <p class="footer-brand-title">CRAVEE</p><p class="footer-brand-sub">A Craving Like No Other</p>
         <img src="logo.png" alt="CRAVEE logo" class="footer-logo">
       </div>
-      <div class="footer-links"><a href="#hero">HOME</a><a href="#menu">MENU</a><a href="#order">ORDER</a><a href="#story">OUR STORY</a><a href="#faq">FAQs</a></div>
+      <div class="footer-links"><a href="#hero">HOME</a><a href="#menu">MENU</a><a href="#order">ORDER</a><a href="#story">OUR STORY</a><a href="#reviews">REVIEWS</a><a href="#faq">FAQs</a></div>
       <div class="footer-contact"><a href="https://wa.me/923103860547" target="_blank" rel="noopener">📱 +92 310 3860547</a><a href="https://instagram.com/CRAVEE777" target="_blank" rel="noopener">📸 @CRAVEE777</a></div>
     </div>
     <div class="footer-bottom">© 2025 CRAVEE — Malir, Karachi. A Craving Like No Other.</div>
@@ -660,7 +698,7 @@
         const m = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
         const s = String(diff % 60).padStart(2, '0');
         main.innerHTML = `🔴 CURRENTLY CLOSED — Opens today at 5:00 PM <span class="dot"></span> ${h}:${m}:${s}`;
-        document.getElementById('live-status').style.boxShadow = 'inset 0 0 40px rgba(244,162,42,.08)';
+        document.getElementById('live-status').style.boxShadow = 'inset 0 0 40px rgba(216,232,255,.15)';
         nightTimer.style.display = 'block';
         nightTimer.textContent = `${h} : ${m} : ${s}`;
         document.querySelector('#night .timer-labels').style.display = 'flex';
@@ -693,17 +731,17 @@
       scene.add(new THREE.AmbientLight(0xffffff, 0.4));
       const light = new THREE.DirectionalLight(0x00B4D8, 0.8); light.position.set(2, 4, 5); scene.add(light);
       const materials = {
-        amber: new THREE.MeshPhongMaterial({ color: 0xF4A22A, shininess: 80 }),
-        teal: new THREE.MeshPhongMaterial({ color: 0x00B4D8, shininess: 80 }),
-        amberDark: new THREE.MeshPhongMaterial({ color: 0xC47F1A, shininess: 80 }),
+        blue: new THREE.MeshPhongMaterial({ color: 0x2B7FFF, shininess: 80 }),
+        blueBright: new THREE.MeshPhongMaterial({ color: 0x62A8FF, shininess: 80 }),
+        whiteAccent: new THREE.MeshPhongMaterial({ color: 0xD8E8FF, shininess: 80 }),
       };
       const objects = [
-        new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), materials.amber),
-        new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), materials.amber),
-        new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 1.2, 24), materials.teal),
-        new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 1.2, 24), materials.teal),
-        new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.15, 8, 16), materials.amberDark),
-        new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.15, 8, 16), materials.amberDark)
+        new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), materials.blue),
+        new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), materials.blueBright),
+        new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 1.2, 24), materials.blue),
+        new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 1.2, 24), materials.blueBright),
+        new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.15, 8, 16), materials.whiteAccent),
+        new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.15, 8, 16), materials.whiteAccent)
       ];
       objects.forEach((m, i) => { m.position.set((Math.random() * 8) - 4, (Math.random() * 4) - 2, -3 - Math.random() * 5); m.userData.offset = i * 0.6; scene.add(m); });
       // Particle budget is intentionally chosen once on initial load for stable runtime performance.
