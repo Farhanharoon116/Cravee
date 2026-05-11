@@ -1,778 +1,665 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CRAVEE — A Craving Like No Other</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menu — Cravee</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background":"#fcf9f8","surface":"#fcf9f8","surface-container-lowest":"#ffffff",
+            "surface-container-low":"#f6f3f2","surface-container":"#f0eded","surface-container-high":"#eae7e7",
+            "surface-container-highest":"#e5e2e1","on-surface":"#1c1b1b","on-surface-variant":"#3d494a",
+            "on-background":"#1c1b1b","primary":"#00696f","on-primary":"#ffffff","primary-container":"#3fb8c0",
+            "on-primary-container":"#004548","primary-fixed":"#83f4fc","primary-fixed-dim":"#64d7df",
+            "secondary":"#42646a","on-secondary":"#ffffff","secondary-container":"#c5e9f0","on-secondary-container":"#486a70",
+            "secondary-fixed":"#c5e9f0","tertiary":"#8f4e00","on-tertiary":"#ffffff",
+            "tertiary-container":"#f19130","on-tertiary-container":"#5f3200","tertiary-fixed":"#ffdcc1",
+            "tertiary-fixed-dim":"#ffb77a","error":"#ba1a1a","error-container":"#ffdad6","on-error-container":"#93000a",
+            "outline":"#6d797a","outline-variant":"#bcc9ca","surface-dim":"#dcd9d9","surface-variant":"#e5e2e1"
+          },
+          borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},
+          spacing:{"margin-mobile":"16px","gutter":"20px","lg":"40px","sm":"12px","xs":"4px","md":"24px","base":"8px","xl":"64px","margin-desktop":"80px"},
+          fontFamily:{"label-lg":["Be Vietnam Pro"],"body-md":["Be Vietnam Pro"],"label-sm":["Be Vietnam Pro"],"body-lg":["Be Vietnam Pro"],"headline-md":["Quicksand"],"headline-lg":["Quicksand"],"display-lg":["Quicksand"]},
+          fontSize:{
+            "label-lg":["14px",{"lineHeight":"20px","fontWeight":"600"}],
+            "body-md":["16px",{"lineHeight":"24px","fontWeight":"400"}],
+            "label-sm":["12px",{"lineHeight":"16px","fontWeight":"500"}],
+            "body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],
+            "headline-md":["24px",{"lineHeight":"32px","fontWeight":"700"}],
+            "headline-lg":["32px",{"lineHeight":"40px","fontWeight":"700"}],
+            "display-lg":["48px",{"lineHeight":"56px","letterSpacing":"-1px","fontWeight":"700"}]
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    :root {
-      --navy: #04173D;
-      --navy-mid: #072459;
-      --navy-light: #0D367C;
-      --teal: #2B7FFF;
-      --teal-bright: #62A8FF;
-      --ice: #CBE2FF;
-      --sky: #EAF3FF;
-      --ink: #050A12;
-      --white-accent: #F7FBFF;
-      --white-soft: #D8E8FF;
-      --white: #F9FCFF;
-      --grey: #AFC1DE;
-      --glow: 0 0 20px rgba(43, 127, 255, 0.45);
-      --glow-strong: 0 0 40px rgba(98, 168, 255, 0.75);
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0; font-family: 'Nunito', sans-serif; background: var(--navy); color: var(--white);
-      overflow-x: hidden; line-height: 1.5;
-    }
-    @media (max-width: 767px) { body { padding-bottom: 56px; } }
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-    .section { position: relative; padding: 4.5rem 1rem; background: var(--navy); overflow: hidden; }
-    .section.glow-accent::before {
-      content: ''; position: absolute; width: 220px; height: 220px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,.1), rgba(255,255,255,0) 70%);
-      top: -70px; right: -90px; pointer-events: none;
-    }
-    .section.alt { background: var(--navy-mid); }
-    .container { width: min(1100px, 100%); margin: 0 auto; }
-    .section-title {
-      font-family: 'Boogaloo', cursive; color: var(--teal); text-align: center;
-      font-size: clamp(2.5rem, 8vw, 3.5rem); margin: 0 0 .5rem; letter-spacing: .02em;
-    }
-    .section-subtitle { text-align: center; color: var(--grey); margin: 0 0 2rem; }
-    .ink-divider {
-      display: block; width: 100%; height: 70px; margin-top: -1px; background: var(--ink);
-      clip-path: polygon(0 0, 8% 14%, 14% 0, 20% 20%, 28% 0, 36% 26%, 44% 0, 50% 18%, 58% 0, 64% 24%, 72% 0, 78% 19%, 86% 0, 92% 15%, 100% 0, 100% 100%, 0 100%);
-    }
-    .fluid-top { clip-path: polygon(0 5%, 10% 0, 24% 6%, 35% 2%, 50% 8%, 64% 2%, 78% 6%, 90% 0, 100% 5%, 100% 100%, 0 100%); }
-    .fluid-bottom { clip-path: polygon(0 0, 100% 0, 100% 95%, 90% 100%, 78% 94%, 64% 98%, 50% 92%, 34% 98%, 22% 94%, 10% 100%, 0 95%); }
-    .bubble-layer { pointer-events: none; position: absolute; inset: 0; overflow: hidden; }
-    .bubble { position: absolute; border-radius: 50%; background: rgba(72, 202, 228, .35); animation: rise linear infinite; }
-    .bubble.ice { background: rgba(144, 224, 239, .28); }
-    @keyframes rise { from { transform: translateY(0); opacity: .15; } to { transform: translateY(-120vh); opacity: .8; } }
-    .glow { box-shadow: var(--glow); transition: .25s ease; }
-    .glow:hover, .glow:focus-visible { box-shadow: var(--glow-strong); }
-    .btn {
-      min-height: 48px; border: 1px solid var(--teal); border-radius: 999px; padding: .75rem 1.1rem;
-      font-family: 'Nunito', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
-      cursor: pointer; background: transparent; color: var(--teal); display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
-    }
-    .btn-primary { background: var(--teal); color: var(--navy); border-color: var(--teal); }
-    #preloader {
-      position: fixed; inset: 0; background: var(--navy); z-index: 9999; display: grid; place-items: center; text-align: center; overflow: hidden;
-    }
-    .pre-inner { position: relative; z-index: 2; }
-    .pre-title {
-      font-family: 'Boogaloo', cursive; font-size: clamp(3rem, 14vw, 6rem); color: var(--teal); opacity: 0;
-      transform: scale(.5); animation: heartbeat 1.2s ease forwards; letter-spacing: .02em;
-    }
-    @keyframes heartbeat { 0% { opacity: 0; transform: scale(.5); } 45% { opacity: 1; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
-    .loading-bar-wrap { width: min(280px, 80vw); height: 8px; border: 1px solid var(--teal); border-radius: 999px; margin: 1rem auto .5rem; overflow: hidden; }
-    .loading-bar { height: 100%; background: var(--teal); width: 0; animation: load 1.8s linear forwards; }
-    @keyframes load { to { width: 100%; } }
-    .loading-text { color: var(--grey); font-style: italic; }
-    .pre-split { position: absolute; top: 0; width: 50%; height: 100%; background: var(--navy); transition: transform .9s cubic-bezier(.22,.61,.36,1); }
-    .pre-left { left: 0; } .pre-right { right: 0; }
-    #preloader.done .pre-left { transform: translateX(-100%); }
-    #preloader.done .pre-right { transform: translateX(100%); }
-    #preloader.done .pre-inner { opacity: 0; transition: opacity .35s ease; }
-    #preloader.hidden { display: none; }
-    #navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 56px; display: flex; align-items: center; justify-content: space-between;
-      padding: .35rem .75rem; transition: .25s ease; text-transform: uppercase;
-    }
-    #navbar.scrolled { background: rgba(10, 22, 40, .92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,180,216,.2); }
-    .nav-logo img { height: 44px; width: 44px; border-radius: 50%; }
-    .nav-links { display: none; gap: 1rem; }
-    .nav-link { color: var(--ice); font-weight: 700; letter-spacing: .1em; font-size: .8rem; position: relative; }
-    .nav-link::after { content: ''; position: absolute; left: 0; right: 100%; bottom: -4px; height: 2px; background: var(--teal); transition: right .2s ease; }
-    .nav-link:hover::after, .nav-link.active::after { right: 0; }
-    .nav-link:hover, .nav-link.active { color: var(--teal); }
-    .order-now-btn { display: none; animation: pulseBtn 2s ease infinite; }
-    @keyframes pulseBtn { 0%,100% { transform: scale(1); } 50% { transform: scale(1.03); } }
-    .hamburger { border: 0; background: transparent; width: 48px; height: 48px; display: grid; place-content: center; gap: 5px; cursor: pointer; }
-    .hamburger span { width: 24px; height: 2px; background: var(--teal); transition: .25s ease; }
-    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-    .mobile-menu {
-      position: fixed; inset: 0; background: rgba(10,22,40,.95); transform: translateX(100%); transition: transform .35s ease;
-      display: grid; place-content: center; gap: 1.1rem; z-index: 999;
-    }
-    .mobile-menu.open { transform: translateX(0); }
-    .mobile-menu a { font-family: 'Boogaloo', cursive; font-size: 2rem; color: var(--white); text-align: center; }
-    #hero { min-height: 100vh; min-height: 100dvh; padding-top: 70px; display: grid; place-items: center; text-align: center; position: relative; background: var(--navy); }
-    #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
-    .hero-content { position: relative; z-index: 10; }
-    #hero-badge { color: var(--grey); letter-spacing: .3em; font-weight: 700; font-size: .8rem; text-transform: uppercase; margin-bottom: .6rem; }
-    #hero-title {
-      margin: 0; font-family: 'Boogaloo', cursive; font-size: clamp(3rem, 12vw, 8rem); letter-spacing: .02em; text-transform: uppercase;
-      background: linear-gradient(135deg, var(--teal), var(--ice)); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 18px rgba(72,202,228,.45);
-    }
-    #hero-tagline { font-weight: 800; letter-spacing: .35em; text-transform: uppercase; font-size: clamp(.7rem, 2.5vw, 1rem); color: var(--white); margin: .4rem 0 1.2rem; }
-    .hero-buttons { display: grid; gap: .7rem; justify-items: center; }
-    .scroll-indicator { margin-top: 1.2rem; color: var(--grey); font-size: .8rem; text-transform: uppercase; letter-spacing: .1em; }
-    .scroll-indicator .chev { width: 10px; height: 10px; border-right: 2px solid var(--teal); border-bottom: 2px solid var(--teal); transform: rotate(45deg); margin: .3rem auto; animation: bounce 1s infinite; }
-    @keyframes bounce { 0%,100% { transform: rotate(45deg) translateY(0); } 50% { transform: rotate(45deg) translateY(4px); } }
-    #live-status {
-      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem; min-height: 60px;
-      background: var(--navy-mid); border-left: 4px solid var(--teal); padding: .75rem 1rem;
-    }
-    #status-main { font-weight: 800; }
-    #status-meta { color: var(--grey); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; }
-    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); display: inline-block; margin: 0 .45rem; animation: pulseDot 1.2s infinite; }
-    @keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(0,180,216,.5); } 100% { box-shadow: 0 0 0 10px rgba(0,180,216,0); } }
-    .marquee-wrap { background: var(--teal); color: var(--navy); overflow: hidden; }
-    .marquee-row {
-      display: flex; gap: 2rem; min-width: max-content; padding: .5rem 0; font-weight: 800; text-transform: uppercase;
-      white-space: nowrap; animation: marquee 20s linear infinite;
-    }
-    .marquee-row.reverse { animation-direction: reverse; }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .tabs { display: flex; gap: .6rem; overflow-x: auto; scrollbar-width: none; padding-bottom: .4rem; margin-bottom: 1.2rem; }
-    .tabs::-webkit-scrollbar { display: none; }
-    .tab-btn {
-      flex: 0 0 auto; min-height: 48px; border-radius: 999px; border: 1px solid var(--teal); background: var(--navy-mid); color: var(--grey);
-      padding: .65rem .9rem; font-weight: 800; text-transform: uppercase; cursor: pointer;
-    }
-    .tab-btn.active { background: var(--teal); color: var(--navy); box-shadow: var(--glow); }
-    .menu-grid { display: grid; gap: .8rem; grid-template-columns: 1fr; }
-    .menu-card {
-      background: var(--navy-mid); border-left: 3px solid var(--white-accent); border-radius: 12px; padding: 1rem; position: relative; transition: .2s ease;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
-    }
-    .menu-card:hover { transform: translateY(-4px); box-shadow: var(--glow); }
-    .menu-card::after { content: ''; position: absolute; width: 9px; height: 9px; border-radius: 50%; background: var(--white-accent); right: .8rem; top: .8rem; }
-    .menu-head { display: flex; justify-content: space-between; gap: .7rem; }
-    .menu-name { font-weight: 800; text-transform: uppercase; margin: 0; }
-    .menu-price { color: var(--white-accent); font-weight: 700; white-space: nowrap; }
-    .menu-desc { color: var(--ice); margin: .4rem 0 .8rem; font-size: .95rem; }
-    .menu-add { width: 100%; }
-    .deal-card { border-left: 4px solid transparent; border-image: linear-gradient(180deg, var(--teal), var(--white-accent)) 1; padding: 1.1rem; }
-    .deal-badge {
-      position: absolute; right: .8rem; top: .6rem; background: var(--white-accent); color: var(--navy); padding: .2rem .5rem; border-radius: 999px;
-      font-size: .72rem; font-weight: 800;
-    }
-    .deal-list { margin: .4rem 0 .8rem 1rem; color: var(--ice); }
-    #order .order-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
-    .summary, .order-form { background: var(--navy-mid); border: 1px solid var(--navy-light); border-radius: 12px; padding: 1rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
-    .summary h3, .order-form h3 { margin: 0 0 .8rem; font-family: 'Boogaloo', cursive; font-size: 2rem; color: var(--teal); }
-    #order-items { display: grid; gap: .5rem; }
-    .order-row { display: flex; justify-content: space-between; color: var(--white); }
-    .order-empty { color: var(--grey); font-style: italic; }
-    .order-total { margin-top: .8rem; color: var(--white-accent); font-weight: 800; }
-    .clear-order { margin-top: .5rem; background: none; border: 0; color: var(--grey); text-decoration: underline; cursor: pointer; }
-    .field { position: relative; margin-bottom: 1rem; }
-    .field input, .field textarea {
-      width: 100%; border: 0; border-bottom: 1px solid var(--navy-light); background: transparent; color: var(--white); padding: .8rem .1rem .4rem;
-      font-size: 16px; font-family: 'Nunito', sans-serif; outline: none;
-    }
-    .field textarea { resize: vertical; }
-    .field label { position: absolute; top: .85rem; left: .1rem; color: var(--grey); pointer-events: none; transition: .2s ease; font-size: .95rem; }
-    .field input:focus, .field textarea:focus { border-bottom: 2px solid var(--teal); box-shadow: var(--glow); }
-    .field input:focus + label, .field input:not(:placeholder-shown) + label, .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label {
-      transform: translateY(-18px) scale(.85); color: var(--teal); transform-origin: left;
-    }
-    .error { color: var(--white-accent); font-size: .82rem; min-height: 1rem; }
-    .shake { animation: shake .28s linear 3; }
-    @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } 100% { transform: translateX(0); } }
-    .payment-group { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: .7rem; }
-    .pay-pill input { display: none; }
-    .pay-pill span {
-      border: 1px solid var(--teal); color: var(--ice); border-radius: 999px; padding: .5rem .8rem; display: inline-flex; min-height: 48px;
-      align-items: center; font-weight: 700; text-transform: uppercase; cursor: pointer;
-    }
-    .pay-pill input:checked + span { background: var(--teal); color: var(--navy); box-shadow: var(--glow); }
-    .story-grid, .location-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
-    .story-copy p { color: var(--ice); margin: 0 0 .9rem; }
-    .story-visual { background: var(--navy-mid); border: 1px solid var(--navy-light); border-radius: 14px; padding: 1rem; display: grid; place-items: center; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
-    .story-visual img { width: min(280px, 80%); border-radius: 50%; box-shadow: var(--glow); transform: rotate(-3deg); animation: floaty 3s ease-in-out infinite; }
-    @keyframes floaty { 0%,100% { transform: rotate(-3deg) translateY(-8px); } 50% { transform: rotate(-3deg) translateY(0); } }
-    .mascot {
-      width: 120px; height: 140px; opacity: .22; background: var(--teal);
-      mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120"><circle cx="50" cy="24" r="16"/><rect x="30" y="40" width="40" height="36" rx="10"/><path d="M20 84 Q50 106 80 84 L80 120 L20 120Z"/><rect x="28" y="10" width="44" height="8" rx="4"/></svg>') center / contain no-repeat;
-      -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120"><circle cx="50" cy="24" r="16"/><rect x="30" y="40" width="40" height="36" rx="10"/><path d="M20 84 Q50 106 80 84 L80 120 L20 120Z"/><rect x="28" y="10" width="44" height="8" rx="4"/></svg>') center / contain no-repeat;
-    }
-    .testimonials {
-      display: grid; gap: .9rem; grid-auto-flow: column; grid-auto-columns: 85%; overflow-x: auto;
-      scroll-snap-type: x mandatory; padding-bottom: .4rem;
-    }
-    .t-card { scroll-snap-align: start; background: var(--navy-mid); border-left: 3px solid var(--white-accent); border-radius: 12px; padding: 1rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
-    .t-stars { color: var(--white-accent); } .t-name { color: var(--grey); font-weight: 700; }
-    .review-gallery { display: grid; gap: .9rem; grid-template-columns: 1fr; }
-    .review-shot {
-      min-height: 220px; border-radius: 14px; border: 1px dashed var(--white-soft);
-      background: linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.02));
-      display: grid; place-items: center; color: var(--grey); font-weight: 800;
-      text-transform: uppercase; letter-spacing: .1em; text-align: center; padding: 1rem;
-    }
-    #night .timer { font-family: 'Boogaloo', cursive; text-align: center; font-size: clamp(3rem, 13vw, 8rem); color: var(--teal); letter-spacing: .05em; margin: .5rem 0; }
-    .timer-labels {
-      display: flex; justify-content: center; gap: 1.2rem; color: var(--grey); text-transform: uppercase;
-      font-weight: 700; letter-spacing: .12em; font-size: .75rem;
-    }
-    .fact-grid { display: grid; gap: .8rem; grid-template-columns: 1fr; margin-top: 1.2rem; }
-    .fact-card { background: var(--navy); border: 1px solid var(--navy-light); border-left: 3px solid var(--teal); border-radius: 12px; padding: .9rem; color: var(--ice); box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
-    #crew .teaser {
-      background: linear-gradient(90deg, rgba(43,127,255,.22), transparent 35%), var(--navy);
-      border: 1px solid var(--navy-light); border-radius: 14px; padding: 1rem; text-align: center; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
-    }
-    .crew-input {
-      width: 100%; min-height: 48px; border-radius: 999px; border: 1px solid var(--teal); padding: .65rem .85rem;
-      font-size: 16px; background: var(--navy-mid); color: var(--white); margin-bottom: .7rem;
-    }
-    .crew-note { color: var(--grey); font-style: italic; margin-top: .5rem; }
-    .faq-item { background: var(--navy-mid); border-radius: 10px; margin-bottom: .6rem; border-left: 3px solid transparent; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04); }
-    .faq-q {
-      width: 100%; min-height: 48px; border: 0; background: transparent; color: var(--white); font-weight: 700; font-size: 1rem;
-      display: flex; align-items: center; justify-content: space-between; gap: .7rem; padding: .9rem; cursor: pointer; text-align: left;
-    }
-    .faq-icon { color: var(--teal); font-size: 1.3rem; transition: transform .2s; }
-    .faq-a { max-height: 0; overflow: hidden; color: var(--ice); padding: 0 .9rem; transition: max-height .3s ease, padding .3s ease; }
-    .faq-item.open { border-left-color: var(--teal); }
-    .faq-item.open .faq-a { max-height: 180px; padding: 0 .9rem .9rem; }
-    .faq-item.open .faq-icon { transform: rotate(45deg); }
-    .map-wrap iframe { width: 100%; min-height: 260px; border: 0; border-radius: 12px; box-shadow: var(--glow); }
-    .loc-info p { margin: .5rem 0; color: var(--ice); }
-    footer { background: var(--ink); padding: 0 1rem 1rem; }
-    .footer-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; padding: 2rem 0 1rem; }
-    .footer-brand-title { font-family: 'Boogaloo', cursive; font-size: 2rem; color: var(--teal); margin: 0; }
-    .footer-brand-sub { color: var(--grey); font-style: italic; }
-    .footer-logo { width: 60px; border-radius: 50%; box-shadow: var(--glow); }
-    .footer-links a, .footer-contact a { display: block; color: var(--grey); margin-bottom: .4rem; font-weight: 600; }
-    .footer-links a:hover, .footer-contact a:hover { color: var(--teal); }
-    .footer-bottom { border-top: 1px solid var(--navy-light); text-align: center; padding-top: .8rem; color: var(--grey); font-size: .8rem; }
-    .sticky-mobile-order {
-      position: fixed; left: 0; right: 0; bottom: 0; z-index: 999; height: 56px; display: flex; align-items: center; justify-content: center;
-      background: var(--teal); color: var(--navy); font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
-      box-shadow: 0 -4px 12px rgba(0,180,216,.3); border: 0;
-    }
-    .custom-cursor {
-      width: 12px; height: 12px; border-radius: 50%; background: var(--teal); opacity: .8;
-      position: fixed; top: 0; left: 0; pointer-events: none; z-index: 1200; transform: translate(-50%, -50%);
-    }
-    .custom-cursor.active { width: 24px; height: 24px; border: 2px solid var(--teal); background: transparent; opacity: 1; }
-    @media (min-width: 768px) {
-      #navbar { height: 64px; padding: .35rem 1.2rem; }
-      .nav-links { display: flex; }
-      .order-now-btn { display: inline-flex; }
-      .hamburger { display: none; }
-      .hero-buttons { display: flex; }
-      .menu-grid { grid-template-columns: repeat(2, 1fr); }
-      #order .order-grid, .story-grid, .location-grid { grid-template-columns: 1fr 1fr; }
-      .fact-grid { grid-template-columns: repeat(3, 1fr); }
-      .review-gallery { grid-template-columns: repeat(3, 1fr); }
-      .sticky-mobile-order { display: none; }
-    }
-    @media (max-width: 767px) {
-      .section { padding: 3rem .9rem; }
-      .section-subtitle { margin-bottom: 1.2rem; }
-      .ink-divider { height: 42px; }
-      #hero { min-height: 90vh; min-height: 90dvh; }
-      #hero-tagline { margin-bottom: .9rem; }
-      .scroll-indicator { margin-top: .8rem; }
-      .tabs { margin-bottom: .9rem; }
-      .footer-grid { padding-top: 1.4rem; }
-      .review-shot { min-height: 170px; font-size: .82rem; letter-spacing: .08em; }
-    }
-    @media (min-width: 992px) {
-      .menu-grid { grid-template-columns: repeat(3, 1fr); }
-      .testimonials { grid-auto-flow: unset; grid-auto-columns: unset; grid-template-columns: repeat(3, 1fr); overflow: visible; }
-      .footer-grid { grid-template-columns: 1.2fr 1fr 1fr; }
-    }
+    .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle;}
+    .block-shadow-primary{box-shadow:4px 4px 0px 0px #00696f;}
+    .block-shadow-black{box-shadow:4px 4px 0px 0px #1c1b1b;}
+    .block-shadow-secondary{box-shadow:4px 4px 0px 0px #c5e9f0;}
+    .active-press:active{transform:translate(4px,4px);box-shadow:none!important;}
+    .rubber-hose-img{filter:drop-shadow(2px 2px 0px #1c1b1b);}
+    .fade-in{opacity:0;transform:translateY(22px);transition:opacity .5s ease,transform .5s ease;}
+    .fade-in.visible{opacity:1;transform:translateY(0);}
+    .mobile-overlay{transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+    .mobile-overlay.open{transform:translateX(0);}
+    .menu-item{display:none;}.menu-item.show{display:block;}
+    .tab-btn{transition:background .2s,color .2s,box-shadow .2s;}
+    .tab-btn.active{background:#3fb8c0;color:#004548;box-shadow:4px 4px 0 0 #1c1b1b;}
+    .cart-drawer{transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);}
+    .cart-drawer.open{transform:translateX(0);}
+    .add-to-cart-btn{transition:background .15s,box-shadow .15s;}
   </style>
 </head>
-<body>
-  <div id="preloader" aria-hidden="true">
-    <div class="pre-split pre-left"></div>
-    <div class="pre-split pre-right"></div>
-    <div class="pre-inner">
-      <div class="pre-title">CRAVEE</div>
-      <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
-      <div class="loading-text">loading your craving...</div>
-    </div>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+
+<!-- Mobile Overlay -->
+<div id="mobileMenu" class="mobile-overlay fixed inset-0 bg-on-background z-[200] flex flex-col items-center justify-center gap-8 md:hidden">
+  <button id="closeMenu" class="absolute top-5 right-5 text-white p-2" aria-label="Close">
+    <span class="material-symbols-outlined text-4xl">close</span>
+  </button>
+  <a href="index.html" class="font-headline-lg text-headline-lg text-white hover:text-primary transition-colors">Home</a>
+  <a href="menu.html"  class="font-headline-lg text-headline-lg text-primary">Menu</a>
+  <a href="deals.html" class="font-headline-lg text-headline-lg text-white hover:text-primary transition-colors">Deals</a>
+  <a href="location.html" class="font-headline-lg text-headline-lg text-white hover:text-primary transition-colors">Location</a>
+  <a href="checkout.html" class="mt-4 bg-primary text-white px-10 py-4 rounded-2xl border-4 border-white font-headline-md text-headline-md block-shadow-primary">Order Now</a>
+</div>
+
+<!-- Navigation -->
+<nav class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 bg-background border-b-4 border-on-background shadow-[4px_4px_0px_0px_rgba(0,105,111,1)]">
+  <a href="index.html" class="flex items-center">
+    <img src="cravee_cafe_website_design/logo2.jpg/screen.png" alt="Cravee" class="h-10 w-auto object-contain"/>
+  </a>
+  <div class="hidden md:flex gap-md items-center">
+    <a href="index.html"   class="font-label-lg text-label-lg text-on-background hover:text-primary transition-colors">Home</a>
+    <a href="menu.html"    class="font-label-lg text-label-lg text-primary font-bold border-b-2 border-primary pb-0.5">Menu</a>
+    <a href="deals.html"   class="font-label-lg text-label-lg text-on-background hover:text-primary transition-colors">Deals</a>
+    <a href="location.html" class="font-label-lg text-label-lg text-on-background hover:text-primary transition-colors">Location</a>
   </div>
-  <header id="navbar">
-    <a href="#hero" class="nav-logo" aria-label="CRAVEE Home"><img src="logo.png" alt="CRAVEE Logo"></a>
-    <nav class="nav-links" aria-label="Main">
-      <a href="#hero" class="nav-link">Home</a>
-      <a href="#menu" class="nav-link">Menu</a>
-      <a href="#story" class="nav-link">Our Story</a>
-      <a href="#reviews" class="nav-link">Reviews</a>
-      <a href="#order" class="nav-link">Order</a>
-    </nav>
-    <a href="#order" class="btn btn-primary order-now-btn glow">Order Now 🛵</a>
-    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <div class="flex items-center gap-sm">
+    <button id="cartToggle" class="relative p-2 border-2 border-on-background rounded-lg block-shadow-secondary active-press" aria-label="View Cart">
+      <span class="material-symbols-outlined">shopping_cart</span>
+      <span id="navCartBadge" class="hidden absolute -top-2 -right-2 bg-tertiary-container text-on-tertiary-container text-xs font-bold w-5 h-5 rounded-full border-2 border-on-background flex items-center justify-center">0</span>
+    </button>
+    <a href="checkout.html" class="hidden md:inline-flex bg-primary text-on-primary px-6 py-2 rounded-lg border-2 border-on-background block-shadow-black active-press font-label-lg text-label-lg transition-all">Order Now</a>
+    <button id="hamburger" class="md:hidden p-2 border-2 border-on-background rounded-lg block-shadow-black active-press" aria-label="Open menu">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+  </div>
+</nav>
+
+<main class="px-margin-mobile md:px-margin-desktop py-xl">
+
+  <!-- Hero -->
+  <header class="mb-xl text-center flex flex-col items-center fade-in">
+    <div class="mb-md">
+      <h1 class="font-display-lg text-display-lg text-primary uppercase tracking-tighter transform -rotate-1">FEEL THE CRAVE</h1>
+    </div>
+    <p class="font-body-lg text-body-lg max-w-2xl mx-auto text-on-surface-variant">
+      Dive into our high-energy menu where every bite is a vibe. Bold flavors, thick outlines, and no regrets.
+    </p>
   </header>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#hero">Home</a><a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#reviews">Reviews</a><a href="#order">Order</a>
+
+  <!-- Category Tabs -->
+  <div class="flex flex-wrap gap-sm mb-lg justify-center fade-in">
+    <button class="tab-btn active font-label-lg text-label-lg px-6 py-2 border-2 border-on-background rounded-full active-press" data-cat="all">All Vibes</button>
+    <button class="tab-btn bg-surface text-on-surface font-label-lg text-label-lg px-6 py-2 border-2 border-on-background block-shadow-secondary rounded-full active-press hover:bg-secondary-container" data-cat="burgers">Burgers &amp; Zingers</button>
+    <button class="tab-btn bg-surface text-on-surface font-label-lg text-label-lg px-6 py-2 border-2 border-on-background block-shadow-secondary rounded-full active-press hover:bg-secondary-container" data-cat="sides">Sides &amp; Fries</button>
+    <button class="tab-btn bg-surface text-on-surface font-label-lg text-label-lg px-6 py-2 border-2 border-on-background block-shadow-secondary rounded-full active-press hover:bg-secondary-container" data-cat="drinks">Drinks</button>
   </div>
-  <section id="hero" class="section glow-accent">
-    <canvas id="hero-canvas"></canvas>
-    <div class="bubble-layer" id="heroBubbles"></div>
-    <div class="hero-content container">
-      <div id="hero-badge">EST. KARACHI 2024</div>
-      <h1 id="hero-title">CRAVEE</h1>
-      <p id="hero-tagline">A CRAVING LIKE NO OTHER</p>
-      <div id="hero-buttons" class="hero-buttons">
-        <a href="#menu" class="btn glow">Explore The Menu ↓</a>
-        <a href="#order" class="btn btn-primary glow"><span aria-hidden="true">🟢</span>Order on WhatsApp</a>
-      </div>
-      <div class="scroll-indicator"><div class="chev"></div>scroll</div>
+
+  <!-- Burgers & Zingers -->
+  <section class="mb-xl menu-item show" data-section="burgers">
+    <div class="flex items-center gap-sm mb-md fade-in">
+      <span class="material-symbols-outlined text-primary text-3xl">lunch_dining</span>
+      <h2 class="font-headline-lg text-headline-lg text-primary uppercase">Burgers &amp; Zingers</h2>
     </div>
-    <div class="mascot" style="position:absolute; right:6%; bottom:14%;"></div>
-  </section>
-  <div class="ink-divider"></div>
-  <section id="live-status" aria-live="polite">
-    <div id="status-main">Checking kitchen status...</div>
-    <div id="status-meta">MON–SUN · 5 PM – 2 AM · MALIR, KARACHI</div>
-  </section>
-  <section class="marquee-wrap" aria-hidden="true">
-    <div class="marquee-row"><span>🍔 ZINGER · 🍟 LOADED FRIES · 🥩 CLASSIC BEEF · 🧀 BEEF & CHEESE · 🔥 DEAL OF THE NIGHT · 🛵 FREE DELIVERY AREA · ⭐ FRESH EVERY NIGHT · 🍔 CRUNCH BURGER · 🍔 ZINGER · 🍟 LOADED FRIES · 🥩 CLASSIC BEEF · 🧀 BEEF & CHEESE · 🔥 DEAL OF THE NIGHT · 🛵 FREE DELIVERY AREA · ⭐ FRESH EVERY NIGHT · 🍔 CRUNCH BURGER ·</span></div>
-    <div class="marquee-row reverse"><span>🍔 ZINGER · 🍟 LOADED FRIES · 🥩 CLASSIC BEEF · 🧀 BEEF & CHEESE · 🔥 DEAL OF THE NIGHT · 🛵 FREE DELIVERY AREA · ⭐ FRESH EVERY NIGHT · 🍔 CRUNCH BURGER · 🍔 ZINGER · 🍟 LOADED FRIES · 🥩 CLASSIC BEEF · 🧀 BEEF & CHEESE · 🔥 DEAL OF THE NIGHT · 🛵 FREE DELIVERY AREA · ⭐ FRESH EVERY NIGHT · 🍔 CRUNCH BURGER ·</span></div>
-  </section>
-  <section id="menu" class="section alt fluid-top fluid-bottom">
-    <div class="container">
-      <h2 class="section-title">THE MENU</h2>
-      <p class="section-subtitle">Everything made fresh. Every night. No compromises.</p>
-      <div class="tabs" id="menuTabs"></div>
-      <div class="menu-grid" id="menuGrid"></div>
-      <p style="color:var(--grey); margin-top:1rem;">All burgers available as combos for +Rs. 50 (add fries + 300ml drink)</p>
-    </div>
-    <div class="bubble-layer" id="menuBubbles"></div>
-  </section>
-  <div class="ink-divider"></div>
-  <section id="order" class="section">
-    <div class="container">
-      <h2 class="section-title">BUILD YOUR ORDER 🛵</h2>
-      <p class="section-subtitle">Fill in your details. We'll handle the rest.</p>
-      <div class="order-grid">
-        <aside class="summary">
-          <h3>Order Summary</h3>
-          <div id="order-items"></div>
-          <div class="error" id="orderError"></div>
-          <div class="order-total" id="order-total">Total: Rs. 0</div>
-          <button class="clear-order" id="clearOrder">CLEAR ORDER</button>
-        </aside>
-        <form class="order-form" id="orderForm" novalidate>
-          <h3>Delivery Details</h3>
-          <div class="field"><input id="name" placeholder=" " required><label for="name">Full Name *</label><div class="error" id="err-name"></div></div>
-          <div class="field"><input id="phone" type="tel" placeholder=" " required><label for="phone">Phone Number * (03XX XXXXXXX)</label><div class="error" id="err-phone"></div></div>
-          <div class="field"><textarea id="address" rows="3" placeholder=" " required></textarea><label for="address">Delivery Address *</label><div class="error" id="err-address"></div></div>
-          <div class="field"><input id="landmark" placeholder=" "><label for="landmark">Nearest Landmark</label><div class="error"></div></div>
-          <div class="field"><textarea id="instructions" rows="2" placeholder=" "></textarea><label for="instructions">Special Instructions</label><div class="error"></div></div>
-          <div class="payment-group">
-            <label class="pay-pill"><input type="radio" name="payment" value="Cash on Delivery" checked><span>Cash on Delivery</span></label>
-            <label class="pay-pill"><input type="radio" name="payment" value="Easypaisa"><span>Easypaisa</span></label>
-            <label class="pay-pill"><input type="radio" name="payment" value="JazzCash"><span>JazzCash</span></label>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary group hover:-translate-y-1 transition-transform fade-in">
+        <div class="flex justify-between items-start mb-md">
+          <div class="flex-1 min-w-0 pr-sm">
+            <span class="bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm px-2 py-1 border-2 border-on-background rounded-full mb-2 inline-block">SPICY</span>
+            <h3 class="font-headline-md text-headline-md text-on-background">ZINGER</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Classic spicy crispy chicken</p>
           </div>
-          <button type="submit" class="btn btn-primary glow" style="width:100%;">🟢 Send Order on WhatsApp 🚀</button>
-        </form>
+          <div class="flex flex-col items-end gap-xs flex-shrink-0">
+            <span class="font-headline-md text-headline-md text-primary">450</span>
+            <img alt="Zinger Burger" class="w-16 h-16 object-cover rounded-lg border-2 border-on-background" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=160&h=160&fit=crop&q=80"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press hover:-translate-y-1 transition-transform fade-in" style="transition-delay:.05s">
+        <div class="flex justify-between items-start mb-md">
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">Zinger Combo</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">With fries &amp; drink</p>
+          </div>
+          <span class="font-headline-md text-headline-md text-primary">500</span>
+        </div>
+      </div>
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press hover:-translate-y-1 transition-transform fade-in" style="transition-delay:.1s">
+        <div class="flex justify-between items-start mb-md">
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">CRUNCH</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Double the crunch factor</p>
+          </div>
+          <span class="font-headline-md text-headline-md text-primary">380</span>
+        </div>
+      </div>
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press hover:-translate-y-1 transition-transform fade-in" style="transition-delay:.15s">
+        <div class="flex justify-between items-start mb-md">
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">Crunch Combo</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">With fries &amp; drink</p>
+          </div>
+          <span class="font-headline-md text-headline-md text-primary">450</span>
+        </div>
+      </div>
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary group active-press hover:-translate-y-1 transition-transform fade-in" style="transition-delay:.2s">
+        <div class="flex justify-between items-start mb-md">
+          <div>
+            <span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-2 py-1 border-2 border-on-background rounded-full mb-2 inline-block">PREMIUM</span>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">CLASSIC BEEF</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">100% Juicy beef patty</p>
+          </div>
+          <span class="font-headline-md text-headline-md text-primary">550</span>
+        </div>
+      </div>
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press hover:-translate-y-1 transition-transform fade-in" style="transition-delay:.25s">
+        <div class="flex justify-between items-start mb-md">
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">MUSTARD BEEF</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Tangy mustard kick</p>
+          </div>
+          <span class="font-headline-md text-headline-md text-primary">550</span>
+        </div>
+      </div>
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press hover:-translate-y-1 transition-transform fade-in" style="transition-delay:.3s">
+        <div class="flex justify-between items-start mb-md">
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">THOUSAND BEEF</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Thousand island loaded</p>
+          </div>
+          <span class="font-headline-md text-headline-md text-primary">550</span>
+        </div>
+      </div>
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press hover:-translate-y-1 transition-transform fade-in" style="transition-delay:.35s">
+        <div class="flex justify-between items-start mb-md">
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">BEEF &amp; CHEESE</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Loaded with melty cheese</p>
+          </div>
+          <span class="font-headline-md text-headline-md text-primary">600</span>
+        </div>
+      </div>
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press hover:-translate-y-1 transition-transform fade-in" style="transition-delay:.4s">
+        <div class="flex justify-between items-start mb-md">
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">M416</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">The heavy hitter burger</p>
+          </div>
+          <span class="font-headline-md text-headline-md text-primary">500</span>
+        </div>
+      </div>
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press hover:-translate-y-1 transition-transform fade-in" style="transition-delay:.45s">
+        <div class="flex justify-between items-start mb-md">
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">M416 Combo</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">With fries &amp; drink</p>
+          </div>
+          <span class="font-headline-md text-headline-md text-primary">550</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Extras -->
+  <section class="mb-xl menu-item show" data-section="burgers">
+    <div class="flex items-center gap-sm mb-md fade-in">
+      <span class="material-symbols-outlined text-primary text-3xl">add_circle</span>
+      <h2 class="font-headline-lg text-headline-lg text-primary uppercase">Add-Ons</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press fade-in">
+        <div class="flex justify-between items-center"><span class="font-headline-md text-headline-md uppercase">Extra Sauce</span><span class="font-headline-md text-headline-md text-primary">100</span></div>
+      </div>
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press fade-in">
+        <div class="flex justify-between items-center"><span class="font-headline-md text-headline-md uppercase">Extra Patty</span><span class="font-headline-md text-headline-md text-primary">250</span></div>
+      </div>
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press fade-in">
+        <div class="flex justify-between items-center"><span class="font-headline-md text-headline-md uppercase">Extra Cheese</span><span class="font-headline-md text-headline-md text-primary">60</span></div>
       </div>
     </div>
-    <div class="bubble-layer" id="orderBubbles"></div>
   </section>
-  <div class="ink-divider"></div>
-  <section id="story" class="section alt">
-    <div class="container story-grid">
-      <div class="story-copy">
-        <h2 class="section-title" style="text-align:left;">BORN FROM A CRAVING</h2>
-        <p>CRAVEE didn't start in a boardroom. It started with a craving — the kind that hits at midnight when everything's closed and your stomach has opinions.</p>
-        <p>We're from Malir. We know what it means to want something real — real flavor, real portions, real value. So we built it ourselves.</p>
-        <p>No shortcuts. No frozen patties. No compromises. Just food that hits different every single time — because we're out here cooking until 2 AM so you don't have to settle.</p>
-        <p>This is CRAVEE. A craving like no other.</p>
-      </div>
-      <div class="story-visual"><img src="logo.png" alt="CRAVEE Logo Badge"></div>
+
+  <!-- Sides & Fries -->
+  <section class="mb-xl menu-item show" data-section="sides">
+    <div class="flex items-center gap-sm mb-md fade-in">
+      <span class="material-symbols-outlined text-primary text-3xl">bakery_dining</span>
+      <h2 class="font-headline-lg text-headline-lg text-primary uppercase">Sides &amp; Fries</h2>
     </div>
-    <div class="mascot" style="position:absolute; left:4%; top:14%; background:var(--ink);"></div>
-  </section>
-  <div class="ink-divider"></div>
-  <section id="heat" class="section">
-    <div class="container">
-      <h2 class="section-title">WHAT THE STREETS ARE SAYING 🔥</h2>
-      <p class="section-subtitle">Real orders. Real people. Real cravings satisfied.</p>
-      <div class="testimonials">
-        <article class="t-card glow"><div class="t-stars">⭐⭐⭐⭐⭐</div><p>"Yaar M416 wala burger absolutely insane tha. 1 AM pe order kiya, 20 min mein aa gaya. CRAVEE ne zindagi badal di literally."</p><div class="t-name">— Ahmed R., Malir</div></article>
-        <article class="t-card glow"><div class="t-stars">⭐⭐⭐⭐⭐</div><p>"Deal 3 for Rs. 1850 with the squad — 4 of us and everyone was quiet for 10 minutes. That's the review."</p><div class="t-name">— Sara K., Gulshan</div></article>
-        <article class="t-card glow"><div class="t-stars">⭐⭐⭐⭐⭐</div><p>"Loaded fries ka sauce bhai... I've been dreaming about it. Open until 2 AM is the best decision any restaurant in Karachi has ever made."</p><div class="t-name">— Bilal M., Korangi</div></article>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary group hover:-translate-y-1 transition-transform fade-in">
+        <div class="flex justify-between items-start mb-md">
+          <div class="flex-1 min-w-0 pr-sm">
+            <span class="bg-error-container text-on-error-container font-label-sm text-label-sm px-2 py-1 border-2 border-on-background rounded-full mb-2 inline-block">HOT ITEM</span>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">LOADED FRIES</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Cheese, sauce, magic</p>
+          </div>
+          <div class="flex flex-col items-end gap-xs flex-shrink-0">
+            <span class="font-headline-md text-headline-md text-primary">450</span>
+            <img alt="Loaded Fries" class="w-16 h-16 object-cover rounded-lg border-2 border-on-background" src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=160&h=160&fit=crop&q=80"/>
+          </div>
+        </div>
       </div>
-      <p style="text-align:center; margin-top:1rem;"><a href="https://instagram.com/CRAVEE777" target="_blank" rel="noopener" style="color:var(--teal);">📸 Tag us @CRAVEE777 for a chance to be featured</a></p>
-    </div>
-  </section>
-  <div class="ink-divider"></div>
-  <section id="reviews" class="section alt glow-accent">
-    <div class="container">
-      <h2 class="section-title">REVIEWS</h2>
-      <p class="section-subtitle">Screenshot placeholders ready - replace with your own customer review images.</p>
-      <div class="review-gallery">
-        <div class="review-shot glow">Screenshot Placeholder 01</div>
-        <div class="review-shot glow">Screenshot Placeholder 02</div>
-        <div class="review-shot glow">Screenshot Placeholder 03</div>
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press hover:-translate-y-1 transition-transform fade-in" style="transition-delay:.1s">
+        <div class="flex justify-between items-start mb-md">
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">SAUCY FRIES</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Drenched in our secret sauce</p>
+          </div>
+          <span class="font-headline-md text-headline-md text-primary">350</span>
+        </div>
       </div>
-    </div>
-  </section>
-  <div class="ink-divider"></div>
-  <section id="night" class="section alt fluid-top fluid-bottom">
-    <div class="container" style="text-align:center;">
-      <div style="color:var(--grey);font-weight:700;letter-spacing:.16em;text-transform:uppercase;">WE OPEN IN</div>
-      <div class="timer" id="nightTimer">00 : 00 : 00</div>
-      <div class="timer-labels"><span>Hours</span><span>Minutes</span><span>Seconds</span></div>
-      <div id="nightOpenText" style="display:none; color:var(--teal); font-weight:800; text-transform:uppercase; letter-spacing:.12em; margin-top:.7rem;">🟢 WE'RE OPEN RIGHT NOW · ORDER BEFORE 2 AM 🛵</div>
-      <div class="fact-grid">
-        <div class="fact-card">🍳 Fresh prep starts at 4 PM every day</div>
-        <div class="fact-card">🌙 We stay open until 2 AM — no exceptions</div>
-        <div class="fact-card">📍 Malir's best kept secret (not for long)</div>
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press hover:-translate-y-1 transition-transform fade-in" style="transition-delay:.2s">
+        <div class="flex justify-between items-start mb-md">
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">PLAIN FRIES</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Simple, salty, perfect</p>
+          </div>
+          <span class="font-headline-md text-headline-md text-primary">200</span>
+        </div>
       </div>
+
     </div>
   </section>
-  <div class="ink-divider"></div>
-  <section id="crew" class="section">
-    <div class="container teaser">
-      <h2 class="section-title">CRAVEE CREW — COMING SOON</h2>
-      <p style="max-width:700px;margin:0 auto 1rem;color:var(--ice);">We're building something for our regulars. Exclusive deals. Early access to new items. Rewards for spreading the craving. Drop your number. Be first in line.</p>
-      <input id="crewNumber" class="crew-input" type="tel" placeholder="Your WhatsApp number">
-      <div class="error" id="crewError"></div>
-      <button id="crewBtn" class="btn btn-primary glow" style="width:100%;">NOTIFY ME 🔔</button>
-      <div class="crew-note">No spam. Just cravings.</div>
+
+  <!-- Drinks -->
+  <section class="mb-xl menu-item show" data-section="drinks">
+    <div class="flex items-center gap-sm mb-md fade-in">
+      <span class="material-symbols-outlined text-primary text-3xl">local_drink</span>
+      <h2 class="font-headline-lg text-headline-lg text-primary uppercase">Drinks</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary group hover:-translate-y-1 transition-transform fade-in">
+        <div class="flex justify-between items-start mb-md">
+          <div class="flex-1 min-w-0 pr-sm">
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">DRINKS 300ML</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Stay hydrated, stay cool</p>
+          </div>
+          <div class="flex flex-col items-end gap-xs flex-shrink-0">
+            <span class="font-headline-md text-headline-md text-primary">90</span>
+            <img alt="Cold Drink" class="w-16 h-16 object-cover rounded-lg border-2 border-on-background" src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=160&h=160&fit=crop&q=80"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-surface border-2 border-on-background rounded-xl p-md block-shadow-secondary active-press hover:-translate-y-1 transition-transform fade-in" style="transition-delay:.1s">
+        <div class="flex justify-between items-start mb-md">
+          <div>
+            <h3 class="font-headline-md text-headline-md text-on-background uppercase">DRINKS 1.5LTR</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">For the whole squad</p>
+          </div>
+          <span class="font-headline-md text-headline-md text-primary">250</span>
+        </div>
+      </div>
+
     </div>
   </section>
-  <div class="ink-divider"></div>
-  <section id="faq" class="section alt">
-    <div class="container"><h2 class="section-title">GOT QUESTIONS?</h2><div id="faqList"></div></div>
-  </section>
-  <div class="ink-divider"></div>
-  <section id="location" class="section">
-    <div class="container location-grid">
-      <div class="map-wrap">
-        <h2 class="section-title" style="text-align:left;">FIND US</h2>
-        <iframe title="CRAVEE location map" src="https://maps.google.com/maps?q=Murad+Memon+Goth+Malir+Karachi&output=embed" loading="lazy"></iframe>
+
+  <!-- Crave Deals Preview -->
+  <section class="mb-xl menu-item show" data-section="deals">
+    <div class="flex items-center gap-sm mb-md fade-in">
+      <span class="material-symbols-outlined text-primary text-3xl">celebration</span>
+      <h2 class="font-headline-lg text-headline-lg text-primary uppercase">Crave Deals</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+
+      <div class="bg-primary-container border-4 border-on-background rounded-xl p-md block-shadow-black active-press fade-in">
+        <div class="flex justify-between items-center mb-base">
+          <h3 class="font-headline-md text-headline-md text-on-primary-container uppercase">DEAL 1</h3>
+          <span class="bg-surface px-4 py-1 border-2 border-on-background rounded-full font-headline-md text-headline-md">RS 900</span>
+        </div>
+        <ul class="font-body-md text-body-md text-on-primary-container font-semibold space-y-1">
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined scale-75">check_circle</span> 2 CRUNCH</li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined scale-75">check_circle</span> 2 FRIES</li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined scale-75">check_circle</span> 2 DRINKS 300ML</li>
+        </ul>
       </div>
-      <div class="loc-info" style="align-self:center;">
-        <p>📍 Murad Memon Goth, Malir, Karachi</p>
-        <p>🕔 Mon–Sun: 5:00 PM – 2:00 AM</p>
-        <p>📱 WhatsApp: <a href="https://wa.me/923103860547" target="_blank" rel="noopener" style="color:var(--teal);">+92 310 3860547</a></p>
-        <p>📸 Instagram: <a href="https://instagram.com/CRAVEE777" target="_blank" rel="noopener" style="color:var(--teal);">@CRAVEE777</a></p>
-        <a class="btn btn-primary glow" href="https://maps.google.com/maps?q=Murad+Memon+Goth+Malir+Karachi" target="_blank" rel="noopener">Get Directions</a>
+
+      <div class="bg-secondary-container border-4 border-on-background rounded-xl p-md block-shadow-black active-press fade-in" style="transition-delay:.1s">
+        <div class="flex justify-between items-center mb-base">
+          <h3 class="font-headline-md text-headline-md text-on-secondary-container uppercase">DEAL 2</h3>
+          <span class="bg-surface px-4 py-1 border-2 border-on-background rounded-full font-headline-md text-headline-md">RS 1000</span>
+        </div>
+        <ul class="font-body-md text-body-md text-on-secondary-container font-semibold space-y-1">
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined scale-75">check_circle</span> 2 ZINGER</li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined scale-75">check_circle</span> 2 FRIES</li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined scale-75">check_circle</span> 2 DRINKS 300ML</li>
+        </ul>
       </div>
+
+    </div>
+    <div class="flex justify-center mt-md fade-in">
+      <a href="deals.html" class="bg-primary text-on-primary px-8 py-3 rounded-xl border-4 border-on-background block-shadow-black active-press font-headline-md text-headline-md transition-all inline-flex items-center gap-sm">
+        See All Deals <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
     </div>
   </section>
-  <footer>
-    <div class="ink-divider" style="background:var(--navy);"></div>
-    <div class="container footer-grid">
-      <div>
-        <p class="footer-brand-title">CRAVEE</p><p class="footer-brand-sub">A Craving Like No Other</p>
-        <img src="logo.png" alt="CRAVEE logo" class="footer-logo">
-      </div>
-      <div class="footer-links"><a href="#hero">HOME</a><a href="#menu">MENU</a><a href="#order">ORDER</a><a href="#story">OUR STORY</a><a href="#reviews">REVIEWS</a><a href="#faq">FAQs</a></div>
-      <div class="footer-contact"><a href="https://wa.me/923103860547" target="_blank" rel="noopener">📱 +92 310 3860547</a><a href="https://instagram.com/CRAVEE777" target="_blank" rel="noopener">📸 @CRAVEE777</a></div>
+
+</main>
+
+<!-- Footer -->
+<footer class="w-full py-xl px-margin-mobile md:px-margin-desktop bg-surface-container-highest border-t-4 border-on-background">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-lg">
+    <div class="col-span-2 md:col-span-1 flex flex-col gap-sm">
+      <a href="index.html" class="flex items-center mb-xs">
+        <img src="cravee_cafe_website_design/logo2.jpg/screen.png" alt="Cravee" class="h-8 w-auto object-contain"/>
+      </a>
+      <p class="font-body-md text-body-md text-on-surface-variant">Memon Goth's boldest late-night burger spot.</p>
+      <p class="font-label-sm text-label-sm text-on-surface-variant">© 2026 Cravee. All rights reserved.</p>
     </div>
-    <div class="footer-bottom">© 2025 CRAVEE — Malir, Karachi. A Craving Like No Other.</div>
-  </footer>
-  <button class="sticky-mobile-order" id="stickyOrder">🛵 ORDER NOW — WHATSAPP</button>
-  <div class="custom-cursor" id="customCursor" hidden></div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script>
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const sections = [...document.querySelectorAll('.section')];
-    const nav = document.getElementById('navbar');
-    const navLinks = [...document.querySelectorAll('.nav-link')];
-    const mobileMenu = document.getElementById('mobileMenu');
-    const hamburger = document.getElementById('hamburger');
-    const stickyOrder = document.getElementById('stickyOrder');
-    setTimeout(() => {
-      const pre = document.getElementById('preloader');
-      pre.classList.add('done');
-      setTimeout(() => pre.classList.add('hidden'), 950);
-      if (!prefersReducedMotion) runHeroTimeline();
-    }, 1900);
-    function runHeroTimeline() {
-      if (!window.gsap) return;
-      gsap.timeline().from('#hero-badge', { opacity: 0, x: -20, duration: .5 }).from('#hero-title', { opacity: 0, y: -50, duration: .7, ease: 'back.out(1.5)' }).from('#hero-tagline', { opacity: 0, duration: .5 }, '-=.2').from('#hero-buttons', { opacity: 0, y: 20, duration: .5 }, '-=.1');
-    }
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 80);
-      const y = window.scrollY + 120;
-      for (const sec of sections) {
-        const top = sec.offsetTop, bottom = top + sec.offsetHeight;
-        if (y >= top && y < bottom) navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + sec.id));
-      }
-    });
-    hamburger.addEventListener('click', () => {
-      const open = mobileMenu.classList.toggle('open');
-      hamburger.classList.toggle('active', open);
-      hamburger.setAttribute('aria-expanded', String(open));
-      if (open && window.gsap && !prefersReducedMotion) gsap.from('.mobile-menu a', { opacity: 0, x: 22, stagger: .08, duration: .35 });
-    });
-    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      hamburger.classList.remove('active');
-      hamburger.setAttribute('aria-expanded', 'false');
-    }));
-    stickyOrder.addEventListener('click', () => document.getElementById('order').scrollIntoView({ behavior: 'smooth' }));
-    function makeBubbles(targetId, count) {
-      const root = document.getElementById(targetId);
-      for (let i = 0; i < count; i++) {
-        const b = document.createElement('span');
-        b.className = 'bubble' + (i % 2 ? ' ice' : '');
-        const size = Math.floor(Math.random() * 15) + 4;
-        b.style.width = b.style.height = size + 'px';
-        b.style.left = Math.random() * 100 + '%';
-        b.style.bottom = -(Math.random() * 30) + 'px';
-        b.style.animationDuration = (7 + Math.random() * 8) + 's';
-        b.style.animationDelay = (Math.random() * 4) + 's';
-        root.appendChild(b);
-      }
-    }
-    makeBubbles('heroBubbles', 20); makeBubbles('menuBubbles', 12); makeBubbles('orderBubbles', 14);
-    const menuData = {
-      burgers: [['Zinger', 450, 'Crispy, spiced, golden. The one that started it all.'], ['Crunch', 380, 'Double the crunch. Zero regrets.'], ['Chicken', 380, 'Classic done right. Every single time.'], ['M416', 500, 'Loaded. Dangerous. Absolutely worth it.'], ['Classic Beef', 550, 'Real beef. Real flavor. No shortcuts.'], ['Mustard Beef', 550, 'A sharp kick that keeps you coming back.'], ['Thousand Beef', 550, 'A thousand reasons. One burger.'], ['Beef & Cheese', 600, 'The melt. The bite. The obsession.']],
-      fries: [['Loaded Fries', 450, 'Buried under sauce, cheese, and good decisions.'], ['Saucy Fries', 350, 'Crispy outside. Saucy soul inside.'], ['Plain Fries', 200, 'Simple. Honest. Addictive.']],
-      deals: [['Deal 1', 900, ['2 Crunch', '2 Fries', '2 Drinks (300ml)'], 'Feed the squad.'], ['Deal 2', 1000, ['2 Chicken', '2 Fries', '2 Drinks (300ml)'], 'The everyday move.'], ['Deal 3', 1850, ['2 Zinger', '2 Crunch', '4 Fries', '1.5L Drink'], 'Legendary.'], ['Deal 4', 1990, ['4 Zinger', '4 Fries', '1.5L Drink'], 'The whole crew, handled.']],
-      extras: [['Extra Sauce', 100, 'Add that extra punch.'], ['Extra Patty', 250, 'Because one is never enough.'], ['Extra Cheese', 60, 'Cheese pull energy.']],
-      drinks: [['300ml', 90, 'Cold and crisp.'], ['1.5 Litre', 250, 'For the full table.']]
-    };
-    const tabs = [['burgers', '🍔 Burgers'], ['fries', '🍟 Fries'], ['deals', '💥 Deals'], ['extras', '🧂 Extras'], ['drinks', '🥤 Drinks']];
-    let currentTab = 'burgers';
-    const menuTabs = document.getElementById('menuTabs');
-    const menuGrid = document.getElementById('menuGrid');
-    tabs.forEach(([key, label]) => {
-      const btn = document.createElement('button');
-      btn.className = 'tab-btn' + (key === currentTab ? ' active' : '');
-      btn.textContent = label;
-      btn.addEventListener('click', () => {
-        currentTab = key;
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
-        renderMenu();
+    <div class="flex flex-col gap-xs">
+      <span class="font-label-lg text-label-lg text-primary font-bold uppercase mb-xs">Contact</span>
+      <a href="https://wa.me/923103860547" class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs">
+        <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">chat</span>&nbsp;+92 310 3860547
+      </a>
+      <a href="https://instagram.com/CRAVEE777" class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors flex items-center gap-xs">
+        <span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">photo_camera</span>&nbsp;@CRAVEE777
+      </a>
+    </div>
+    <div class="flex flex-col gap-xs">
+      <span class="font-label-lg text-label-lg text-primary font-bold uppercase mb-xs">Find Us</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant">Memon Goth, Malir, Karachi</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant mt-xs">05:00 PM – 02:00 AM</span>
+      <span class="font-label-sm text-label-sm text-on-surface-variant">Mon – Sun</span>
+    </div>
+    <div class="flex flex-col gap-xs">
+      <span class="font-label-lg text-label-lg text-primary font-bold uppercase mb-xs">Quick Links</span>
+      <a href="index.html"    class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline">Home</a>
+      <a href="menu.html"     class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline">Menu</a>
+      <a href="deals.html"    class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline">Deals</a>
+      <a href="location.html" class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline">Location</a>
+      <a href="checkout.html" class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline">Order Now</a>
+    </div>
+  </div>
+</footer>
+<!-- FAB Mobile -->
+<div class="fixed bottom-4 right-4 z-40 md:hidden">
+  <button id="mobileFab" class="relative w-16 h-16 bg-primary text-on-primary rounded-full border-4 border-on-background flex items-center justify-center block-shadow-black active-press" aria-label="View Cart">
+    <span class="material-symbols-outlined text-3xl">shopping_cart</span>
+    <span id="fabBadge" class="hidden absolute -top-1 -right-1 bg-tertiary-container text-on-tertiary-container text-xs font-bold w-6 h-6 rounded-full border-2 border-on-background flex items-center justify-center">0</span>
+  </button>
+</div>
+
+<!-- Cart Drawer -->
+<div id="cartDrawer" class="cart-drawer fixed top-0 right-0 h-full w-full sm:w-96 bg-background border-l-4 border-on-background z-[300] flex flex-col">
+
+  <!-- Drawer Header -->
+  <div class="flex justify-between items-center px-md py-md border-b-4 border-on-background bg-primary text-on-primary flex-shrink-0">
+    <h2 class="font-headline-md text-headline-md flex items-center gap-sm">
+      <span class="material-symbols-outlined">shopping_cart</span>
+      Your Cart
+      <span id="cartCountBadge" class="bg-tertiary-container text-on-tertiary-container text-xs font-bold w-6 h-6 rounded-full border-2 border-on-background flex items-center justify-center ml-xs">0</span>
+    </h2>
+    <button id="closeCart" class="p-1 rounded-lg hover:bg-primary-container active-press transition-colors" aria-label="Close cart">
+      <span class="material-symbols-outlined text-2xl">close</span>
+    </button>
+  </div>
+
+  <!-- Items List -->
+  <div id="cartItems" class="flex-1 overflow-y-auto px-md py-md flex flex-col gap-sm">
+  </div>
+
+  <!-- Add-on Suggestions -->
+  <div id="addonSuggestions" class="hidden px-md py-sm border-t-2 border-outline-variant flex-shrink-0">
+    <p class="font-label-lg text-label-lg text-on-surface-variant mb-xs flex items-center gap-xs">
+      <span class="material-symbols-outlined text-base" style="font-size:18px;color:#f19130">auto_awesome</span> Level up your order
+    </p>
+    <div id="addonList" class="flex flex-col gap-xs"></div>
+  </div>
+
+  <!-- Drawer Footer -->
+  <div class="px-md py-md border-t-4 border-on-background bg-surface-container-low flex-shrink-0">
+    <div class="flex justify-between items-center font-headline-md text-headline-md mb-md">
+      <span class="text-on-surface-variant font-body-lg text-body-lg">Total</span>
+      <span id="cartTotal" class="text-primary font-bold">RS 0</span>
+    </div>
+    <a href="checkout.html" class="flex w-full bg-primary text-on-primary py-md rounded-xl border-4 border-on-background block-shadow-black active-press font-headline-md text-headline-md items-center justify-center gap-sm">
+      <span class="material-symbols-outlined">send</span> Place Order
+    </a>
+  </div>
+</div>
+<div id="cartOverlay" class="hidden fixed inset-0 bg-black/50 z-[299]"></div>
+
+<script>
+  // ── Mobile menu ──────────────────────────────────────────────────────
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const closeMenu  = document.getElementById('closeMenu');
+  hamburger.addEventListener('click',  () => mobileMenu.classList.add('open'));
+  closeMenu.addEventListener('click',  () => mobileMenu.classList.remove('open'));
+
+  // ── Category tabs ────────────────────────────────────────────────────
+  const tabs     = document.querySelectorAll('.tab-btn');
+  const sections = document.querySelectorAll('.menu-item');
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.forEach(t => { t.classList.remove('active'); t.classList.add('bg-surface','text-on-surface'); t.style.boxShadow = '4px 4px 0 0 #c5e9f0'; });
+      btn.classList.add('active'); btn.classList.remove('bg-surface','text-on-surface'); btn.style.boxShadow = '';
+      const cat = btn.dataset.cat;
+      sections.forEach(s => {
+        if (cat === 'all' || s.dataset.section === cat) { s.classList.add('show'); s.classList.remove('hidden-section'); }
+        else { s.classList.remove('show'); s.classList.add('hidden-section'); }
       });
-      menuTabs.appendChild(btn);
     });
-    const order = { items: [] };
-    function addItem(name, price) { order.items.push({ name, price }); renderOrder(); }
-    function renderMenu() {
-      const list = menuData[currentTab];
-      if (window.gsap && !prefersReducedMotion) gsap.to(menuGrid, { opacity: 0, y: 10, duration: .2, onComplete: paint }); else paint();
-      function paint() {
-        menuGrid.innerHTML = '';
-        list.forEach(item => {
-          const card = document.createElement('article');
-          const isDeal = currentTab === 'deals';
-          card.className = 'menu-card glow' + (isDeal ? ' deal-card' : '');
-          const name = item[0], price = item[1], desc = item[2], detail = item[3];
-          card.innerHTML = `${isDeal ? '<span class="deal-badge">DEAL</span>' : ''}<div class="menu-head"><h3 class="menu-name">${name}</h3><div class="menu-price">Rs. ${price}</div></div>${isDeal ? `<ul class="deal-list">${desc.map(d => `<li>${d}</li>`).join('')}</ul><p class="menu-desc">${detail}</p>` : `<p class="menu-desc">${desc}</p>`}<button class="btn menu-add glow">+ Add To Order</button>`;
-          const addBtn = card.querySelector('.menu-add');
-          addBtn.addEventListener('click', () => {
-            addItem(name, price);
-            addBtn.textContent = '✓ Added';
-            addBtn.classList.add('btn-primary');
-            setTimeout(() => { addBtn.textContent = '+ Add To Order'; addBtn.classList.remove('btn-primary'); }, 1500);
-          });
-          menuGrid.appendChild(card);
-        });
-        if (window.gsap && !prefersReducedMotion) gsap.fromTo('.menu-card', { opacity: 0, y: 30 }, { opacity: 1, y: 0, stagger: .08, duration: .6 });
-      }
+  });
+
+  // ── Menu item catalogue ──────────────────────────────────────────────
+  const MENU_ITEMS = {
+    'ZINGER':        {id:'zinger',        price:450},
+    'ZINGER COMBO':  {id:'zinger-combo',  price:500},
+    'CRUNCH':        {id:'crunch',        price:380},
+    'CRUNCH COMBO':  {id:'crunch-combo',  price:450},
+    'CLASSIC BEEF':  {id:'classic-beef',  price:550},
+    'MUSTARD BEEF':  {id:'mustard-beef',  price:550},
+    'THOUSAND BEEF': {id:'thousand-beef', price:550},
+    'BEEF & CHEESE': {id:'beef-cheese',   price:600},
+    'M416':          {id:'m416',          price:500},
+    'M416 COMBO':    {id:'m416-combo',    price:550},
+    'EXTRA SAUCE':   {id:'addon-sauce',   price:100},
+    'EXTRA PATTY':   {id:'addon-patty',   price:250},
+    'EXTRA CHEESE':  {id:'addon-cheese',  price:60},
+    'LOADED FRIES':  {id:'loaded-fries',  price:450},
+    'SAUCY FRIES':   {id:'saucy-fries',   price:350},
+    'PLAIN FRIES':   {id:'plain-fries',   price:200},
+    'DRINKS 300ML':  {id:'drinks-300ml',  price:90},
+    'DRINKS 1.5LTR': {id:'drinks-15ltr',  price:250},
+  };
+
+  const ADDONS = [
+    {id:'addon-sauce',  name:'Extra Sauce',  price:100},
+    {id:'addon-patty',  name:'Extra Patty',  price:250},
+    {id:'addon-cheese', name:'Extra Cheese', price:60},
+  ];
+
+  // ── Cart helpers ─────────────────────────────────────────────────────
+  function getCart(){ try{ return JSON.parse(localStorage.getItem('craveeCart')||'[]'); }catch{ return []; } }
+  function saveCart(c){ localStorage.setItem('craveeCart', JSON.stringify(c)); }
+  function escHtml(s){ return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+  function addToCart(id, name, price){
+    const cart = getCart();
+    const idx  = cart.findIndex(i=>i.id===id);
+    if(idx > -1) cart[idx].qty++;
+    else cart.push({id, name, price, qty:1});
+    saveCart(cart);
+    renderCart();
+    openCartDrawer();
+  }
+
+  function changeQty(id, delta){
+    const cart = getCart();
+    const idx  = cart.findIndex(i=>i.id===id);
+    if(idx === -1) return;
+    cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+    saveCart(cart); renderCart();
+  }
+
+  function removeFromCart(id){
+    saveCart(getCart().filter(i=>i.id!==id));
+    renderCart();
+  }
+
+  // ── Render cart ──────────────────────────────────────────────────────
+  function renderCart(){
+    const cart  = getCart();
+    const total = cart.reduce((s,i)=>s+i.price*i.qty, 0);
+    const count = cart.reduce((s,i)=>s+i.qty, 0);
+
+    // Nav + FAB badges
+    const navBadge = document.getElementById('navCartBadge');
+    const fabBadge = document.getElementById('fabBadge');
+    [navBadge, fabBadge].forEach(b=>{ if(!b) return; b.textContent=count; b.classList.toggle('hidden', count===0); });
+
+    document.getElementById('cartCountBadge').textContent = count;
+    document.getElementById('cartTotal').textContent = 'RS ' + total;
+
+    // Item list
+    const list = document.getElementById('cartItems');
+    if(cart.length === 0){
+      list.innerHTML = `
+        <div class="flex flex-col items-center justify-center gap-md text-center py-xl text-on-surface-variant h-full">
+          <span class="material-symbols-outlined opacity-20" style="font-size:72px">shopping_cart</span>
+          <p class="font-headline-md text-headline-md">Cart is empty</p>
+          <p class="font-body-md text-body-md">Tap <strong>Add</strong> on any item below</p>
+        </div>`;
+    } else {
+      list.innerHTML = cart.map(item=>`
+        <div class="flex items-center gap-xs bg-surface border-2 border-on-background rounded-xl p-sm">
+          <div class="flex-1 min-w-0">
+            <p class="font-label-lg text-label-lg truncate">${escHtml(item.name)}</p>
+            <p class="font-body-md text-body-md text-primary font-semibold">RS ${item.price} &times; ${item.qty} = RS ${item.price*item.qty}</p>
+          </div>
+          <div class="flex items-center border-2 border-on-background rounded-lg overflow-hidden flex-shrink-0">
+            <button class="qty-btn w-8 h-8 flex items-center justify-center bg-surface hover:bg-surface-container-high font-bold text-lg" data-id="${escHtml(item.id)}" data-delta="-1">&ndash;</button>
+            <span class="w-7 text-center font-label-lg text-label-lg">${item.qty}</span>
+            <button class="qty-btn w-8 h-8 flex items-center justify-center bg-surface hover:bg-surface-container-high font-bold text-lg" data-id="${escHtml(item.id)}" data-delta="1">+</button>
+          </div>
+          <button class="remove-btn w-8 h-8 flex items-center justify-center text-error hover:bg-error-container rounded-lg flex-shrink-0" data-id="${escHtml(item.id)}" aria-label="Remove">
+            <span class="material-symbols-outlined text-xl pointer-events-none">delete</span>
+          </button>
+        </div>`).join('');
+      list.querySelectorAll('.qty-btn').forEach(b=>b.addEventListener('click',()=>changeQty(b.dataset.id,parseInt(b.dataset.delta))));
+      list.querySelectorAll('.remove-btn').forEach(b=>b.addEventListener('click',()=>removeFromCart(b.dataset.id)));
     }
-    renderMenu();
-    const orderItems = document.getElementById('order-items');
-    const orderError = document.getElementById('orderError');
-    const orderTotal = document.getElementById('order-total');
-    function renderOrder() {
-      orderItems.innerHTML = '';
-      if (!order.items.length) { orderItems.innerHTML = '<p class="order-empty">Your order is empty. Go pick something 👆</p>'; orderTotal.textContent = 'Total: Rs. 0'; return; }
-      let total = 0;
-      order.items.forEach(item => { total += item.price; const row = document.createElement('div'); row.className = 'order-row'; row.innerHTML = `<span>${item.name}</span><strong>Rs. ${item.price}</strong>`; orderItems.appendChild(row); });
-      orderTotal.textContent = `Total: Rs. ${total}`;
+
+    // Add-on suggestions: show missing add-ons when cart has items
+    const cartIds      = new Set(cart.map(i=>i.id));
+    const missingAddons = ADDONS.filter(a=>!cartIds.has(a.id));
+    const addonSection = document.getElementById('addonSuggestions');
+    const addonList    = document.getElementById('addonList');
+    if(cart.length > 0 && missingAddons.length > 0){
+      addonSection.classList.remove('hidden');
+      addonList.innerHTML = missingAddons.map(a=>`
+        <div class="flex items-center justify-between bg-secondary-container border-2 border-on-background rounded-lg px-sm py-xs gap-sm">
+          <div class="flex-1"><span class="font-label-lg text-label-lg">${escHtml(a.name)}</span> <span class="font-label-sm text-label-sm text-primary font-bold">+RS ${a.price}</span></div>
+          <button class="addon-add bg-primary text-on-primary px-sm py-xs border-2 border-on-background rounded-lg font-label-sm text-label-sm active-press flex-shrink-0"
+            data-id="${a.id}" data-name="${escHtml(a.name)}" data-price="${a.price}">Add</button>
+        </div>`).join('');
+      addonList.querySelectorAll('.addon-add').forEach(b=>b.addEventListener('click',()=>addToCart(b.dataset.id,b.dataset.name,parseInt(b.dataset.price))));
+    } else {
+      addonSection.classList.add('hidden');
     }
-    renderOrder();
-    document.getElementById('clearOrder').addEventListener('click', () => { order.items = []; renderOrder(); });
-    function playSizzle() {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = new AudioCtx(); const bufferSize = ctx.sampleRate * 0.4; const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate); const output = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) output[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 1.6);
-      const src = ctx.createBufferSource(); src.buffer = buffer; const filter = ctx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 1400; filter.Q.value = 0.7;
-      src.connect(filter); filter.connect(ctx.destination); src.start();
-    }
-    document.getElementById('orderForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const fields = [['name', 'Name is required'], ['phone', 'Phone is required'], ['address', 'Address is required']];
-      let ok = true;
-      fields.forEach(([id, msg]) => {
-        const el = document.getElementById(id), err = document.getElementById('err-' + id);
-        if (!el.value.trim()) { ok = false; err.textContent = msg; el.classList.add('shake'); setTimeout(() => el.classList.remove('shake'), 900); } else err.textContent = '';
-      });
-      if (!ok) return;
-      if (!order.items.length) {
-        orderError.textContent = 'Please add at least one item to your order.';
-        orderItems.classList.add('shake');
-        setTimeout(() => orderItems.classList.remove('shake'), 900);
-        return;
-      }
-      orderError.textContent = '';
-      const name = document.getElementById('name').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-      const address = document.getElementById('address').value.trim();
-      const landmark = document.getElementById('landmark').value.trim() || 'Not specified';
-      const instructions = document.getElementById('instructions').value.trim() || 'None';
-      const payment = document.querySelector('input[name="payment"]:checked').value;
-      const itemsText = order.items.map(i => `- ${i.name} — Rs. ${i.price}`).join('\n');
-      const total = order.items.reduce((s, i) => s + i.price, 0);
-      const message = `🍔 *CRAVEE ORDER* 🍔\n━━━━━━━━━━━━━━━━━━━━\n👤 Name: ${name}\n📞 Phone: ${phone}\n📍 Address: ${address}\n🗺️ Landmark: ${landmark}\n━━━━━━━━━━━━━━━━━━━━\n📋 *Order Items:*\n${itemsText}\n━━━━━━━━━━━━━━━━━━━━\n💰 *Total: Rs. ${total}*\n💳 Payment: ${payment}\n💬 Instructions: ${instructions}\n━━━━━━━━━━━━━━━━━━━━\n_Ordered via cravee777.com_\n_Please confirm availability before preparing_ 🙏`;
-      playSizzle();
-      window.open(`https://wa.me/923103860547?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
-    });
-    document.getElementById('crewBtn').addEventListener('click', () => {
-      const crewInput = document.getElementById('crewNumber');
-      const crewError = document.getElementById('crewError');
-      const number = crewInput.value.trim();
-      if (!number) {
-        crewError.textContent = 'WhatsApp number is required.';
-        crewInput.classList.add('shake');
-        setTimeout(() => crewInput.classList.remove('shake'), 900);
-        return;
-      }
-      crewError.textContent = '';
-      const txt = `Hey CRAVEE! I want to join the CRAVEE CREW loyalty program. My number is ${number}`;
-      window.open(`https://wa.me/923103860547?text=${encodeURIComponent(txt)}`, '_blank', 'noopener');
-    });
-    const faqData = [
-      ['Where exactly are you located?', "We're in Murad Memon Goth, Malir, Karachi. Drop us a WhatsApp and we'll send you our exact pin — or just follow @CRAVEE777 on Instagram."],
-      ['Do you deliver?', "Yes! We deliver to nearby areas. WhatsApp us your address and we'll confirm if you're in our delivery zone. Order button is right on this page."],
-      ['What are your opening hours?', 'Monday to Sunday, 5:00 PM to 2:00 AM. Every day, no exceptions.'],
-      ['Can I customize my order?', "Absolutely. Add extra patty, extra cheese, extra sauce — it's all on the menu. Tell us what you want in the special instructions when you order."],
-      ['Is the food halal?', '100% halal. Always.'],
-      ['What payment methods do you accept?', 'Cash on delivery, Easypaisa, and JazzCash.'],
-      ['How long does delivery take?', "Typically 20–35 minutes depending on your distance and how busy we are. We'll keep you updated on WhatsApp."],
-      ['Do you cater for events or large orders?', "Yes! WhatsApp us in advance for bulk orders and we'll sort you out."]
-    ];
-    const faqList = document.getElementById('faqList');
-    faqData.forEach(([q, a]) => {
-      const item = document.createElement('article');
-      item.className = 'faq-item';
-      item.innerHTML = `<button class="faq-q"><span>${q}</span><span class="faq-icon">+</span></button><div class="faq-a">${a}</div>`;
-      item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
-      faqList.appendChild(item);
-    });
-    function getKarachiNow() {
-      // Use formatToParts to avoid locale-dependent parsing issues from toLocaleString().
-      const parts = new Intl.DateTimeFormat('en-GB', {
-        timeZone: 'Asia/Karachi',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      }).formatToParts(new Date()).reduce((acc, part) => {
-        if (part.type !== 'literal') acc[part.type] = part.value;
-        return acc;
-      }, {});
-      return new Date(`${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}`);
-    }
-    function setStatusAndCountdown() {
-      const now = getKarachiNow();
-      const hr = now.getHours();
-      const open = hr >= 17 || hr < 2;
-      const main = document.getElementById('status-main');
-      const nightTimer = document.getElementById('nightTimer');
-      const nightOpenText = document.getElementById('nightOpenText');
-      const statusTime = now.toLocaleTimeString('en-GB', { hour12: false });
-      if (open) {
-        main.innerHTML = `🟢 WE'RE OPEN — ORDER NOW <span class="dot"></span> ${statusTime}`;
-        document.getElementById('live-status').style.boxShadow = 'inset 0 0 40px rgba(0,180,216,.08)';
-        nightTimer.style.display = 'none';
-        document.querySelector('#night .timer-labels').style.display = 'none';
-        nightOpenText.style.display = 'block';
+
+    // Update add-to-cart button states on all item cards
+    document.querySelectorAll('[data-item-id]').forEach(card=>{
+      const btn = card.querySelector('.add-to-cart-btn');
+      if(!btn) return;
+      const inCart = cart.find(i=>i.id===card.dataset.itemId);
+      if(inCart){
+        btn.innerHTML = `<span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle">check_circle</span>&nbsp;In Cart (${inCart.qty})`;
+        btn.classList.replace('bg-primary','bg-secondary-container');
+        btn.classList.replace('text-on-primary','text-on-secondary-container');
+        btn.style.boxShadow = '4px 4px 0 0 #c5e9f0';
       } else {
-        const target = new Date(now); target.setHours(17, 0, 0, 0); if (now >= target) target.setDate(target.getDate() + 1);
-        const diff = Math.max(0, Math.floor((target - now) / 1000));
-        const h = String(Math.floor(diff / 3600)).padStart(2, '0');
-        const m = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
-        const s = String(diff % 60).padStart(2, '0');
-        main.innerHTML = `🔴 CURRENTLY CLOSED — Opens today at 5:00 PM <span class="dot"></span> ${h}:${m}:${s}`;
-        document.getElementById('live-status').style.boxShadow = 'inset 0 0 40px rgba(216,232,255,.15)';
-        nightTimer.style.display = 'block';
-        nightTimer.textContent = `${h} : ${m} : ${s}`;
-        document.querySelector('#night .timer-labels').style.display = 'flex';
-        nightOpenText.style.display = 'none';
+        btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle">add_shopping_cart</span>&nbsp;Add';
+        btn.classList.replace('bg-secondary-container','bg-primary');
+        btn.classList.replace('text-on-secondary-container','text-on-primary');
+        btn.style.boxShadow = '4px 4px 0 0 #00696f';
       }
-    }
-    setStatusAndCountdown();
-    setInterval(setStatusAndCountdown, 1000);
-    if (!prefersReducedMotion && window.gsap && window.ScrollTrigger) {
-      gsap.registerPlugin(ScrollTrigger);
-      document.querySelectorAll('.section').forEach(el => {
-        if (el.id === 'live-status') return;
-        gsap.from(el.querySelectorAll('.section-title, .section-subtitle, .menu-card, .t-card, .fact-card, .faq-item, .story-copy p'), {
-          opacity: 0, y: 40, duration: .7, ease: 'power2.out', stagger: .08, scrollTrigger: { trigger: el, start: 'top 85%' }
-        });
-      });
-      gsap.from('#crew .teaser', { opacity: 0, scale: .95, duration: .6, ease: 'power2.out', scrollTrigger: { trigger: '#crew', start: 'top 80%' } });
-    }
-    (function initThree() {
-      const canvas = document.getElementById('hero-canvas');
-      if (!window.THREE || !canvas) return;
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      const isMobileView = window.matchMedia('(max-width: 767px)').matches;
-      const dpr = window.devicePixelRatio || 1;
-      renderer.setPixelRatio(Math.min(dpr, isMobileView ? 1.5 : 2));
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      camera.position.z = 5;
-      scene.add(new THREE.AmbientLight(0xffffff, 0.4));
-      const light = new THREE.DirectionalLight(0x00B4D8, 0.8); light.position.set(2, 4, 5); scene.add(light);
-      const materials = {
-        blue: new THREE.MeshPhongMaterial({ color: 0x2B7FFF, shininess: 80 }),
-        blueBright: new THREE.MeshPhongMaterial({ color: 0x62A8FF, shininess: 80 }),
-        whiteAccent: new THREE.MeshPhongMaterial({ color: 0xD8E8FF, shininess: 80 }),
-      };
-      const objects = [
-        new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), materials.blue),
-        new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), materials.blueBright),
-        new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 1.2, 24), materials.blue),
-        new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.3, 1.2, 24), materials.blueBright),
-        new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.15, 8, 16), materials.whiteAccent),
-        new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.15, 8, 16), materials.whiteAccent)
-      ];
-      objects.forEach((m, i) => { m.position.set((Math.random() * 8) - 4, (Math.random() * 4) - 2, -3 - Math.random() * 5); m.userData.offset = i * 0.6; scene.add(m); });
-      // Particle budget is intentionally chosen once on initial load for stable runtime performance.
-      const particleCount = window.matchMedia('(max-width: 767px)').matches ? 25 : 60;
-      const bubbleGeo = new THREE.SphereGeometry(0.04, 8, 8);
-      const bubbleMat = new THREE.MeshPhongMaterial({ color: 0x00B4D8, transparent: true, opacity: .8 });
-      const bubbles = [];
-      for (let i = 0; i < particleCount; i++) { const b = new THREE.Mesh(bubbleGeo, bubbleMat); b.position.set((Math.random() * 10) - 5, (Math.random() * 6) - 3, -2 - Math.random() * 6); bubbles.push(b); scene.add(b); }
-      const clock = new THREE.Clock();
-      function tick() {
-        const t = clock.getElapsedTime();
-        objects.forEach((obj, i) => { obj.rotation.x += 0.004 + i * 0.0009; obj.rotation.y += 0.005 + i * 0.001; obj.position.y += Math.sin(t + obj.userData.offset) * 0.0018; });
-        bubbles.forEach((b, i) => { b.position.y += 0.01 + (i % 5) * 0.001; if (b.position.y > 3.4) b.position.y = -3.2; });
-        renderer.render(scene, camera);
-        requestAnimationFrame(tick);
-      }
-      tick();
-      window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
-    })();
-    (function initCursor() {
-      const coarse = window.matchMedia('(pointer: coarse)').matches;
-      if (coarse) return;
-      const cursor = document.getElementById('customCursor');
-      cursor.hidden = false;
-      let cx = innerWidth / 2, cy = innerHeight / 2;
-      let tx = cx, ty = cy;
-      window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
-      const hoverables = document.querySelectorAll('button, a, .tab-btn');
-      hoverables.forEach(el => { el.addEventListener('mouseenter', () => cursor.classList.add('active')); el.addEventListener('mouseleave', () => cursor.classList.remove('active')); });
-      (function animate() { cx += (tx - cx) * 0.15; cy += (ty - cy) * 0.15; cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`; requestAnimationFrame(animate); })();
-    })();
-  </script>
+    });
+  }
+
+  // ── Cart drawer open/close ───────────────────────────────────────────
+  function openCartDrawer(){
+    document.getElementById('cartDrawer').classList.add('open');
+    document.getElementById('cartOverlay').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCartDrawer(){
+    document.getElementById('cartDrawer').classList.remove('open');
+    document.getElementById('cartOverlay').classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('closeCart').addEventListener('click', closeCartDrawer);
+  document.getElementById('cartOverlay').addEventListener('click', closeCartDrawer);
+  document.getElementById('cartToggle').addEventListener('click', openCartDrawer);
+  document.getElementById('mobileFab').addEventListener('click', openCartDrawer);
+
+  // ── Inject Add-to-Cart buttons into item cards ───────────────────────
+  function initAddToCartButtons(){
+    document.querySelectorAll('main .bg-surface.border-2.border-on-background.rounded-xl.p-md').forEach(card=>{
+      const nameEl = card.querySelector('h3') || card.querySelector('span.uppercase');
+      if(!nameEl) return;
+      const key  = nameEl.textContent.trim().toUpperCase();
+      const item = MENU_ITEMS[key];
+      if(!item) return;
+
+      card.dataset.itemId    = item.id;
+      card.dataset.itemName  = nameEl.textContent.trim();
+      card.dataset.itemPrice = item.price;
+      card.classList.remove('active-press');
+
+      const btn = document.createElement('button');
+      btn.className = 'add-to-cart-btn mt-sm w-full bg-primary text-on-primary py-xs px-sm border-2 border-on-background rounded-lg font-label-lg text-label-lg flex items-center justify-center gap-xs';
+      btn.style.cssText = 'min-height:34px;box-shadow:4px 4px 0 0 #00696f';
+      btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle">add_shopping_cart</span>&nbsp;Add';
+      btn.addEventListener('click', e=>{ e.stopPropagation(); addToCart(item.id, nameEl.textContent.trim(), item.price); });
+      card.appendChild(btn);
+    });
+  }
+
+  // ── Init ─────────────────────────────────────────────────────────────
+  initAddToCartButtons();
+  renderCart();
+
+  // ── Scroll-reveal ────────────────────────────────────────────────────
+  const io = new IntersectionObserver(e=>e.forEach(x=>{ if(x.isIntersecting) x.target.classList.add('visible'); }), {threshold:0.06});
+  document.querySelectorAll('.fade-in').forEach(el=>io.observe(el));
+</script>
 </body>
 </html>
