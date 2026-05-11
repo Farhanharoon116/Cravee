@@ -623,8 +623,21 @@
       faqList.appendChild(item);
     });
     function getKarachiNow() {
-      // Convert current time to Asia/Karachi local clock for open/close logic.
-      return new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Karachi' }));
+      // Use formatToParts to avoid locale-dependent parsing issues from toLocaleString().
+      const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Karachi',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }).formatToParts(new Date()).reduce((acc, part) => {
+        if (part.type !== 'literal') acc[part.type] = part.value;
+        return acc;
+      }, {});
+      return new Date(`${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}`);
     }
     function setStatusAndCountdown() {
       const now = getKarachiNow();
@@ -673,7 +686,8 @@
       const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
       const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
       const isMobileView = window.matchMedia('(max-width: 767px)').matches;
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobileView ? 1.5 : 2));
+      const dpr = window.devicePixelRatio || 1;
+      renderer.setPixelRatio(Math.min(dpr, isMobileView ? 1.5 : 2));
       renderer.setSize(window.innerWidth, window.innerHeight);
       camera.position.z = 5;
       scene.add(new THREE.AmbientLight(0xffffff, 0.4));
@@ -692,6 +706,7 @@
         new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.15, 8, 16), materials.amberDark)
       ];
       objects.forEach((m, i) => { m.position.set((Math.random() * 8) - 4, (Math.random() * 4) - 2, -3 - Math.random() * 5); m.userData.offset = i * 0.6; scene.add(m); });
+      // Particle budget is intentionally chosen once on initial load for stable runtime performance.
       const particleCount = window.matchMedia('(max-width: 767px)').matches ? 25 : 60;
       const bubbleGeo = new THREE.SphereGeometry(0.04, 8, 8);
       const bubbleMat = new THREE.MeshPhongMaterial({ color: 0x00B4D8, transparent: true, opacity: .8 });
